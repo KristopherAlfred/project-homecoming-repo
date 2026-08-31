@@ -24,6 +24,11 @@ export function BioLinkPage() {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [origin, setOrigin] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") setOrigin(window.location.origin);
+  }, []);
 
   useEffect(() => {
     if (loading) return;
@@ -33,8 +38,8 @@ export function BioLinkPage() {
   }, [loading, bioLink, displayName]);
 
   const publicUrl = useMemo(
-    () => `${window.location.origin}/go/${slug || "your-name"}`,
-    [slug],
+    () => `${origin}/go/${slug || "your-name"}`,
+    [origin, slug],
   );
 
   useEffect(() => {
