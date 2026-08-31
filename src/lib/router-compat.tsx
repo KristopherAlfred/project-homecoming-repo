@@ -22,7 +22,7 @@ import { useCallback, useMemo } from "react";
 export { Outlet, useLocation, useMatch };
 
 export function useParams<T extends Record<string, string> = Record<string, string>>(): T {
-  return useTanStackParams({ strict: false }) as T;
+  return useTanStackParams({ strict: false } as any) as T;
 }
 
 export function useNavigate() {
