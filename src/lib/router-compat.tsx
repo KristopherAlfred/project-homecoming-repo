@@ -94,7 +94,6 @@ type NavLinkProps = {
 };
 
 export function NavLink({ to, end, onClick, className, children, ...rest }: NavLinkProps) {
-  const match = useMatch({ from: to, shouldThrow: false });
   const { pathname } = useLocation();
   const isActive = end ? pathname === to : pathname.startsWith(to);
 
