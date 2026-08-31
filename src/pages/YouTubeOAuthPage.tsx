@@ -6,12 +6,18 @@ import { useEffect, useState } from "react";
  * the opener, and closes itself.
  */
 export default function YouTubeOAuthPage() {
-  const params = new URLSearchParams(window.location.search);
-  const ok = (params.get("youtube") ?? "connected") === "connected";
-  const message = params.get("youtube_message") ?? "";
   const [phase, setPhase] = useState<"connecting" | "done">("connecting");
+  const [ok, setOk] = useState(true);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setOk((params.get("youtube") ?? "connected") === "connected");
+    setMessage(params.get("youtube_message") ?? "");
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
     const toDone = window.setTimeout(() => setPhase("done"), 700);
     const notify = window.setTimeout(() => {
       try {
