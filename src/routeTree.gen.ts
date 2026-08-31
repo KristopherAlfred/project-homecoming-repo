@@ -19,7 +19,6 @@ import { Route as AppBioLinkRouteImport } from './routes/_app/bio-link'
 import { Route as AppExperienceRouteImport } from './routes/_app/experience'
 import { Route as AppLiveRouteImport } from './routes/_app/live'
 import { Route as AppNotificationsRouteImport } from './routes/_app/notifications'
-import { Route as AppPlatformsRouteImport } from './routes/_app/platforms'
 import { Route as AppProfileRouteImport } from './routes/_app/profile'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as BioLinkHandleRouteImport } from './routes/bio-link.$handle'
@@ -35,6 +34,8 @@ import { Route as AppEngagementSupportRouteImport } from './routes/_app/engageme
 import { Route as AppFansAudienceRouteImport } from './routes/_app/fans/audience'
 import { Route as AppFansSubscribersRouteImport } from './routes/_app/fans/subscribers'
 import { Route as AppPerformanceTrafficRouteImport } from './routes/_app/performance/traffic'
+import { Route as AppPlatformsIndexRouteImport } from './routes/_app/platforms/index'
+import { Route as AppPlatformsPlatformRouteImport } from './routes/_app/platforms/$platform'
 import { Route as AppStudioAnalyticsRouteImport } from './routes/_app/studio/analytics'
 import { Route as AppStudioCalendarRouteImport } from './routes/_app/studio/calendar'
 import { Route as AppStudioCreateRouteImport } from './routes/_app/studio/create'
@@ -88,11 +89,6 @@ const AppLiveRoute = AppLiveRouteImport.update({
 const AppNotificationsRoute = AppNotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppPlatformsRoute = AppPlatformsRouteImport.update({
-  id: '/platforms',
-  path: '/platforms',
   getParentRoute: () => AppRoute,
 } as any)
 const AppProfileRoute = AppProfileRouteImport.update({
@@ -170,6 +166,16 @@ const AppPerformanceTrafficRoute = AppPerformanceTrafficRouteImport.update({
   path: '/performance/traffic',
   getParentRoute: () => AppRoute,
 } as any)
+const AppPlatformsIndexRoute = AppPlatformsIndexRouteImport.update({
+  id: '/platforms/',
+  path: '/platforms/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPlatformsPlatformRoute = AppPlatformsPlatformRouteImport.update({
+  id: '/platforms/$platform',
+  path: '/platforms/$platform',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppStudioAnalyticsRoute = AppStudioAnalyticsRouteImport.update({
   id: '/studio/analytics',
   path: '/studio/analytics',
@@ -206,7 +212,6 @@ export interface FileRoutesByFullPath {
   '/experience': typeof AppExperienceRoute
   '/live': typeof AppLiveRoute
   '/notifications': typeof AppNotificationsRoute
-  '/platforms': typeof AppPlatformsRoute
   '/profile': typeof AppProfileRoute
   '/settings': typeof AppSettingsRoute
   '/bio-link/$handle': typeof BioLinkHandleRoute
@@ -222,11 +227,13 @@ export interface FileRoutesByFullPath {
   '/fans/audience': typeof AppFansAudienceRoute
   '/fans/subscribers': typeof AppFansSubscribersRoute
   '/performance/traffic': typeof AppPerformanceTrafficRoute
+  '/platforms/$platform': typeof AppPlatformsPlatformRoute
   '/studio/analytics': typeof AppStudioAnalyticsRoute
   '/studio/calendar': typeof AppStudioCalendarRoute
   '/studio/create': typeof AppStudioCreateRoute
   '/studio/media': typeof AppStudioMediaRoute
   '/studio/schedule': typeof AppStudioScheduleRoute
+  '/platforms/': typeof AppPlatformsIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
@@ -237,7 +244,6 @@ export interface FileRoutesByTo {
   '/experience': typeof AppExperienceRoute
   '/live': typeof AppLiveRoute
   '/notifications': typeof AppNotificationsRoute
-  '/platforms': typeof AppPlatformsRoute
   '/profile': typeof AppProfileRoute
   '/settings': typeof AppSettingsRoute
   '/bio-link/$handle': typeof BioLinkHandleRoute
@@ -254,11 +260,13 @@ export interface FileRoutesByTo {
   '/fans/audience': typeof AppFansAudienceRoute
   '/fans/subscribers': typeof AppFansSubscribersRoute
   '/performance/traffic': typeof AppPerformanceTrafficRoute
+  '/platforms/$platform': typeof AppPlatformsPlatformRoute
   '/studio/analytics': typeof AppStudioAnalyticsRoute
   '/studio/calendar': typeof AppStudioCalendarRoute
   '/studio/create': typeof AppStudioCreateRoute
   '/studio/media': typeof AppStudioMediaRoute
   '/studio/schedule': typeof AppStudioScheduleRoute
+  '/platforms': typeof AppPlatformsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -271,7 +279,6 @@ export interface FileRoutesById {
   '/_app/experience': typeof AppExperienceRoute
   '/_app/live': typeof AppLiveRoute
   '/_app/notifications': typeof AppNotificationsRoute
-  '/_app/platforms': typeof AppPlatformsRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/settings': typeof AppSettingsRoute
   '/bio-link/$handle': typeof BioLinkHandleRoute
@@ -288,11 +295,13 @@ export interface FileRoutesById {
   '/_app/fans/audience': typeof AppFansAudienceRoute
   '/_app/fans/subscribers': typeof AppFansSubscribersRoute
   '/_app/performance/traffic': typeof AppPerformanceTrafficRoute
+  '/_app/platforms/$platform': typeof AppPlatformsPlatformRoute
   '/_app/studio/analytics': typeof AppStudioAnalyticsRoute
   '/_app/studio/calendar': typeof AppStudioCalendarRoute
   '/_app/studio/create': typeof AppStudioCreateRoute
   '/_app/studio/media': typeof AppStudioMediaRoute
   '/_app/studio/schedule': typeof AppStudioScheduleRoute
+  '/_app/platforms/': typeof AppPlatformsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -306,7 +315,6 @@ export interface FileRouteTypes {
     | '/experience'
     | '/live'
     | '/notifications'
-    | '/platforms'
     | '/profile'
     | '/settings'
     | '/bio-link/$handle'
@@ -322,11 +330,13 @@ export interface FileRouteTypes {
     | '/fans/audience'
     | '/fans/subscribers'
     | '/performance/traffic'
+    | '/platforms/$platform'
     | '/studio/analytics'
     | '/studio/calendar'
     | '/studio/create'
     | '/studio/media'
     | '/studio/schedule'
+    | '/platforms/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -337,7 +347,6 @@ export interface FileRouteTypes {
     | '/experience'
     | '/live'
     | '/notifications'
-    | '/platforms'
     | '/profile'
     | '/settings'
     | '/bio-link/$handle'
@@ -354,11 +363,13 @@ export interface FileRouteTypes {
     | '/fans/audience'
     | '/fans/subscribers'
     | '/performance/traffic'
+    | '/platforms/$platform'
     | '/studio/analytics'
     | '/studio/calendar'
     | '/studio/create'
     | '/studio/media'
     | '/studio/schedule'
+    | '/platforms'
   id:
     | '__root__'
     | '/_app'
@@ -370,7 +381,6 @@ export interface FileRouteTypes {
     | '/_app/experience'
     | '/_app/live'
     | '/_app/notifications'
-    | '/_app/platforms'
     | '/_app/profile'
     | '/_app/settings'
     | '/bio-link/$handle'
@@ -387,11 +397,13 @@ export interface FileRouteTypes {
     | '/_app/fans/audience'
     | '/_app/fans/subscribers'
     | '/_app/performance/traffic'
+    | '/_app/platforms/$platform'
     | '/_app/studio/analytics'
     | '/_app/studio/calendar'
     | '/_app/studio/create'
     | '/_app/studio/media'
     | '/_app/studio/schedule'
+    | '/_app/platforms/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -475,13 +487,6 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/notifications'
       preLoaderRoute: typeof AppNotificationsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/platforms': {
-      id: '/_app/platforms'
-      path: '/platforms'
-      fullPath: '/platforms'
-      preLoaderRoute: typeof AppPlatformsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/profile': {
@@ -589,6 +594,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPerformanceTrafficRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/platforms/': {
+      id: '/_app/platforms/'
+      path: '/platforms'
+      fullPath: '/platforms/'
+      preLoaderRoute: typeof AppPlatformsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/platforms/$platform': {
+      id: '/_app/platforms/$platform'
+      path: '/platforms/$platform'
+      fullPath: '/platforms/$platform'
+      preLoaderRoute: typeof AppPlatformsPlatformRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/studio/analytics': {
       id: '/_app/studio/analytics'
       path: '/studio/analytics'
@@ -632,7 +651,6 @@ interface AppRouteChildren {
   AppExperienceRoute: typeof AppExperienceRoute
   AppLiveRoute: typeof AppLiveRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
-  AppPlatformsRoute: typeof AppPlatformsRoute
   AppProfileRoute: typeof AppProfileRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -646,11 +664,13 @@ interface AppRouteChildren {
   AppFansAudienceRoute: typeof AppFansAudienceRoute
   AppFansSubscribersRoute: typeof AppFansSubscribersRoute
   AppPerformanceTrafficRoute: typeof AppPerformanceTrafficRoute
+  AppPlatformsPlatformRoute: typeof AppPlatformsPlatformRoute
   AppStudioAnalyticsRoute: typeof AppStudioAnalyticsRoute
   AppStudioCalendarRoute: typeof AppStudioCalendarRoute
   AppStudioCreateRoute: typeof AppStudioCreateRoute
   AppStudioMediaRoute: typeof AppStudioMediaRoute
   AppStudioScheduleRoute: typeof AppStudioScheduleRoute
+  AppPlatformsIndexRoute: typeof AppPlatformsIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -658,7 +678,6 @@ const AppRouteChildren: AppRouteChildren = {
   AppExperienceRoute: AppExperienceRoute,
   AppLiveRoute: AppLiveRoute,
   AppNotificationsRoute: AppNotificationsRoute,
-  AppPlatformsRoute: AppPlatformsRoute,
   AppProfileRoute: AppProfileRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppIndexRoute: AppIndexRoute,
@@ -672,11 +691,13 @@ const AppRouteChildren: AppRouteChildren = {
   AppFansAudienceRoute: AppFansAudienceRoute,
   AppFansSubscribersRoute: AppFansSubscribersRoute,
   AppPerformanceTrafficRoute: AppPerformanceTrafficRoute,
+  AppPlatformsPlatformRoute: AppPlatformsPlatformRoute,
   AppStudioAnalyticsRoute: AppStudioAnalyticsRoute,
   AppStudioCalendarRoute: AppStudioCalendarRoute,
   AppStudioCreateRoute: AppStudioCreateRoute,
   AppStudioMediaRoute: AppStudioMediaRoute,
   AppStudioScheduleRoute: AppStudioScheduleRoute,
+  AppPlatformsIndexRoute: AppPlatformsIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
