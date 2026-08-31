@@ -137,5 +137,5 @@ export function Navigate({
   replace?: boolean;
   state?: unknown;
 }) {
-  return <TanStackNavigate to={to} replace={replace} state={state} />;
+  return <TanStackNavigate to={to} replace={replace} state={state as any} />;
 }
