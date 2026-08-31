@@ -13,7 +13,7 @@ import {
   useLocation,
   useMatch,
   useNavigate as useTanStackNavigate,
-  useParams,
+  useParams as useTanStackParams,
   useSearch,
 } from "@tanstack/react-router";
 import type { LinkOptions } from "@tanstack/react-router";
