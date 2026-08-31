@@ -1,4 +1,6 @@
-import { supabase } from "../integrations/supabase/client";
+import { supabase as rawSupabase } from "../integrations/supabase/client";
+
+const supabase = rawSupabase as any;
 import type { ExperienceConfig } from "./experienceConfig";
 import { normalizeExperienceConfig } from "./experienceConfig";
 

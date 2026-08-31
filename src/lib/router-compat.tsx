@@ -13,13 +13,17 @@ import {
   useLocation,
   useMatch,
   useNavigate as useTanStackNavigate,
-  useParams,
+  useParams as useTanStackParams,
   useSearch,
 } from "@tanstack/react-router";
 import type { LinkOptions } from "@tanstack/react-router";
 import { useCallback, useMemo } from "react";
 
-export { Outlet, useLocation, useMatch, useParams };
+export { Outlet, useLocation, useMatch };
+
+export function useParams<T extends Record<string, string> = Record<string, string>>(): T {
+  return useTanStackParams({ strict: false } as any) as T;
+}
 
 export function useNavigate() {
   const navigate = useTanStackNavigate();
@@ -90,7 +94,6 @@ type NavLinkProps = {
 };
 
 export function NavLink({ to, end, onClick, className, children, ...rest }: NavLinkProps) {
-  const match = useMatch({ from: to, shouldThrow: false });
   const { pathname } = useLocation();
   const isActive = end ? pathname === to : pathname.startsWith(to);
 
@@ -128,9 +131,11 @@ export function Link({
 export function Navigate({
   to,
   replace,
+  state,
 }: {
   to: string;
   replace?: boolean;
+  state?: unknown;
 }) {
-  return <TanStackNavigate to={to} replace={replace} />;
+  return <TanStackNavigate to={to} replace={replace} state={state as any} />;
 }
