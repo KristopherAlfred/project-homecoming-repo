@@ -19,7 +19,11 @@ import {
 import type { LinkOptions } from "@tanstack/react-router";
 import { useCallback, useMemo } from "react";
 
-export { Outlet, useLocation, useMatch, useParams };
+export { Outlet, useLocation, useMatch };
+
+export function useParams<T extends Record<string, string> = Record<string, string>>(): T {
+  return useTanStackParams({ strict: false }) as T;
+}
 
 export function useNavigate() {
   const navigate = useTanStackNavigate();
