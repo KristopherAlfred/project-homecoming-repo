@@ -1,0 +1,1 @@
+DELETE FROM public.athletes WHERE profile_key = 'diag-test';

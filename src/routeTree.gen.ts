@@ -9,50 +9,666 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as MarketingRouteImport } from './routes/marketing'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as AppBioLinkRouteImport } from './routes/_app/bio-link'
+import { Route as AppExperienceRouteImport } from './routes/_app/experience'
+import { Route as AppLiveRouteImport } from './routes/_app/live'
+import { Route as AppNotificationsRouteImport } from './routes/_app/notifications'
+import { Route as AppPlatformsRouteImport } from './routes/_app/platforms'
+import { Route as AppProfileRouteImport } from './routes/_app/profile'
+import { Route as AppSettingsRouteImport } from './routes/_app/settings'
+import { Route as BioLinkHandleRouteImport } from './routes/bio-link.$handle'
+import { Route as FanAppSlugRouteImport } from './routes/fan-app.$slug'
+import { Route as YoutubeOauthRouteImport } from './routes/youtube/oauth'
+import { Route as AppContentCalendarRouteImport } from './routes/_app/content/calendar'
+import { Route as AppContentEventsRouteImport } from './routes/_app/content/events'
+import { Route as AppContentNewsRouteImport } from './routes/_app/content/news'
+import { Route as AppContentSocialRouteImport } from './routes/_app/content/social'
+import { Route as AppContentVideosRouteImport } from './routes/_app/content/videos'
+import { Route as AppEngagementActivityRouteImport } from './routes/_app/engagement/activity'
+import { Route as AppEngagementSupportRouteImport } from './routes/_app/engagement/support'
+import { Route as AppFansAudienceRouteImport } from './routes/_app/fans/audience'
+import { Route as AppFansSubscribersRouteImport } from './routes/_app/fans/subscribers'
+import { Route as AppPerformanceTrafficRouteImport } from './routes/_app/performance/traffic'
+import { Route as AppStudioAnalyticsRouteImport } from './routes/_app/studio/analytics'
+import { Route as AppStudioCalendarRouteImport } from './routes/_app/studio/calendar'
+import { Route as AppStudioCreateRouteImport } from './routes/_app/studio/create'
+import { Route as AppStudioMediaRouteImport } from './routes/_app/studio/media'
+import { Route as AppStudioScheduleRouteImport } from './routes/_app/studio/schedule'
 
-const IndexRoute = IndexRouteImport.update({
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketingRoute = MarketingRouteImport.update({
+  id: '/marketing',
+  path: '/marketing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBioLinkRoute = AppBioLinkRouteImport.update({
+  id: '/bio-link',
+  path: '/bio-link',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppExperienceRoute = AppExperienceRouteImport.update({
+  id: '/experience',
+  path: '/experience',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLiveRoute = AppLiveRouteImport.update({
+  id: '/live',
+  path: '/live',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotificationsRoute = AppNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPlatformsRoute = AppPlatformsRouteImport.update({
+  id: '/platforms',
+  path: '/platforms',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const BioLinkHandleRoute = BioLinkHandleRouteImport.update({
+  id: '/bio-link/$handle',
+  path: '/bio-link/$handle',
   getParentRoute: () => rootRouteImport,
+} as any)
+const FanAppSlugRoute = FanAppSlugRouteImport.update({
+  id: '/fan-app/$slug',
+  path: '/fan-app/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const YoutubeOauthRoute = YoutubeOauthRouteImport.update({
+  id: '/youtube/oauth',
+  path: '/youtube/oauth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppContentCalendarRoute = AppContentCalendarRouteImport.update({
+  id: '/content/calendar',
+  path: '/content/calendar',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContentEventsRoute = AppContentEventsRouteImport.update({
+  id: '/content/events',
+  path: '/content/events',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContentNewsRoute = AppContentNewsRouteImport.update({
+  id: '/content/news',
+  path: '/content/news',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContentSocialRoute = AppContentSocialRouteImport.update({
+  id: '/content/social',
+  path: '/content/social',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContentVideosRoute = AppContentVideosRouteImport.update({
+  id: '/content/videos',
+  path: '/content/videos',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEngagementActivityRoute = AppEngagementActivityRouteImport.update({
+  id: '/engagement/activity',
+  path: '/engagement/activity',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEngagementSupportRoute = AppEngagementSupportRouteImport.update({
+  id: '/engagement/support',
+  path: '/engagement/support',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFansAudienceRoute = AppFansAudienceRouteImport.update({
+  id: '/fans/audience',
+  path: '/fans/audience',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFansSubscribersRoute = AppFansSubscribersRouteImport.update({
+  id: '/fans/subscribers',
+  path: '/fans/subscribers',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPerformanceTrafficRoute = AppPerformanceTrafficRouteImport.update({
+  id: '/performance/traffic',
+  path: '/performance/traffic',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppStudioAnalyticsRoute = AppStudioAnalyticsRouteImport.update({
+  id: '/studio/analytics',
+  path: '/studio/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppStudioCalendarRoute = AppStudioCalendarRouteImport.update({
+  id: '/studio/calendar',
+  path: '/studio/calendar',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppStudioCreateRoute = AppStudioCreateRouteImport.update({
+  id: '/studio/create',
+  path: '/studio/create',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppStudioMediaRoute = AppStudioMediaRouteImport.update({
+  id: '/studio/media',
+  path: '/studio/media',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppStudioScheduleRoute = AppStudioScheduleRouteImport.update({
+  id: '/studio/schedule',
+  path: '/studio/schedule',
+  getParentRoute: () => AppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof AppIndexRoute
+  '/login': typeof LoginRoute
+  '/marketing': typeof MarketingRoute
+  '/onboarding': typeof OnboardingRoute
+  '/bio-link': typeof AppBioLinkRoute
+  '/experience': typeof AppExperienceRoute
+  '/live': typeof AppLiveRoute
+  '/notifications': typeof AppNotificationsRoute
+  '/platforms': typeof AppPlatformsRoute
+  '/profile': typeof AppProfileRoute
+  '/settings': typeof AppSettingsRoute
+  '/bio-link/$handle': typeof BioLinkHandleRoute
+  '/fan-app/$slug': typeof FanAppSlugRoute
+  '/youtube/oauth': typeof YoutubeOauthRoute
+  '/content/calendar': typeof AppContentCalendarRoute
+  '/content/events': typeof AppContentEventsRoute
+  '/content/news': typeof AppContentNewsRoute
+  '/content/social': typeof AppContentSocialRoute
+  '/content/videos': typeof AppContentVideosRoute
+  '/engagement/activity': typeof AppEngagementActivityRoute
+  '/engagement/support': typeof AppEngagementSupportRoute
+  '/fans/audience': typeof AppFansAudienceRoute
+  '/fans/subscribers': typeof AppFansSubscribersRoute
+  '/performance/traffic': typeof AppPerformanceTrafficRoute
+  '/studio/analytics': typeof AppStudioAnalyticsRoute
+  '/studio/calendar': typeof AppStudioCalendarRoute
+  '/studio/create': typeof AppStudioCreateRoute
+  '/studio/media': typeof AppStudioMediaRoute
+  '/studio/schedule': typeof AppStudioScheduleRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/marketing': typeof MarketingRoute
+  '/onboarding': typeof OnboardingRoute
+  '/bio-link': typeof AppBioLinkRoute
+  '/experience': typeof AppExperienceRoute
+  '/live': typeof AppLiveRoute
+  '/notifications': typeof AppNotificationsRoute
+  '/platforms': typeof AppPlatformsRoute
+  '/profile': typeof AppProfileRoute
+  '/settings': typeof AppSettingsRoute
+  '/bio-link/$handle': typeof BioLinkHandleRoute
+  '/fan-app/$slug': typeof FanAppSlugRoute
+  '/youtube/oauth': typeof YoutubeOauthRoute
+  '/': typeof AppIndexRoute
+  '/content/calendar': typeof AppContentCalendarRoute
+  '/content/events': typeof AppContentEventsRoute
+  '/content/news': typeof AppContentNewsRoute
+  '/content/social': typeof AppContentSocialRoute
+  '/content/videos': typeof AppContentVideosRoute
+  '/engagement/activity': typeof AppEngagementActivityRoute
+  '/engagement/support': typeof AppEngagementSupportRoute
+  '/fans/audience': typeof AppFansAudienceRoute
+  '/fans/subscribers': typeof AppFansSubscribersRoute
+  '/performance/traffic': typeof AppPerformanceTrafficRoute
+  '/studio/analytics': typeof AppStudioAnalyticsRoute
+  '/studio/calendar': typeof AppStudioCalendarRoute
+  '/studio/create': typeof AppStudioCreateRoute
+  '/studio/media': typeof AppStudioMediaRoute
+  '/studio/schedule': typeof AppStudioScheduleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/marketing': typeof MarketingRoute
+  '/onboarding': typeof OnboardingRoute
+  '/_app/bio-link': typeof AppBioLinkRoute
+  '/_app/experience': typeof AppExperienceRoute
+  '/_app/live': typeof AppLiveRoute
+  '/_app/notifications': typeof AppNotificationsRoute
+  '/_app/platforms': typeof AppPlatformsRoute
+  '/_app/profile': typeof AppProfileRoute
+  '/_app/settings': typeof AppSettingsRoute
+  '/bio-link/$handle': typeof BioLinkHandleRoute
+  '/fan-app/$slug': typeof FanAppSlugRoute
+  '/youtube/oauth': typeof YoutubeOauthRoute
+  '/_app/': typeof AppIndexRoute
+  '/_app/content/calendar': typeof AppContentCalendarRoute
+  '/_app/content/events': typeof AppContentEventsRoute
+  '/_app/content/news': typeof AppContentNewsRoute
+  '/_app/content/social': typeof AppContentSocialRoute
+  '/_app/content/videos': typeof AppContentVideosRoute
+  '/_app/engagement/activity': typeof AppEngagementActivityRoute
+  '/_app/engagement/support': typeof AppEngagementSupportRoute
+  '/_app/fans/audience': typeof AppFansAudienceRoute
+  '/_app/fans/subscribers': typeof AppFansSubscribersRoute
+  '/_app/performance/traffic': typeof AppPerformanceTrafficRoute
+  '/_app/studio/analytics': typeof AppStudioAnalyticsRoute
+  '/_app/studio/calendar': typeof AppStudioCalendarRoute
+  '/_app/studio/create': typeof AppStudioCreateRoute
+  '/_app/studio/media': typeof AppStudioMediaRoute
+  '/_app/studio/schedule': typeof AppStudioScheduleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/marketing'
+    | '/onboarding'
+    | '/bio-link'
+    | '/experience'
+    | '/live'
+    | '/notifications'
+    | '/platforms'
+    | '/profile'
+    | '/settings'
+    | '/bio-link/$handle'
+    | '/fan-app/$slug'
+    | '/youtube/oauth'
+    | '/content/calendar'
+    | '/content/events'
+    | '/content/news'
+    | '/content/social'
+    | '/content/videos'
+    | '/engagement/activity'
+    | '/engagement/support'
+    | '/fans/audience'
+    | '/fans/subscribers'
+    | '/performance/traffic'
+    | '/studio/analytics'
+    | '/studio/calendar'
+    | '/studio/create'
+    | '/studio/media'
+    | '/studio/schedule'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/login'
+    | '/marketing'
+    | '/onboarding'
+    | '/bio-link'
+    | '/experience'
+    | '/live'
+    | '/notifications'
+    | '/platforms'
+    | '/profile'
+    | '/settings'
+    | '/bio-link/$handle'
+    | '/fan-app/$slug'
+    | '/youtube/oauth'
+    | '/'
+    | '/content/calendar'
+    | '/content/events'
+    | '/content/news'
+    | '/content/social'
+    | '/content/videos'
+    | '/engagement/activity'
+    | '/engagement/support'
+    | '/fans/audience'
+    | '/fans/subscribers'
+    | '/performance/traffic'
+    | '/studio/analytics'
+    | '/studio/calendar'
+    | '/studio/create'
+    | '/studio/media'
+    | '/studio/schedule'
+  id:
+    | '__root__'
+    | '/_app'
+    | '/login'
+    | '/marketing'
+    | '/onboarding'
+    | '/_app/bio-link'
+    | '/_app/experience'
+    | '/_app/live'
+    | '/_app/notifications'
+    | '/_app/platforms'
+    | '/_app/profile'
+    | '/_app/settings'
+    | '/bio-link/$handle'
+    | '/fan-app/$slug'
+    | '/youtube/oauth'
+    | '/_app/'
+    | '/_app/content/calendar'
+    | '/_app/content/events'
+    | '/_app/content/news'
+    | '/_app/content/social'
+    | '/_app/content/videos'
+    | '/_app/engagement/activity'
+    | '/_app/engagement/support'
+    | '/_app/fans/audience'
+    | '/_app/fans/subscribers'
+    | '/_app/performance/traffic'
+    | '/_app/studio/analytics'
+    | '/_app/studio/calendar'
+    | '/_app/studio/create'
+    | '/_app/studio/media'
+    | '/_app/studio/schedule'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  MarketingRoute: typeof MarketingRoute
+  OnboardingRoute: typeof OnboardingRoute
+  BioLinkHandleRoute: typeof BioLinkHandleRoute
+  FanAppSlugRoute: typeof FanAppSlugRoute
+  YoutubeOauthRoute: typeof YoutubeOauthRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marketing': {
+      id: '/marketing'
+      path: '/marketing'
+      fullPath: '/marketing'
+      preLoaderRoute: typeof MarketingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app/': {
+      id: '/_app/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/bio-link': {
+      id: '/_app/bio-link'
+      path: '/bio-link'
+      fullPath: '/bio-link'
+      preLoaderRoute: typeof AppBioLinkRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/experience': {
+      id: '/_app/experience'
+      path: '/experience'
+      fullPath: '/experience'
+      preLoaderRoute: typeof AppExperienceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/live': {
+      id: '/_app/live'
+      path: '/live'
+      fullPath: '/live'
+      preLoaderRoute: typeof AppLiveRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/notifications': {
+      id: '/_app/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AppNotificationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/platforms': {
+      id: '/_app/platforms'
+      path: '/platforms'
+      fullPath: '/platforms'
+      preLoaderRoute: typeof AppPlatformsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/profile': {
+      id: '/_app/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/bio-link/$handle': {
+      id: '/bio-link/$handle'
+      path: '/bio-link/$handle'
+      fullPath: '/bio-link/$handle'
+      preLoaderRoute: typeof BioLinkHandleRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/fan-app/$slug': {
+      id: '/fan-app/$slug'
+      path: '/fan-app/$slug'
+      fullPath: '/fan-app/$slug'
+      preLoaderRoute: typeof FanAppSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/youtube/oauth': {
+      id: '/youtube/oauth'
+      path: '/youtube/oauth'
+      fullPath: '/youtube/oauth'
+      preLoaderRoute: typeof YoutubeOauthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app/content/calendar': {
+      id: '/_app/content/calendar'
+      path: '/content/calendar'
+      fullPath: '/content/calendar'
+      preLoaderRoute: typeof AppContentCalendarRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/content/events': {
+      id: '/_app/content/events'
+      path: '/content/events'
+      fullPath: '/content/events'
+      preLoaderRoute: typeof AppContentEventsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/content/news': {
+      id: '/_app/content/news'
+      path: '/content/news'
+      fullPath: '/content/news'
+      preLoaderRoute: typeof AppContentNewsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/content/social': {
+      id: '/_app/content/social'
+      path: '/content/social'
+      fullPath: '/content/social'
+      preLoaderRoute: typeof AppContentSocialRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/content/videos': {
+      id: '/_app/content/videos'
+      path: '/content/videos'
+      fullPath: '/content/videos'
+      preLoaderRoute: typeof AppContentVideosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/engagement/activity': {
+      id: '/_app/engagement/activity'
+      path: '/engagement/activity'
+      fullPath: '/engagement/activity'
+      preLoaderRoute: typeof AppEngagementActivityRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/engagement/support': {
+      id: '/_app/engagement/support'
+      path: '/engagement/support'
+      fullPath: '/engagement/support'
+      preLoaderRoute: typeof AppEngagementSupportRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/fans/audience': {
+      id: '/_app/fans/audience'
+      path: '/fans/audience'
+      fullPath: '/fans/audience'
+      preLoaderRoute: typeof AppFansAudienceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/fans/subscribers': {
+      id: '/_app/fans/subscribers'
+      path: '/fans/subscribers'
+      fullPath: '/fans/subscribers'
+      preLoaderRoute: typeof AppFansSubscribersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/performance/traffic': {
+      id: '/_app/performance/traffic'
+      path: '/performance/traffic'
+      fullPath: '/performance/traffic'
+      preLoaderRoute: typeof AppPerformanceTrafficRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/studio/analytics': {
+      id: '/_app/studio/analytics'
+      path: '/studio/analytics'
+      fullPath: '/studio/analytics'
+      preLoaderRoute: typeof AppStudioAnalyticsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/studio/calendar': {
+      id: '/_app/studio/calendar'
+      path: '/studio/calendar'
+      fullPath: '/studio/calendar'
+      preLoaderRoute: typeof AppStudioCalendarRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/studio/create': {
+      id: '/_app/studio/create'
+      path: '/studio/create'
+      fullPath: '/studio/create'
+      preLoaderRoute: typeof AppStudioCreateRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/studio/media': {
+      id: '/_app/studio/media'
+      path: '/studio/media'
+      fullPath: '/studio/media'
+      preLoaderRoute: typeof AppStudioMediaRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/studio/schedule': {
+      id: '/_app/studio/schedule'
+      path: '/studio/schedule'
+      fullPath: '/studio/schedule'
+      preLoaderRoute: typeof AppStudioScheduleRouteImport
+      parentRoute: typeof AppRoute
     }
   }
 }
 
+interface AppRouteChildren {
+  AppBioLinkRoute: typeof AppBioLinkRoute
+  AppExperienceRoute: typeof AppExperienceRoute
+  AppLiveRoute: typeof AppLiveRoute
+  AppNotificationsRoute: typeof AppNotificationsRoute
+  AppPlatformsRoute: typeof AppPlatformsRoute
+  AppProfileRoute: typeof AppProfileRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppIndexRoute: typeof AppIndexRoute
+  AppContentCalendarRoute: typeof AppContentCalendarRoute
+  AppContentEventsRoute: typeof AppContentEventsRoute
+  AppContentNewsRoute: typeof AppContentNewsRoute
+  AppContentSocialRoute: typeof AppContentSocialRoute
+  AppContentVideosRoute: typeof AppContentVideosRoute
+  AppEngagementActivityRoute: typeof AppEngagementActivityRoute
+  AppEngagementSupportRoute: typeof AppEngagementSupportRoute
+  AppFansAudienceRoute: typeof AppFansAudienceRoute
+  AppFansSubscribersRoute: typeof AppFansSubscribersRoute
+  AppPerformanceTrafficRoute: typeof AppPerformanceTrafficRoute
+  AppStudioAnalyticsRoute: typeof AppStudioAnalyticsRoute
+  AppStudioCalendarRoute: typeof AppStudioCalendarRoute
+  AppStudioCreateRoute: typeof AppStudioCreateRoute
+  AppStudioMediaRoute: typeof AppStudioMediaRoute
+  AppStudioScheduleRoute: typeof AppStudioScheduleRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppBioLinkRoute: AppBioLinkRoute,
+  AppExperienceRoute: AppExperienceRoute,
+  AppLiveRoute: AppLiveRoute,
+  AppNotificationsRoute: AppNotificationsRoute,
+  AppPlatformsRoute: AppPlatformsRoute,
+  AppProfileRoute: AppProfileRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppIndexRoute: AppIndexRoute,
+  AppContentCalendarRoute: AppContentCalendarRoute,
+  AppContentEventsRoute: AppContentEventsRoute,
+  AppContentNewsRoute: AppContentNewsRoute,
+  AppContentSocialRoute: AppContentSocialRoute,
+  AppContentVideosRoute: AppContentVideosRoute,
+  AppEngagementActivityRoute: AppEngagementActivityRoute,
+  AppEngagementSupportRoute: AppEngagementSupportRoute,
+  AppFansAudienceRoute: AppFansAudienceRoute,
+  AppFansSubscribersRoute: AppFansSubscribersRoute,
+  AppPerformanceTrafficRoute: AppPerformanceTrafficRoute,
+  AppStudioAnalyticsRoute: AppStudioAnalyticsRoute,
+  AppStudioCalendarRoute: AppStudioCalendarRoute,
+  AppStudioCreateRoute: AppStudioCreateRoute,
+  AppStudioMediaRoute: AppStudioMediaRoute,
+  AppStudioScheduleRoute: AppStudioScheduleRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  LoginRoute: LoginRoute,
+  MarketingRoute: MarketingRoute,
+  OnboardingRoute: OnboardingRoute,
+  BioLinkHandleRoute: BioLinkHandleRoute,
+  FanAppSlugRoute: FanAppSlugRoute,
+  YoutubeOauthRoute: YoutubeOauthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

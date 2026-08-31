@@ -12,4 +12,15 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    server: {
+      proxy: {
+        "/proxy/beehiiv": {
+          target: "https://sloanestephens.beehiiv.com",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/proxy\/beehiiv/, "") || "/",
+        },
+      },
+    },
+  },
 });
