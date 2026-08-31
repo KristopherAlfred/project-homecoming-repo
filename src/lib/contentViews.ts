@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { supabase } from "../integrations/supabase/client";
+import { supabase as rawSupabase } from "../integrations/supabase/client";
+
+const supabase = rawSupabase as any;
 import { fetchSocialSources, type SocialPlatformKey } from "./socialSources";
 import { fetchYouTubeAnalytics } from "./youtubeAnalyticsApi";
 import { fetchTikTokAnalytics } from "./tiktokAnalyticsApi";
