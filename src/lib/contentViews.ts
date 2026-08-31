@@ -36,18 +36,18 @@ async function youtubeViews(): Promise<number> {
   }
 
   const stats = await supabase.from("youtube_channel_stats").select("total_views");
-  const fromStats = sum(stats.data?.map((row) => row.total_views) ?? []);
+  const fromStats = sum(stats.data?.map((row: { total_views?: number | null }) => row.total_views) ?? []);
   if (fromStats > 0) return fromStats;
 
   const videos = await supabase.from("youtube_videos").select("view_count");
-  return sum(videos.data?.map((row) => row.view_count) ?? []);
+  return sum(videos.data?.map((row: { view_count?: number | null }) => row.view_count) ?? []);
 }
 
 async function instagramViews(): Promise<number> {
   const { data } = await supabase.from("instagram_media").select("impressions, reach");
   if (!data?.length) return 0;
-  const impressions = sum(data.map((row) => row.impressions));
-  return impressions > 0 ? impressions : sum(data.map((row) => row.reach));
+  const impressions = sum(data.map((row: { impressions?: number | null; reach?: number | null }) => row.impressions));
+  return impressions > 0 ? impressions : sum(data.map((row: { impressions?: number | null; reach?: number | null }) => row.reach));
 }
 
 async function tiktokViews(): Promise<number> {
