@@ -1,5 +1,7 @@
-import { supabase } from "../integrations/supabase/client";
+import { supabase as rawSupabase } from "../integrations/supabase/client";
 import { loadDashboardSession } from "./dashboardAuth";
+
+const supabase = rawSupabase as any;
 
 /**
  * Multi-athlete data layer. Every athlete gets their own `athletes` row plus a
