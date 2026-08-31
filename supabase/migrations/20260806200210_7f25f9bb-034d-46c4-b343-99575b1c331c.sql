@@ -1,0 +1,1 @@
+DELETE FROM public.athletes WHERE full_name = 'Test Hooper';
