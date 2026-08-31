@@ -13,6 +13,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MarketingRouteImport } from './routes/marketing'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AppBioLinkRouteImport } from './routes/_app/bio-link'
 import { Route as AppExperienceRouteImport } from './routes/_app/experience'
@@ -57,6 +58,11 @@ const MarketingRoute = MarketingRouteImport.update({
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WelcomeRoute = WelcomeRouteImport.update({
+  id: '/welcome',
+  path: '/welcome',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
@@ -195,6 +201,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/marketing': typeof MarketingRoute
   '/onboarding': typeof OnboardingRoute
+  '/welcome': typeof WelcomeRoute
   '/bio-link': typeof AppBioLinkRoute
   '/experience': typeof AppExperienceRoute
   '/live': typeof AppLiveRoute
@@ -225,6 +232,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/marketing': typeof MarketingRoute
   '/onboarding': typeof OnboardingRoute
+  '/welcome': typeof WelcomeRoute
   '/bio-link': typeof AppBioLinkRoute
   '/experience': typeof AppExperienceRoute
   '/live': typeof AppLiveRoute
@@ -258,6 +266,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/marketing': typeof MarketingRoute
   '/onboarding': typeof OnboardingRoute
+  '/welcome': typeof WelcomeRoute
   '/_app/bio-link': typeof AppBioLinkRoute
   '/_app/experience': typeof AppExperienceRoute
   '/_app/live': typeof AppLiveRoute
@@ -292,6 +301,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/marketing'
     | '/onboarding'
+    | '/welcome'
     | '/bio-link'
     | '/experience'
     | '/live'
@@ -322,6 +332,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/marketing'
     | '/onboarding'
+    | '/welcome'
     | '/bio-link'
     | '/experience'
     | '/live'
@@ -354,6 +365,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/marketing'
     | '/onboarding'
+    | '/welcome'
     | '/_app/bio-link'
     | '/_app/experience'
     | '/_app/live'
@@ -387,6 +399,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   MarketingRoute: typeof MarketingRoute
   OnboardingRoute: typeof OnboardingRoute
+  WelcomeRoute: typeof WelcomeRoute
   BioLinkHandleRoute: typeof BioLinkHandleRoute
   FanAppSlugRoute: typeof FanAppSlugRoute
   YoutubeOauthRoute: typeof YoutubeOauthRoute
@@ -420,6 +433,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/welcome': {
+      id: '/welcome'
+      path: '/welcome'
+      fullPath: '/welcome'
+      preLoaderRoute: typeof WelcomeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app/': {
@@ -666,6 +686,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   MarketingRoute: MarketingRoute,
   OnboardingRoute: OnboardingRoute,
+  WelcomeRoute: WelcomeRoute,
   BioLinkHandleRoute: BioLinkHandleRoute,
   FanAppSlugRoute: FanAppSlugRoute,
   YoutubeOauthRoute: YoutubeOauthRoute,
