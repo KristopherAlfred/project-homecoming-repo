@@ -1,5 +1,7 @@
-import { supabase } from "../integrations/supabase/client";
+import { supabase as rawSupabase } from "../integrations/supabase/client";
 import { resolveCurrentAthlete } from "./athletes";
+
+const supabase = rawSupabase as any;
 
 export type PlatformConnection = {
   id: string;
@@ -17,20 +19,38 @@ let athleteIdPromise: Promise<string | null> | null = null;
 async function currentAthleteId(): Promise<string | null> {
   if (!athleteIdPromise) {
     athleteIdPromise = resolveCurrentAthlete()
-      .then((athlete) => athlete?.id ?? null)
+      .then((athlete: { id?: string } | null) => athlete?.id ?? null)
       .catch(() => null);
   }
   return athleteIdPromise;
 }
 
+const CONNECTION_COLUMNS =
+  "id, platform, display_name, handle, connected, last_synced_at, follower_count";
+
 export async function fetchPlatformConnections(): Promise<PlatformConnection[]> {
   const athleteId = await currentAthleteId();
-  const { data, error } = await supabase.functions.invoke("athlete-state", {
-    body: { action: "get_platform_connections", athlete_id: athleteId },
-  });
+
+  // Athlete-scoped connectors first; fall back to the shared connector catalog.
+  if (athleteId) {
+    const { data } = await supabase
+      .from("platform_connections")
+      .select(CONNECTION_COLUMNS)
+      .eq("athlete_id", athleteId)
+      .order("connected", { ascending: false })
+      .order("display_name", { ascending: true });
+    if (data?.length) return data as PlatformConnection[];
+  }
+
+  const { data, error } = await supabase
+    .from("platform_connections")
+    .select(CONNECTION_COLUMNS)
+    .is("athlete_id", null)
+    .order("connected", { ascending: false })
+    .order("display_name", { ascending: true });
 
   if (error) throw error;
-  return ((data as { connections?: PlatformConnection[] })?.connections ?? []) as PlatformConnection[];
+  return (data ?? []) as PlatformConnection[];
 }
 
 export async function setPlatformConnected(
@@ -38,13 +58,19 @@ export async function setPlatformConnected(
   connected: boolean,
   handle?: string | null,
 ) {
-  const { error } = await supabase.functions.invoke("dashboard-state", {
-    body: { action: "set_platform_connected", id, connected, handle: handle ?? null },
-  });
+  const { error } = await supabase
+    .from("platform_connections")
+    .update({
+      connected,
+      handle: handle ?? null,
+      last_synced_at: connected ? new Date().toISOString() : null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", id);
 
   if (error) throw error;
-
 }
+
 
 
 export function formatSyncedAgo(iso: string | null): string {
