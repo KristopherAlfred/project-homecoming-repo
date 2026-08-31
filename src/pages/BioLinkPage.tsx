@@ -123,7 +123,7 @@ export function BioLinkPage() {
             </label>
             <div className="mt-1.5 flex items-center gap-2 rounded-lg border border-dt-border bg-black/40 px-3 py-2">
               <Link2 size={14} className="shrink-0 text-dt-muted" />
-              <span className="shrink-0 text-xs text-dt-muted">{window.location.host}/go/</span>
+              <span className="shrink-0 text-xs text-dt-muted">{origin.replace(/^https?:\/\//, "")}/go/</span>
               <input
                 value={slug}
                 onChange={(e) => setSlug(slugify(e.target.value))}
