@@ -131,9 +131,11 @@ export function Link({
 export function Navigate({
   to,
   replace,
+  state,
 }: {
   to: string;
   replace?: boolean;
+  state?: unknown;
 }) {
-  return <TanStackNavigate to={to} replace={replace} />;
+  return <TanStackNavigate to={to} replace={replace} state={state} />;
 }
