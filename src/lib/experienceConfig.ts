@@ -454,7 +454,7 @@ export const DEFAULT_EXPERIENCE_NAV: ExperienceNav = {
   ],
   bg: "#050505",
   borderColor: "rgba(255,255,255,0.10)",
-  activeColor: "#8FE3B8",
+  activeColor: "#FFFFFF",
   inactiveColor: "rgba(255,255,255,0.45)",
   radius: 0,
   showLabels: true,
@@ -556,7 +556,7 @@ export const STAGE_ITEM_IDS: ExperienceBuiltinStageId[] = [
 
 
 export const DEFAULT_CONTENT_STAGE: ExperienceStageItem[] = [
-  { id: "titleArt", x: 55, y: 8, w: 42, z: 8, scale: 100, glow: true, glowColor: "#8FE3B8", glowIntensity: 40 },
+  { id: "titleArt", x: 55, y: 8, w: 42, z: 8, scale: 100, glow: true, glowColor: "#FFFFFF", glowIntensity: 40 },
   {
     id: "headline",
     x: 4,
@@ -577,7 +577,7 @@ export const DEFAULT_CONTENT_STAGE: ExperienceStageItem[] = [
     w: 50,
     z: 11,
     glow: false,
-    glowColor: "#8FE3B8",
+    glowColor: "#FFFFFF",
     glowIntensity: 30,
     fillFrom: "rgba(0,0,0,0.5)",
     fillTo: "rgba(0,0,0,0.15)",
@@ -590,7 +590,7 @@ export const DEFAULT_CONTENT_STAGE: ExperienceStageItem[] = [
     w: 55,
     z: 10,
     glow: false,
-    glowColor: "#8FE3B8",
+    glowColor: "#FFFFFF",
     glowIntensity: 30,
     fillFrom: "rgba(0,0,0,0.45)",
     fillTo: "rgba(0,0,0,0.12)",
@@ -599,34 +599,34 @@ export const DEFAULT_CONTENT_STAGE: ExperienceStageItem[] = [
 ];
 
 export const DEFAULT_LANDING_STAGE: ExperienceStageItem[] = [
-  { id: "logo", x: 4, y: 4, w: 14, z: 22, glow: true, glowColor: "#8FE3B8", glowIntensity: 40 },
+  { id: "logo", x: 4, y: 4, w: 14, z: 22, glow: true, glowColor: "#FFFFFF", glowIntensity: 40 },
   { id: "wordmark", x: 20, y: 5, w: 55, z: 21, glow: false, glowColor: "#FFFFFF", glowIntensity: 30 },
-  { id: "tagline", x: 20, y: 9.5, w: 55, z: 20, glow: false, glowColor: "#8FE3B8", glowIntensity: 30 },
+  { id: "tagline", x: 20, y: 9.5, w: 55, z: 20, glow: false, glowColor: "#FFFFFF", glowIntensity: 30 },
   { id: "navBar", x: 4, y: 13, w: 92, z: 24, glow: false, glowColor: "#FFFFFF", glowIntensity: 20 },
-  { id: "hero", x: 8, y: 16, w: 84, z: 5, glow: true, glowColor: "#8FE3B8", glowIntensity: 35 },
-  { id: "titleArt", x: 10, y: 48, w: 70, z: 12, glow: false, glowColor: "#8FE3B8", glowIntensity: 40 },
-  { id: "subhead", x: 8, y: 52, w: 84, z: 14, glow: false, glowColor: "#8FE3B8", glowIntensity: 40 },
+  { id: "hero", x: 8, y: 16, w: 84, z: 5, glow: true, glowColor: "#FFFFFF", glowIntensity: 35 },
+  { id: "titleArt", x: 10, y: 48, w: 70, z: 12, glow: false, glowColor: "#FFFFFF", glowIntensity: 40 },
+  { id: "subhead", x: 8, y: 52, w: 84, z: 14, glow: false, glowColor: "#FFFFFF", glowIntensity: 40 },
   { id: "headline", x: 8, y: 60, w: 84, z: 15, glow: true, glowColor: "#FFFFFF", glowIntensity: 25 },
   { id: "signature", x: 8, y: 68, w: 46, z: 19, glow: false, glowColor: "#FFFFFF", glowIntensity: 25 },
-  { id: "body", x: 8, y: 68, w: 84, z: 13, glow: false, glowColor: "#8FE3B8", glowIntensity: 30 },
-  { id: "cardGrid", x: 5, y: 73, w: 90, z: 16, glow: false, glowColor: "#8FE3B8", glowIntensity: 20 },
-  { id: "featureRow", x: 6, y: 76, w: 88, z: 16, glow: false, glowColor: "#8FE3B8", glowIntensity: 25 },
-  { id: "cta", x: 8, y: 84, w: 84, z: 18, glow: true, glowColor: "#8FE3B8", glowIntensity: 45 },
-  { id: "memberProof", x: 6, y: 91, w: 88, z: 17, glow: false, glowColor: "#8FE3B8", glowIntensity: 20 },
+  { id: "body", x: 8, y: 68, w: 84, z: 13, glow: false, glowColor: "#FFFFFF", glowIntensity: 30 },
+  { id: "cardGrid", x: 5, y: 73, w: 90, z: 16, glow: false, glowColor: "#FFFFFF", glowIntensity: 20 },
+  { id: "featureRow", x: 6, y: 76, w: 88, z: 16, glow: false, glowColor: "#FFFFFF", glowIntensity: 25 },
+  { id: "cta", x: 8, y: 84, w: 84, z: 18, glow: true, glowColor: "#FFFFFF", glowIntensity: 45 },
+  { id: "memberProof", x: 6, y: 91, w: 88, z: 17, glow: false, glowColor: "#FFFFFF", glowIntensity: 20 },
 ];
 
 
 export const DEFAULT_YOUREIN_STAGE: ExperienceStageItem[] = [
-  { id: "hero", x: 0, y: 0, w: 100, h: 100, z: 5, glow: false, glowColor: "#8FE3B8", glowIntensity: 0 },
-  { id: "logo", x: 44, y: 5, w: 13, z: 22, glow: false, glowColor: "#8FE3B8", glowIntensity: 0 },
+  { id: "hero", x: 0, y: 0, w: 100, h: 100, z: 5, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "logo", x: 44, y: 5, w: 13, z: 22, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
   { id: "wordmark", x: 20, y: 13, w: 60, z: 21, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
-  { id: "joinedBadge", x: 5, y: 24, w: 90, z: 19, glow: true, glowColor: "#8FE3B8", glowIntensity: 30 },
-  { id: "subhead", x: 8, y: 45, w: 84, z: 14, align: "center", glow: false, glowColor: "#8FE3B8", glowIntensity: 18 },
+  { id: "joinedBadge", x: 5, y: 24, w: 90, z: 19, glow: true, glowColor: "#FFFFFF", glowIntensity: 30 },
+  { id: "subhead", x: 8, y: 45, w: 84, z: 14, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 18 },
   { id: "headline", x: 6, y: 49, w: 88, z: 15, scale: 118, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
   { id: "body", x: 10, y: 60, w: 80, z: 13, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
-  { id: "featureRow", x: 4, y: 68, w: 92, z: 16, glow: false, glowColor: "#8FE3B8", glowIntensity: 0 },
-  { id: "cta", x: 6, y: 79, w: 88, z: 18, glow: true, glowColor: "#8FE3B8", glowIntensity: 34 },
-  { id: "memberProof", x: 6, y: 88, w: 88, z: 17, glow: false, glowColor: "#8FE3B8", glowIntensity: 0 },
+  { id: "featureRow", x: 4, y: 68, w: 92, z: 16, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "cta", x: 6, y: 79, w: 88, z: 18, glow: true, glowColor: "#FFFFFF", glowIntensity: 34 },
+  { id: "memberProof", x: 6, y: 88, w: 88, z: 17, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
 ];
 
 
@@ -670,7 +670,7 @@ export function placeStampOnPage(
     w: 16,
     z: 28 + count,
     glow: true,
-    glowColor: "#8FE3B8",
+    glowColor: "#FFFFFF",
     glowIntensity: 40,
   });
   return base;
@@ -684,7 +684,7 @@ export const DEFAULT_MEMBER_PROOF: ExperienceMemberProof = {
   extraLabel: "",
   bg: "rgba(255,255,255,0.04)",
   borderColor: "rgba(255,255,255,0.14)",
-  countColor: "#8FE3B8",
+  countColor: "#FFFFFF",
   labelColor: "rgba(255,255,255,0.6)",
   radius: 18,
 };
@@ -800,9 +800,9 @@ function pageDefaults(partial: Partial<ExperiencePageConfig> = {}): ExperiencePa
     subhead: "",
     body: "",
     ctaLabel: "Continue",
-    ctaBg: "#8FE3B8",
+    ctaBg: "#FFFFFF",
     ctaText: "#04140c",
-    accentColor: "#8FE3B8",
+    accentColor: "#FFFFFF",
     heroImage: "",
     titleImage: "",
     heroScale: 100,
@@ -819,7 +819,7 @@ function pageDefaults(partial: Partial<ExperiencePageConfig> = {}): ExperiencePa
     unlockHeadline: "",
     unlockBody: "",
     unlockFooter: "100% Private · No Spam · You're in control",
-    unlockGlowColor: "#8FE3B8",
+    unlockGlowColor: "#FFFFFF",
     unlockPanelBorderColor: "#2a5c44",
     unlockPanelBgFrom: "rgba(8, 28, 18, 0.97)",
     unlockPanelBgTo: "rgba(4, 12, 8, 0.98)",
@@ -840,11 +840,11 @@ function pageDefaults(partial: Partial<ExperiencePageConfig> = {}): ExperiencePa
     headlineGradientFrom: "",
     headlineGradientTo: "",
     showMenuButton: false,
-    menuButtonColor: "#8FE3B8",
+    menuButtonColor: "#FFFFFF",
     features: [],
     featureBg: "rgba(255,255,255,0.04)",
     featureBorderColor: "rgba(255,255,255,0.14)",
-    featureIconColor: "#8FE3B8",
+    featureIconColor: "#FFFFFF",
     featureTextColor: "#FFFFFF",
     featureRadius: 18,
     featureColumns: 2,
@@ -855,7 +855,7 @@ function pageDefaults(partial: Partial<ExperiencePageConfig> = {}): ExperiencePa
     navLabel: "",
     navTextColor: "#FFFFFF",
     navBadgeLabel: "",
-    navBadgeColor: "#8FE3B8",
+    navBadgeColor: "#FFFFFF",
     navBadgeBorderColor: "rgba(255,255,255,0.25)",
     navBadgeRadius: 999,
     showNavBadge: true,
@@ -872,7 +872,7 @@ function pageDefaults(partial: Partial<ExperiencePageConfig> = {}): ExperiencePa
     cardRadius: 20,
     cardTitleColor: "#FFFFFF",
     cardTextColor: "rgba(255,255,255,0.65)",
-    cardIconColor: "#8FE3B8",
+    cardIconColor: "#FFFFFF",
     cardColumns: 2,
     studioLabel: "",
 
@@ -904,7 +904,7 @@ export function getStageItem(
     w: 16,
     z: 20,
     glow: false,
-    glowColor: "#8FE3B8",
+    glowColor: "#FFFFFF",
     glowIntensity: 40,
   };
 }
@@ -927,7 +927,7 @@ export function removeStageItem(page: ExperiencePageConfig, id: string): Experie
 
 export function stageGlowStyle(item: ExperienceStageItem, kind: "text" | "image" | "box" = "text") {
   if (!item.glow) return {};
-  const color = item.glowColor || "#8FE3B8";
+  const color = item.glowColor || "#FFFFFF";
   const intensity = Math.max(0, Math.min(100, item.glowIntensity ?? 40));
   if (kind === "text") {
     return {
@@ -1018,7 +1018,7 @@ export const DEFAULT_EXPERIENCE_PAGES: ExperiencePages = {
     unlockHeadline: "JOIN THE CIRCLE",
     unlockBody: "Exclusive drops, early access, giveaways, content, and real connection with your fans.",
     unlockFooter: "100% Private · No Spam · You're in control",
-    unlockGlowColor: "#8FE3B8",
+    unlockGlowColor: "#FFFFFF",
     unlockPanelBorderColor: "#2a5c44",
     unlockPanelBgFrom: "rgba(8, 28, 18, 0.97)",
     unlockPanelBgTo: "rgba(4, 12, 8, 0.98)",
@@ -1038,7 +1038,7 @@ export const DEFAULT_EXPERIENCE_PAGES: ExperiencePages = {
     subhead: "WELCOME TO THE INSIDE",
     body: "You're officially part of the circle. Drops, early access and behind-the-scenes are unlocked.",
     loaderLabel: "Preparing your experience...",
-    accentColor: "#8FE3B8",
+    accentColor: "#FFFFFF",
     effectPreset: "burst",
     ctaLabel: "ENTER THE APP",
     ctaShowArrow: true,
@@ -1063,7 +1063,7 @@ export const DEFAULT_EXPERIENCE_PAGES: ExperiencePages = {
     headline: "Exclusive Videos",
     subhead: "YOUTUBE · EXCLUSIVE",
     body: "Clips, YouTube uploads, and members-only video.",
-    accentColor: "#8FE3B8",
+    accentColor: "#FFFFFF",
     effectPreset: "glow",
     stage: DEFAULT_CONTENT_STAGE.map((item) => ({ ...item })),
     layoutMode: "freeform",
@@ -1072,7 +1072,7 @@ export const DEFAULT_EXPERIENCE_PAGES: ExperiencePages = {
     headline: "Latest News",
     subhead: "NEWSLETTERS · INSIGHTS",
     body: "Newsletters and insights for the circle.",
-    accentColor: "#8FE3B8",
+    accentColor: "#FFFFFF",
     effectPreset: "soft",
     stage: DEFAULT_CONTENT_STAGE.map((item) => ({ ...item })),
     layoutMode: "freeform",
@@ -1081,7 +1081,7 @@ export const DEFAULT_EXPERIENCE_PAGES: ExperiencePages = {
     headline: "Shop the collection",
     subhead: "SHOP",
     body: "Products and drops curated for your fans.",
-    accentColor: "#8FE3B8",
+    accentColor: "#FFFFFF",
     ctaLabel: "Shop now",
     effectPreset: "glass",
     stage: DEFAULT_CONTENT_STAGE.map((item) => ({ ...item })),
