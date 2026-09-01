@@ -121,45 +121,32 @@ export async function fetchAthleteById(id: string): Promise<Athlete | null> {
   return (data as unknown as Athlete) ?? null;
 }
 
-/**
- * Themes, bio links, insights and connector rows are private at the database
- * level, so they are read through the `athlete-state` function which scopes
- * every row to the requested athlete.
- */
+/** Themes, bio links and connector rows are read straight from the database. */
 export async function fetchAthleteTheme(athleteId: string): Promise<AthleteTheme | null> {
-  try {
-    const { theme } = await callAthleteState<{ theme: AthleteTheme | null }>({
-      action: "get_theme",
-      athlete_id: athleteId,
-    });
-    return theme ?? null;
-  } catch {
-    return null;
-  }
+  const { data } = await supabase
+    .from("athlete_themes")
+    .select("*")
+    .eq("athlete_id", athleteId)
+    .maybeSingle();
+  return (data as AthleteTheme) ?? null;
 }
 
 export async function fetchBioLink(athleteId: string): Promise<AthleteBioLink | null> {
-  try {
-    const { link } = await callAthleteState<{ link: AthleteBioLink | null }>({
-      action: "get_bio_link",
-      athlete_id: athleteId,
-    });
-    return link ?? null;
-  } catch {
-    return null;
-  }
+  const { data } = await supabase
+    .from("athlete_bio_links")
+    .select("id, athlete_id, slug, destination_app_url, is_published, click_count")
+    .eq("athlete_id", athleteId)
+    .maybeSingle();
+  return (data as AthleteBioLink) ?? null;
 }
 
 export async function fetchBioLinkBySlug(slug: string): Promise<AthleteBioLink | null> {
-  try {
-    const { link } = await callAthleteState<{ link: AthleteBioLink | null }>({
-      action: "get_bio_link",
-      slug: slug.toLowerCase(),
-    });
-    return link ?? null;
-  } catch {
-    return null;
-  }
+  const { data } = await supabase
+    .from("athlete_bio_links")
+    .select("id, athlete_id, slug, destination_app_url, is_published, click_count")
+    .eq("slug", slug.toLowerCase())
+    .maybeSingle();
+  return (data as AthleteBioLink) ?? null;
 }
 
 export const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$/;
@@ -190,7 +177,7 @@ export function getSessionProfileKey(): string {
 
 /**
  * Resolves who is logged in: first by session key, then by name match so a
- * migrated athlete (Sloane is athlete #1) lands in their existing dashboard.
+ * migrated athlete lands in their existing dashboard.
  */
 export async function resolveCurrentAthlete(): Promise<Athlete | null> {
   const byKey = await fetchAthleteByProfileKey(getSessionProfileKey());
@@ -210,29 +197,27 @@ type UpsertAthleteInput = Partial<Omit<Athlete, "id" | "profile_key">> & {
   onboarding_completed?: boolean;
 };
 
-async function callAthleteState<T>(payload: Record<string, unknown>): Promise<T> {
-  const { data, error } = await supabase.functions.invoke("athlete-state", { body: payload });
-  if (error) throw error;
-  if (data && typeof data === "object" && "error" in data) {
-    throw new Error(String((data as { error: unknown }).error));
-  }
-  return data as T;
-}
-
 export async function upsertAthlete(input: UpsertAthleteInput): Promise<string> {
-  const result = await callAthleteState<{ athlete_id: string }>({
-    action: "upsert_athlete",
-    profile_key: input.profile_key ?? getSessionProfileKey(),
-    ...input,
-  });
-  return result.athlete_id;
+  const profile_key = input.profile_key ?? getSessionProfileKey();
+  const { profile_key: _ignored, ...fields } = input;
+
+  const { data, error } = await supabase
+    .from("athletes")
+    .upsert({ ...fields, profile_key }, { onConflict: "profile_key" })
+    .select("id")
+    .single();
+  if (error) throw error;
+  return (data as { id: string }).id;
 }
 
 export async function saveAthleteTheme(
   athleteId: string,
   theme: Partial<Omit<AthleteTheme, "athlete_id">>,
 ): Promise<void> {
-  await callAthleteState({ action: "save_theme", athlete_id: athleteId, ...theme });
+  const { error } = await supabase
+    .from("athlete_themes")
+    .upsert({ ...theme, athlete_id: athleteId }, { onConflict: "athlete_id" });
+  if (error) throw error;
 }
 
 export async function claimBioSlug(
@@ -240,18 +225,38 @@ export async function claimBioSlug(
   slug: string,
   options: { destination_app_url?: string; is_published?: boolean } = {},
 ): Promise<void> {
-  await callAthleteState({
-    action: "claim_slug",
-    athlete_id: athleteId,
-    slug: slug.toLowerCase(),
-    ...options,
-  });
+  const clean = slug.toLowerCase();
+  const existing = await fetchBioLink(athleteId);
+
+  if (existing) {
+    const { error } = await supabase
+      .from("athlete_bio_links")
+      .update({ slug: clean, ...options })
+      .eq("athlete_id", athleteId);
+    if (error) throw error;
+    return;
+  }
+
+  const { error } = await supabase
+    .from("athlete_bio_links")
+    .insert({ athlete_id: athleteId, slug: clean, ...options });
+  if (error) throw error;
 }
 
 export async function registerBioLinkClick(slug: string) {
-  return callAthleteState<{
-    destination_app_url: string | null;
-    athlete_id: string;
-    is_published: boolean;
-  }>({ action: "register_click", slug: slug.toLowerCase() });
+  const link = await fetchBioLink_bySlugForClick(slug);
+  if (!link) throw new Error("Link not found");
+  await supabase
+    .from("athlete_bio_links")
+    .update({ click_count: (link.click_count ?? 0) + 1 })
+    .eq("id", link.id);
+  return {
+    destination_app_url: link.destination_app_url,
+    athlete_id: link.athlete_id,
+    is_published: link.is_published,
+  };
+}
+
+async function fetchBioLink_bySlugForClick(slug: string) {
+  return fetchBioLinkBySlug(slug);
 }

@@ -14,6 +14,205 @@ export type Database = {
   }
   public: {
     Tables: {
+      athlete_bio_links: {
+        Row: {
+          athlete_id: string
+          click_count: number
+          created_at: string
+          destination_app_url: string | null
+          id: string
+          is_published: boolean
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          athlete_id: string
+          click_count?: number
+          created_at?: string
+          destination_app_url?: string | null
+          id?: string
+          is_published?: boolean
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          athlete_id?: string
+          click_count?: number
+          created_at?: string
+          destination_app_url?: string | null
+          id?: string
+          is_published?: boolean
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "athlete_bio_links_athlete_id_fkey"
+            columns: ["athlete_id"]
+            isOneToOne: false
+            referencedRelation: "athletes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      athlete_themes: {
+        Row: {
+          accent_color: string
+          accent_hover: string
+          athlete_id: string
+          background_image: string | null
+          bg_solid: string
+          button_bg: string
+          button_border_radius: number
+          button_text: string
+          created_at: string
+          fan_app_name: string | null
+          gradient_from: string
+          gradient_to: string
+          gradient_via: string
+          headline: string | null
+          is_published: boolean
+          logo_url: string | null
+          subheadline: string | null
+          tagline: string | null
+          template_id: string
+          updated_at: string
+        }
+        Insert: {
+          accent_color?: string
+          accent_hover?: string
+          athlete_id: string
+          background_image?: string | null
+          bg_solid?: string
+          button_bg?: string
+          button_border_radius?: number
+          button_text?: string
+          created_at?: string
+          fan_app_name?: string | null
+          gradient_from?: string
+          gradient_to?: string
+          gradient_via?: string
+          headline?: string | null
+          is_published?: boolean
+          logo_url?: string | null
+          subheadline?: string | null
+          tagline?: string | null
+          template_id?: string
+          updated_at?: string
+        }
+        Update: {
+          accent_color?: string
+          accent_hover?: string
+          athlete_id?: string
+          background_image?: string | null
+          bg_solid?: string
+          button_bg?: string
+          button_border_radius?: number
+          button_text?: string
+          created_at?: string
+          fan_app_name?: string | null
+          gradient_from?: string
+          gradient_to?: string
+          gradient_via?: string
+          headline?: string | null
+          is_published?: boolean
+          logo_url?: string | null
+          subheadline?: string | null
+          tagline?: string | null
+          template_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "athlete_themes_athlete_id_fkey"
+            columns: ["athlete_id"]
+            isOneToOne: true
+            referencedRelation: "athletes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      athletes: {
+        Row: {
+          bio_short: string | null
+          competition_level: string | null
+          created_at: string
+          display_name: string | null
+          full_name: string
+          gender: string | null
+          id: string
+          league: string | null
+          onboarding_completed: boolean
+          position: string | null
+          profile_key: string | null
+          profile_photo_url: string | null
+          sport: string | null
+          sport_icon: string | null
+          team_or_league: string | null
+          updated_at: string
+        }
+        Insert: {
+          bio_short?: string | null
+          competition_level?: string | null
+          created_at?: string
+          display_name?: string | null
+          full_name: string
+          gender?: string | null
+          id?: string
+          league?: string | null
+          onboarding_completed?: boolean
+          position?: string | null
+          profile_key?: string | null
+          profile_photo_url?: string | null
+          sport?: string | null
+          sport_icon?: string | null
+          team_or_league?: string | null
+          updated_at?: string
+        }
+        Update: {
+          bio_short?: string | null
+          competition_level?: string | null
+          created_at?: string
+          display_name?: string | null
+          full_name?: string
+          gender?: string | null
+          id?: string
+          league?: string | null
+          onboarding_completed?: boolean
+          position?: string | null
+          profile_key?: string | null
+          profile_photo_url?: string | null
+          sport?: string | null
+          sport_icon?: string | null
+          team_or_league?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      onboarding_state: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          has_completed_onboarding: boolean
+          profile_key: string
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          has_completed_onboarding?: boolean
+          profile_key: string
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          has_completed_onboarding?: boolean
+          profile_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       platform_connections: {
         Row: {
           athlete_id: string | null
