@@ -21,6 +21,7 @@ import { Route as AppLiveRouteImport } from './routes/_app/live'
 import { Route as AppNotificationsRouteImport } from './routes/_app/notifications'
 import { Route as AppProfileRouteImport } from './routes/_app/profile'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
+import { Route as AppSlugRouteImport } from './routes/app.$slug'
 import { Route as BioLinkHandleRouteImport } from './routes/bio-link.$handle'
 import { Route as FanAppSlugRouteImport } from './routes/fan-app.$slug'
 import { Route as YoutubeOauthRouteImport } from './routes/youtube/oauth'
@@ -100,6 +101,11 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
   getParentRoute: () => AppRoute,
+} as any)
+const AppSlugRoute = AppSlugRouteImport.update({
+  id: '/app/$slug',
+  path: '/app/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BioLinkHandleRoute = BioLinkHandleRouteImport.update({
   id: '/bio-link/$handle',
@@ -214,6 +220,7 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof AppNotificationsRoute
   '/profile': typeof AppProfileRoute
   '/settings': typeof AppSettingsRoute
+  '/app/$slug': typeof AppSlugRoute
   '/bio-link/$handle': typeof BioLinkHandleRoute
   '/fan-app/$slug': typeof FanAppSlugRoute
   '/youtube/oauth': typeof YoutubeOauthRoute
@@ -246,6 +253,7 @@ export interface FileRoutesByTo {
   '/notifications': typeof AppNotificationsRoute
   '/profile': typeof AppProfileRoute
   '/settings': typeof AppSettingsRoute
+  '/app/$slug': typeof AppSlugRoute
   '/bio-link/$handle': typeof BioLinkHandleRoute
   '/fan-app/$slug': typeof FanAppSlugRoute
   '/youtube/oauth': typeof YoutubeOauthRoute
@@ -281,6 +289,7 @@ export interface FileRoutesById {
   '/_app/notifications': typeof AppNotificationsRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/settings': typeof AppSettingsRoute
+  '/app/$slug': typeof AppSlugRoute
   '/bio-link/$handle': typeof BioLinkHandleRoute
   '/fan-app/$slug': typeof FanAppSlugRoute
   '/youtube/oauth': typeof YoutubeOauthRoute
@@ -317,6 +326,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/profile'
     | '/settings'
+    | '/app/$slug'
     | '/bio-link/$handle'
     | '/fan-app/$slug'
     | '/youtube/oauth'
@@ -349,6 +359,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/profile'
     | '/settings'
+    | '/app/$slug'
     | '/bio-link/$handle'
     | '/fan-app/$slug'
     | '/youtube/oauth'
@@ -383,6 +394,7 @@ export interface FileRouteTypes {
     | '/_app/notifications'
     | '/_app/profile'
     | '/_app/settings'
+    | '/app/$slug'
     | '/bio-link/$handle'
     | '/fan-app/$slug'
     | '/youtube/oauth'
@@ -412,6 +424,7 @@ export interface RootRouteChildren {
   MarketingRoute: typeof MarketingRoute
   OnboardingRoute: typeof OnboardingRoute
   WelcomeRoute: typeof WelcomeRoute
+  AppSlugRoute: typeof AppSlugRoute
   BioLinkHandleRoute: typeof BioLinkHandleRoute
   FanAppSlugRoute: typeof FanAppSlugRoute
   YoutubeOauthRoute: typeof YoutubeOauthRoute
@@ -502,6 +515,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings'
       preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/app/$slug': {
+      id: '/app/$slug'
+      path: '/app/$slug'
+      fullPath: '/app/$slug'
+      preLoaderRoute: typeof AppSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/bio-link/$handle': {
       id: '/bio-link/$handle'
@@ -708,6 +728,7 @@ const rootRouteChildren: RootRouteChildren = {
   MarketingRoute: MarketingRoute,
   OnboardingRoute: OnboardingRoute,
   WelcomeRoute: WelcomeRoute,
+  AppSlugRoute: AppSlugRoute,
   BioLinkHandleRoute: BioLinkHandleRoute,
   FanAppSlugRoute: FanAppSlugRoute,
   YoutubeOauthRoute: YoutubeOauthRoute,
