@@ -6,7 +6,7 @@ import {
   DEFAULT_FOLLOW_TITLE,
   DEFAULT_FOOTER_LINE,
   DEFAULT_LANDING_SOCIALS,
-  HOT_PINK,
+  
   normalizeLandingSocials,
   type LandingSocialStat,
 } from "./landingSocials";
