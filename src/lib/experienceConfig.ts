@@ -1454,9 +1454,9 @@ function normalizeStage(raw: unknown, fallback: ExperienceStageItem[]): Experien
           y: 10,
           w: 16,
           z: 28,
-          glow: true,
+          glow: false,
           glowColor: "#FFFFFF",
-          glowIntensity: 40,
+          glowIntensity: 0,
         }),
       );
     }
