@@ -49,6 +49,7 @@ import {
   stageItemRole,
   themeBackgroundCss,
 } from "../../lib/experienceConfig";
+import { heroBlendMaskStyle, heroBlendOverlayStyle } from "@/lib/heroBlend";
 import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewUrl";
 import { TintedBrandLogo } from "./TintedBrandLogo";
 import { JoinAuthSheet, JoinedBadge } from "./JoinFlow";
@@ -148,6 +149,7 @@ function PageView({
           className={full ? "absolute inset-0 h-full w-full" : "w-full rounded-xl"}
           draggable={false}
           style={{
+            ...(full ? heroBlendMaskStyle() : null),
             objectFit: full ? "cover" : page.heroFit || "cover",
             objectPosition: heroObjectPosition(page),
             transform: heroTransform(page, scale),

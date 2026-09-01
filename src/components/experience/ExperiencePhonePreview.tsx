@@ -53,6 +53,7 @@ import {
   themeBackgroundCss,
   upsertStageItem,
 } from "../../lib/experienceConfig";
+import { heroBlendMaskStyle, heroBlendOverlayStyle } from "@/lib/heroBlend";
 import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewUrl";
 import { resolveTitleFontFamily } from "../../lib/typography";
 import { TintedBrandLogo } from "./TintedBrandLogo";
@@ -611,6 +612,7 @@ function PageFreeformPreview({
           className={heroFull ? "absolute inset-0 h-full w-full" : "w-full rounded-xl"}
           draggable={false}
           style={{
+            ...(heroFull ? heroBlendMaskStyle() : null),
             objectFit: heroFull ? "cover" : page.heroFit || "contain",
             objectPosition: heroObjectPosition(page),
             transform: heroTransform(page, scale),
@@ -624,15 +626,7 @@ function PageFreeformPreview({
           <div className="relative h-full w-full overflow-hidden">
             {heroImg}
 
-            <div
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background: `linear-gradient(180deg, transparent 0%, transparent 52%, ${
-                  page.heroOverlayTo || page.backgroundColor || "rgba(0,0,0,0.92)"
-                } 82%, ${page.backgroundColor || page.heroOverlayTo || "#000"} 100%)`,
-                opacity: (page.heroOverlayOpacity ?? 100) / 100,
-              }}
-            />
+            <div className="pointer-events-none absolute inset-0" style={heroBlendOverlayStyle(page)} />
           </div>
         ) : (
           heroImg
