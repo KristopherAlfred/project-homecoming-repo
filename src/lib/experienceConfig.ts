@@ -1306,7 +1306,7 @@ export function normalizeExperiencePage(
     unlockHeadline: asString(p.unlockHeadline, fallback.unlockHeadline || ""),
     unlockBody: asString(p.unlockBody, fallback.unlockBody || ""),
     unlockFooter: asString(p.unlockFooter, fallback.unlockFooter || "100% Private · No Spam · You're in control"),
-    unlockGlowColor: asString(p.unlockGlowColor, fallback.unlockGlowColor || "#8FE3B8"),
+    unlockGlowColor: asString(p.unlockGlowColor, fallback.unlockGlowColor || "#FFFFFF"),
     unlockPanelBorderColor: asString(p.unlockPanelBorderColor, fallback.unlockPanelBorderColor || "#2a5c44"),
     unlockPanelBgFrom: asString(p.unlockPanelBgFrom, fallback.unlockPanelBgFrom || "rgba(8, 28, 18, 0.97)"),
     unlockPanelBgTo: asString(p.unlockPanelBgTo, fallback.unlockPanelBgTo || "rgba(4, 12, 8, 0.98)"),
@@ -1327,11 +1327,11 @@ export function normalizeExperiencePage(
     headlineGradientFrom: asString(p.headlineGradientFrom, fallback.headlineGradientFrom ?? ""),
     headlineGradientTo: asString(p.headlineGradientTo, fallback.headlineGradientTo ?? ""),
     showMenuButton: asBool(p.showMenuButton, fallback.showMenuButton ?? false),
-    menuButtonColor: asString(p.menuButtonColor, fallback.menuButtonColor ?? "#8FE3B8"),
+    menuButtonColor: asString(p.menuButtonColor, fallback.menuButtonColor ?? "#FFFFFF"),
     features: normalizeFeatures(p.features, fallback.features ?? []),
     featureBg: asString(p.featureBg, fallback.featureBg ?? "rgba(255,255,255,0.04)"),
     featureBorderColor: asString(p.featureBorderColor, fallback.featureBorderColor ?? "rgba(255,255,255,0.14)"),
-    featureIconColor: asString(p.featureIconColor, fallback.featureIconColor ?? "#8FE3B8"),
+    featureIconColor: asString(p.featureIconColor, fallback.featureIconColor ?? "#FFFFFF"),
     featureTextColor: asString(p.featureTextColor, fallback.featureTextColor ?? "#FFFFFF"),
     featureRadius: Math.max(0, Math.min(999, asNumber(p.featureRadius, fallback.featureRadius ?? 18))),
     featureColumns: Math.max(1, Math.min(4, asNumber(p.featureColumns, fallback.featureColumns ?? 2))),
@@ -1343,7 +1343,7 @@ export function normalizeExperiencePage(
     studioLabel: asString(p.studioLabel, fallback.studioLabel ?? "").slice(0, 24),
     navTextColor: asString(p.navTextColor, fallback.navTextColor ?? "#FFFFFF"),
     navBadgeLabel: asString(p.navBadgeLabel, fallback.navBadgeLabel ?? ""),
-    navBadgeColor: asString(p.navBadgeColor, fallback.navBadgeColor ?? "#8FE3B8"),
+    navBadgeColor: asString(p.navBadgeColor, fallback.navBadgeColor ?? "#FFFFFF"),
     navBadgeBorderColor: asString(p.navBadgeBorderColor, fallback.navBadgeBorderColor ?? "rgba(255,255,255,0.25)"),
     navBadgeRadius: Math.max(0, Math.min(999, asNumber(p.navBadgeRadius, fallback.navBadgeRadius ?? 999))),
     showNavBadge: asBool(p.showNavBadge, fallback.showNavBadge ?? true),
@@ -1360,7 +1360,7 @@ export function normalizeExperiencePage(
     cardRadius: Math.max(0, Math.min(999, asNumber(p.cardRadius, fallback.cardRadius ?? 20))),
     cardTitleColor: asString(p.cardTitleColor, fallback.cardTitleColor ?? "#FFFFFF"),
     cardTextColor: asString(p.cardTextColor, fallback.cardTextColor ?? "rgba(255,255,255,0.65)"),
-    cardIconColor: asString(p.cardIconColor, fallback.cardIconColor ?? "#8FE3B8"),
+    cardIconColor: asString(p.cardIconColor, fallback.cardIconColor ?? "#FFFFFF"),
     cardColumns: Math.max(1, Math.min(3, asNumber(p.cardColumns, fallback.cardColumns ?? 2))),
   };
 }
@@ -1407,7 +1407,7 @@ function migrateLegacyBrandStage(list: unknown[]): ExperienceStageItem[] {
   const x = asNumber(brand.x, 4);
   const y = asNumber(brand.y, 4);
   const glow = asBool(brand.glow, true);
-  const glowColor = asString(brand.glowColor, "#8FE3B8");
+  const glowColor = asString(brand.glowColor, "#FFFFFF");
   const glowIntensity = asNumber(brand.glowIntensity, 40);
   const z = asNumber(brand.z, 20);
   return [
@@ -1455,7 +1455,7 @@ function normalizeStage(raw: unknown, fallback: ExperienceStageItem[]): Experien
           w: 16,
           z: 28,
           glow: true,
-          glowColor: "#8FE3B8",
+          glowColor: "#FFFFFF",
           glowIntensity: 40,
         }),
       );
