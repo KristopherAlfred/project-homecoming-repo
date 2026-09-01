@@ -486,7 +486,7 @@ export type ExperienceConfig = {
 };
 
 export const DEFAULT_EXPERIENCE_BRAND: ExperienceBrand = {
-  logoSrc: "/experience/logos/logo-ai-racquet.png",
+  logoSrc: "",
   logoColor: "#FFFFFF",
   logoTint: true,
   wordmark: "",
@@ -521,13 +521,13 @@ export const DEFAULT_EXPERIENCE_THEME: ExperienceTheme = {
 };
 
 export const DEFAULT_EXPERIENCE_EFFECTS: ExperienceEffects = {
-  glow: true,
-  glowColor: "#9BB4FF",
-  glowIntensity: 26,
+  glow: false,
+  glowColor: "#FFFFFF",
+  glowIntensity: 0,
   particles: false,
   particleColor: "#FFFFFF",
   noise: true,
-  noiseOpacity: 6,
+  noiseOpacity: 4,
   shimmer: false,
   blurBackdrop: true,
   vignette: true,
@@ -556,7 +556,7 @@ export const STAGE_ITEM_IDS: ExperienceBuiltinStageId[] = [
 
 
 export const DEFAULT_CONTENT_STAGE: ExperienceStageItem[] = [
-  { id: "titleArt", x: 55, y: 8, w: 42, z: 8, scale: 100, glow: true, glowColor: "#FFFFFF", glowIntensity: 40 },
+  { id: "titleArt", x: 55, y: 8, w: 42, z: 8, scale: 100, glow: false, glowColor: "#FFFFFF", glowIntensity: 40 },
   {
     id: "headline",
     x: 4,
@@ -599,20 +599,20 @@ export const DEFAULT_CONTENT_STAGE: ExperienceStageItem[] = [
 ];
 
 export const DEFAULT_LANDING_STAGE: ExperienceStageItem[] = [
-  { id: "logo", x: 4, y: 4, w: 14, z: 22, glow: true, glowColor: "#FFFFFF", glowIntensity: 40 },
-  { id: "wordmark", x: 20, y: 5, w: 55, z: 21, glow: false, glowColor: "#FFFFFF", glowIntensity: 30 },
-  { id: "tagline", x: 20, y: 9.5, w: 55, z: 20, glow: false, glowColor: "#FFFFFF", glowIntensity: 30 },
-  { id: "navBar", x: 4, y: 13, w: 92, z: 24, glow: false, glowColor: "#FFFFFF", glowIntensity: 20 },
-  { id: "hero", x: 8, y: 16, w: 84, z: 5, glow: true, glowColor: "#FFFFFF", glowIntensity: 35 },
-  { id: "titleArt", x: 10, y: 48, w: 70, z: 12, glow: false, glowColor: "#FFFFFF", glowIntensity: 40 },
-  { id: "subhead", x: 8, y: 52, w: 84, z: 14, glow: false, glowColor: "#FFFFFF", glowIntensity: 40 },
-  { id: "headline", x: 8, y: 60, w: 84, z: 15, glow: true, glowColor: "#FFFFFF", glowIntensity: 25 },
-  { id: "signature", x: 8, y: 68, w: 46, z: 19, glow: false, glowColor: "#FFFFFF", glowIntensity: 25 },
-  { id: "body", x: 8, y: 68, w: 84, z: 13, glow: false, glowColor: "#FFFFFF", glowIntensity: 30 },
-  { id: "cardGrid", x: 5, y: 73, w: 90, z: 16, glow: false, glowColor: "#FFFFFF", glowIntensity: 20 },
-  { id: "featureRow", x: 6, y: 76, w: 88, z: 16, glow: false, glowColor: "#FFFFFF", glowIntensity: 25 },
-  { id: "cta", x: 8, y: 84, w: 84, z: 18, glow: true, glowColor: "#FFFFFF", glowIntensity: 45 },
-  { id: "memberProof", x: 6, y: 91, w: 88, z: 17, glow: false, glowColor: "#FFFFFF", glowIntensity: 20 },
+  { id: "hero", x: 0, y: 0, w: 100, h: 64, z: 5, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "logo", x: 5, y: 4, w: 12, z: 22, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "wordmark", x: 20, y: 4.5, w: 58, z: 21, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "tagline", x: 20, y: 8.5, w: 58, z: 20, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "navBar", x: 4, y: 13, w: 92, z: 24, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "titleArt", x: 15, y: 44, w: 70, z: 12, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "subhead", x: 8, y: 55, w: 84, z: 14, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "headline", x: 6, y: 60, w: 88, z: 15, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "signature", x: 8, y: 69, w: 46, z: 19, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "body", x: 9, y: 68, w: 82, z: 13, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "cardGrid", x: 5, y: 74, w: 90, z: 16, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "featureRow", x: 6, y: 77, w: 88, z: 16, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "cta", x: 8, y: 85, w: 84, z: 18, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "memberProof", x: 6, y: 92, w: 88, z: 17, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
 ];
 
 
@@ -620,12 +620,12 @@ export const DEFAULT_YOUREIN_STAGE: ExperienceStageItem[] = [
   { id: "hero", x: 0, y: 0, w: 100, h: 100, z: 5, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
   { id: "logo", x: 44, y: 5, w: 13, z: 22, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
   { id: "wordmark", x: 20, y: 13, w: 60, z: 21, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
-  { id: "joinedBadge", x: 5, y: 24, w: 90, z: 19, glow: true, glowColor: "#FFFFFF", glowIntensity: 30 },
+  { id: "joinedBadge", x: 5, y: 24, w: 90, z: 19, glow: false, glowColor: "#FFFFFF", glowIntensity: 30 },
   { id: "subhead", x: 8, y: 45, w: 84, z: 14, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 18 },
   { id: "headline", x: 6, y: 49, w: 88, z: 15, scale: 118, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
   { id: "body", x: 10, y: 60, w: 80, z: 13, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
   { id: "featureRow", x: 4, y: 68, w: 92, z: 16, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
-  { id: "cta", x: 6, y: 79, w: 88, z: 18, glow: true, glowColor: "#FFFFFF", glowIntensity: 34 },
+  { id: "cta", x: 6, y: 79, w: 88, z: 18, glow: false, glowColor: "#FFFFFF", glowIntensity: 34 },
   { id: "memberProof", x: 6, y: 88, w: 88, z: 17, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
 ];
 
@@ -669,9 +669,9 @@ export function placeStampOnPage(
     y: Math.min(80, spot?.y ?? 14 + Math.floor(count / 4) * 8),
     w: 16,
     z: 28 + count,
-    glow: true,
+    glow: false,
     glowColor: "#FFFFFF",
-    glowIntensity: 40,
+    glowIntensity: 0,
   });
   return base;
 }
