@@ -1,3 +1,5 @@
+import type { CreatorProfile } from "./creatorProfile";
+import { DEFAULT_CREATOR_PROFILE, normalizeCreatorProfile } from "./creatorProfile";
 import type { TitleFontFamily } from "./typography";
 import { normalizeTitleFontFamily } from "./typography";
 import {
@@ -483,6 +485,8 @@ export type ExperienceConfig = {
   stamps: ExperienceStamp[];
   /** Fan-app bottom tab bar */
   nav: ExperienceNav;
+  /** Cinematic link-in-bio landing profile (video hero, socials, featured cards) */
+  creator: CreatorProfile;
 };
 
 export const DEFAULT_EXPERIENCE_BRAND: ExperienceBrand = {
@@ -1148,6 +1152,7 @@ export const DEFAULT_EXPERIENCE_CONFIG: ExperienceConfig = {
   pages: DEFAULT_EXPERIENCE_PAGES,
   stamps: [],
   nav: DEFAULT_EXPERIENCE_NAV,
+  creator: DEFAULT_CREATOR_PROFILE,
 };
 
 function asString(value: unknown, fallback = "") {
@@ -1536,6 +1541,7 @@ export function normalizeExperienceConfig(raw: unknown): ExperienceConfig {
       : undefined,
     stamps: normalizeExperienceStamps(c.stamps),
     nav: normalizeExperienceNav(c.nav),
+    creator: normalizeCreatorProfile(c.creator),
   };
 }
 

@@ -53,6 +53,7 @@ import { heroBlendMaskStyle, heroBlendOverlayStyle } from "@/lib/heroBlend";
 import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewUrl";
 import { TintedBrandLogo } from "./TintedBrandLogo";
 import { JoinAuthSheet, JoinedBadge } from "./JoinFlow";
+import { CreatorLinkPage, creatorProfileFor } from "./CreatorLinkPage";
 
 const ICONS: Record<string, LucideIcon> = {
   star: Star,
@@ -102,6 +103,9 @@ function PageView({
   const page: ExperiencePageConfig | undefined =
     experience.pages[pageKey] ?? experience.pages.landing ?? Object.values(experience.pages)[0];
   if (!page) return null;
+  if (pageKey === "landing" && experience.creator?.enabled !== false) {
+    return <CreatorLinkPage profile={creatorProfileFor(experience)} compact />;
+  }
   const brand = experience.brand;
   const scale = (page.heroScale || 100) / 100;
   const ids = (page.stage?.length ? page.stage : DEFAULT_LANDING_STAGE).map((s) => s.id);

@@ -69,6 +69,7 @@ import { ExperienceAppPreview } from "../components/experience/ExperienceAppPrev
 import { FanAppPublishCard } from "../components/experience/FanAppPublishCard";
 import { ExperienceNavPanel } from "../components/experience/ExperienceNavPanel";
 import { ExperiencePhotoLibrary } from "../components/experience/ExperiencePhotoLibrary";
+import { CreatorProfilePanel } from "../components/experience/CreatorProfilePanel";
 import { rememberStudioUpload } from "../lib/experiencePhotoLibrary";
 import { ExperienceTemplateGallery } from "../components/experience/ExperienceTemplateGallery";
 import { ExperienceAiDesigner } from "../components/experience/ExperienceAiDesigner";
@@ -877,7 +878,16 @@ export function ExperiencePage() {
                   }
                 />
               ) : null}
-              {editingPageKey ? (
+              {editingPageKey === "landing" && experience.creator?.enabled !== false ? (
+                <CreatorProfilePanel
+                  creator={experience.creator}
+                  onChange={(patch) =>
+                    patchExperience((prev) => ({ ...prev, creator: { ...prev.creator, ...patch } }))
+                  }
+                  onUpload={(file, apply) => void uploadIntoExperience(apply, file)}
+                />
+              ) : null}
+              {editingPageKey && !(editingPageKey === "landing" && experience.creator?.enabled !== false) ? (
                 <div className="mb-4">
                   <ExperiencePhotoLibrary
                     pageLabel={experiencePageLabel(experience.pages, editingPageKey)}
@@ -893,7 +903,7 @@ export function ExperiencePage() {
                   />
                 </div>
               ) : null}
-              {editingPageKey ? (
+              {editingPageKey && !(editingPageKey === "landing" && experience.creator?.enabled !== false) ? (
                 <ExperiencePagePanel
                   pageKey={editingPageKey}
                   page={experience.pages[editingPageKey]}
