@@ -248,4 +248,23 @@ export function CreatorLinkPage({
   );
 }
 
+/**
+ * Build the creator profile for a config, falling back to brand/landing fields
+ * so an athlete who only filled in the basics still gets a complete page.
+ */
+export function creatorProfileFor(experience: {
+  brand: { wordmark: string; tagline: string };
+  creator: CreatorProfile;
+  pages: Record<string, { heroImage?: string; headline?: string; body?: string } | undefined>;
+}): CreatorProfile {
+  const landing = experience.pages.landing;
+  const c = experience.creator;
+  return {
+    ...c,
+    name: c.name || experience.brand.wordmark || landing?.headline || "",
+    videoPoster: c.videoPoster || landing?.heroImage || "",
+    bio: c.bio || experience.brand.tagline || landing?.body || "",
+  };
+}
+
 export default CreatorLinkPage;
