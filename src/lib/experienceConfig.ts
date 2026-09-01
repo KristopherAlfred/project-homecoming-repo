@@ -793,7 +793,7 @@ function pageDefaults(partial: Partial<ExperiencePageConfig> = {}): ExperiencePa
   return {
     backgroundColor: "#050505",
     backgroundGradientFrom: "#050505",
-    backgroundGradientTo: "#0a1a12",
+    backgroundGradientTo: "#0b0d12",
     useGradientBg: true,
     backgroundImage: "",
     headline: "",
@@ -801,7 +801,7 @@ function pageDefaults(partial: Partial<ExperiencePageConfig> = {}): ExperiencePa
     body: "",
     ctaLabel: "Continue",
     ctaBg: "#FFFFFF",
-    ctaText: "#04140c",
+    ctaText: "#000000",
     accentColor: "#FFFFFF",
     heroImage: "",
     titleImage: "",
