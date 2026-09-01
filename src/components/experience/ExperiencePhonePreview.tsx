@@ -55,6 +55,7 @@ import {
 } from "../../lib/experienceConfig";
 import { heroBlendMaskStyle, heroBlendOverlayStyle } from "@/lib/heroBlend";
 import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewUrl";
+import { CreatorLinkPage, creatorProfileFor } from "./CreatorLinkPage";
 import { resolveTitleFontFamily } from "../../lib/typography";
 import { TintedBrandLogo } from "./TintedBrandLogo";
 import { StyledTextRuns, WordStyleEditor, runsForPageField } from "./StyledText";
@@ -1028,6 +1029,22 @@ function PageFreeformPreview({
     );
   };
 
+
+  if (pageKey === "landing" && experience.creator?.enabled !== false) {
+    return (
+      <PhoneFrame
+        label={label}
+        hint="Link-in-bio landing — edit video, photo, name, socials and cards in the panel"
+        screen={
+          <div className="h-[560px] w-full">
+            <CreatorLinkPage profile={creatorProfileFor(experience)} compact />
+          </div>
+        }
+      >
+        <StampTray experience={experience} />
+      </PhoneFrame>
+    );
+  }
 
   return (
     <PhoneFrame
