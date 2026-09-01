@@ -517,7 +517,7 @@ export const DEFAULT_EXPERIENCE_THEME: ExperienceTheme = {
   buttonBorder: "transparent",
   buttonRadius: 999,
   fontDisplay: "default",
-  fontBody: "source_sans",
+  fontBody: "default",
 };
 
 export const DEFAULT_EXPERIENCE_EFFECTS: ExperienceEffects = {
