@@ -5,6 +5,10 @@ import { TEMPLATE_ART } from "./templateArt";
 
 import { DEFAULT_EXPERIENCE_PAGES } from "./experienceConfig";
 
+import type { CreatorProfile } from "./creatorProfile";
+import { DEFAULT_CREATOR_PROFILE } from "./creatorProfile";
+import sloaneHero from "../assets/sloane-hero.mp4.asset.json";
+
 import type {
   ExperienceBrand,
   ExperienceConfig,
@@ -37,6 +41,8 @@ export type ExperienceTemplate = {
   photo?: string;
   /** Real athlete this reference template was designed for. */
   athlete?: string;
+  /** Cinematic link-in-bio landing profile applied with the template. */
+  creator?: Partial<CreatorProfile>;
 };
 
 export const EXPERIENCE_TEMPLATES: ExperienceTemplate[] = [
@@ -441,6 +447,8 @@ type FullTemplateSpec = {
   tags: string[];
   /** Real athlete this reference template was designed for. */
   athlete?: string;
+  /** Cinematic link-in-bio landing profile applied with the template. */
+  creator?: Partial<CreatorProfile>;
 };
 
 function fullTemplate(s: FullTemplateSpec): ExperienceTemplate {
@@ -1157,6 +1165,72 @@ const SPORT_TEMPLATE_SPECS: FullTemplateSpec[] = [
 
 EXPERIENCE_TEMPLATES.push(...SPORT_TEMPLATE_SPECS.map(fullTemplate));
 
+/**
+ * Sloane Stephens — cinematic link.me-style landing: full-bleed looping video
+ * behind a centered profile, white social badges and featured cards.
+ */
+EXPERIENCE_TEMPLATES.unshift({
+  id: "sloane-stephens",
+  label: "Sloane Stephens",
+  vibe: "Cinematic link-in-bio — full-bleed video hero, centered profile, featured cards",
+  tags: ["dark", "video", "creator", "tennis"],
+  swatches: ["#000000", "#0B0D12", "#FFFFFF", "#1D9BF0"],
+  athlete: "Sloane Stephens",
+  photo: SPORT_PHOTOS["tennis"],
+  theme: {
+    bg: "#000000",
+    bgGradientFrom: "#000000",
+    bgGradientVia: "#0B0D12",
+    bgGradientTo: "#000000",
+    bgGradientAngle: 180,
+    useGradientBg: true,
+    accent: "#FFFFFF",
+    accentHover: "#E5E7EB",
+    buttonBg: "#FFFFFF",
+    buttonText: "#000000",
+    buttonBorder: "transparent",
+    buttonRadius: 999,
+    text: "#FFFFFF",
+    muted: "rgba(255,255,255,0.6)",
+  },
+  effects: {
+    glow: false,
+    particles: false,
+    shimmer: false,
+    vignette: true,
+    noise: false,
+    animatedGradient: false,
+    glassmorphism: true,
+  },
+  brand: {
+    wordmark: "Sloane Stephens",
+    tagline: "Grand Slam champion. Off-court energy.",
+    logoColor: "#FFFFFF",
+    logoTint: true,
+    wordmarkColor: "#FFFFFF",
+    taglineColor: "rgba(255,255,255,0.6)",
+  },
+  creator: {
+    enabled: true,
+    videoSrc: sloaneHero.url,
+    photo: "",
+    name: "Sloane Stephens",
+    verified: true,
+    handle: "@sloanestephens",
+    followerCount: "1.2M",
+    followerLabel: "Total Followers",
+    bio: "Grand Slam champion. Welcome to my circle.",
+    secondaryHandle: "",
+    socials: [
+      { id: "instagram", platform: "instagram", url: "" },
+      { id: "x", platform: "x", url: "" },
+      { id: "tiktok", platform: "tiktok", url: "" },
+      { id: "youtube", platform: "youtube", url: "" },
+    ],
+    featured: [],
+  },
+});
+
 
 /** Apply a template's look on top of an existing experience config. */
 export function applyExperienceTemplate(
@@ -1225,6 +1299,15 @@ export function applyExperienceTemplate(
 
   return {
     ...config,
+    creator: template.creator
+      ? {
+          ...DEFAULT_CREATOR_PROFILE,
+          ...config.creator,
+          ...template.creator,
+          socials: (template.creator.socials ?? config.creator?.socials ?? []).map((s) => ({ ...s })),
+          featured: (template.creator.featured ?? []).map((f) => ({ ...f })),
+        }
+      : config.creator,
     brand: { ...config.brand, ...template.brand },
     theme: { ...config.theme, ...template.theme },
     effects: { ...config.effects, ...template.effects },
