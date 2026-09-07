@@ -126,32 +126,9 @@ export function ExperienceTemplateGallery({
                 className="block w-full text-left"
               >
                 <div className="relative aspect-[9/16] w-full overflow-hidden">
-                  {template.landing || template.creator?.enabled ? (
-                    <div className="h-full w-full transition-transform duration-500 group-hover:scale-[1.04]">
-                      <TemplateMiniPreview template={template} />
-                    </div>
-                  ) : (
-                    <div
-                      className="flex h-full w-full flex-col items-center justify-center gap-3 transition-transform duration-500 group-hover:scale-[1.04]"
-                      style={{
-                        background: `linear-gradient(160deg, ${template.swatches[0]}, ${template.swatches[1]})`,
-                      }}
-                    >
-                      <span
-                        className="rounded-full px-4 py-1.5 text-[9px] font-bold uppercase tracking-[0.16em]"
-                        style={{
-                          background: template.theme.buttonBg,
-                          color: template.theme.buttonText,
-                          borderRadius: template.theme.buttonRadius,
-                        }}
-                      >
-                        Join
-                      </span>
-                      <span className="text-[8px] uppercase tracking-[0.2em] text-white/40">
-                        Colors only
-                      </span>
-                    </div>
-                  )}
+                  <div className="h-full w-full transition-transform duration-500 group-hover:scale-[1.04]">
+                    <TemplateMiniPreview template={template} />
+                  </div>
                   {active ? (
                     <span
                       className="absolute right-2 top-2 z-30 flex h-5 w-5 items-center justify-center rounded-full text-black"
@@ -195,7 +172,7 @@ export function ExperienceTemplateGallery({
                   </p>
                 ) : null}
                 <div className="flex gap-1.5">
-                  {(template.landing || template.creator?.enabled) && onPreview ? (
+                  {onPreview ? (
                     <button
                       type="button"
                       onClick={() => onPreview(template)}

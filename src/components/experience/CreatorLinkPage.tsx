@@ -66,7 +66,7 @@ export function CreatorLinkPage({
       className={`creator-glass-page relative h-full w-full overflow-y-auto text-white ${className}`}
       style={{ scrollbarWidth: "none", "--creator-accent": accentColor } as React.CSSProperties}
     >
-      <div className="fixed inset-0 overflow-hidden" aria-hidden="true">
+      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
           {video ? (
             <video
               src={video}

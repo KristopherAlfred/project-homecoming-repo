@@ -1,4 +1,4 @@
-import { ArrowRight, Check, Clock, Gift, Sparkles, Star, type LucideIcon } from "lucide-react";
+import { ArrowRight, Check, Clock, Crown, Flame, Gift, Heart, Lock, Music, ShoppingBag, Sparkles, Star, Ticket, Users, Video, Zap, type LucideIcon } from "lucide-react";
 import type { ExperienceTemplate } from "../../lib/experienceTemplates";
 
 const ICONS: Record<string, LucideIcon> = {
@@ -168,7 +168,7 @@ export function TemplateMiniPreview({ template }: { template: ExperienceTemplate
               <p className="text-[7px] font-extrabold" style={{ color: accent }}>
                 {template.creator?.proofHeadline || `${proof?.count ?? "100K+"} ${proof?.label ?? "Fans Already Joined"}`}
               </p>
-              <p className="truncate text-[5px]" style={{ color: proof.labelColor ?? muted }}>
+              <p className="truncate text-[5px]" style={{ color: proof?.labelColor ?? muted }}>
                 {template.creator?.proofSupporting || "Be part of the inner circle"}
               </p>
             </div>
