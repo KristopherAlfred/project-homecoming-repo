@@ -67,6 +67,7 @@ export function CreatorLinkPage({
         image: poster || photo,
         caption: feature.label,
         overlayTitle: feature.description,
+        url: "",
       }));
 
   return (
