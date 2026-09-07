@@ -126,27 +126,7 @@ export function ExperienceTemplateGallery({
                 className="block w-full text-left"
               >
                 <div className="relative aspect-[9/16] w-full overflow-hidden">
-                  {template.creator?.enabled && template.creator.videoSrc ? (
-                    <div className="relative h-full w-full bg-black transition-transform duration-500 group-hover:scale-[1.04]">
-                      <video
-                        src={template.creator.videoSrc}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="h-full w-full object-cover"
-                      />
-                      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.45)_0%,transparent_35%,rgba(0,0,0,0.75)_100%)]" />
-                      <div className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-1 pb-3 text-center">
-                        <span className="text-[11px] font-black tracking-tight text-white">
-                          {template.creator.name || template.athlete || template.label}
-                        </span>
-                        <span className="text-[8px] uppercase tracking-[0.18em] text-white/50">
-                          {template.creator.handle || "Video creator page"}
-                        </span>
-                      </div>
-                    </div>
-                  ) : template.landing ? (
+                  {template.landing || template.creator?.enabled ? (
                     <div className="h-full w-full transition-transform duration-500 group-hover:scale-[1.04]">
                       <TemplateMiniPreview template={template} />
                     </div>

@@ -1299,15 +1299,20 @@ export function applyExperienceTemplate(
 
   return {
     ...config,
-    creator: template.creator
-      ? {
-          ...DEFAULT_CREATOR_PROFILE,
-          ...config.creator,
-          ...template.creator,
-          socials: (template.creator.socials ?? config.creator?.socials ?? []).map((s) => ({ ...s })),
-          featured: (template.creator.featured ?? []).map((f) => ({ ...f })),
-        }
-      : config.creator,
+    creator: {
+      ...DEFAULT_CREATOR_PROFILE,
+      ...config.creator,
+      enabled: true,
+      videoPoster: template.creator?.videoPoster || template.photo || template.landing?.heroImage || config.creator.videoPoster,
+      ...template.creator,
+      ctaLabel: template.creator?.ctaLabel || template.landing?.ctaLabel || config.creator.ctaLabel,
+      features: (template.creator?.features ?? template.landing?.features?.slice(0, 3).map((feature) => ({
+        ...feature,
+        description: "Members-only access",
+      })) ?? config.creator.features).map((feature) => ({ ...feature })),
+      socials: (template.creator?.socials ?? config.creator.socials).map((social) => ({ ...social })),
+      featured: (template.creator?.featured ?? config.creator.featured).map((card) => ({ ...card })),
+    },
     brand: { ...config.brand, ...template.brand },
     theme: { ...config.theme, ...template.theme },
     effects: { ...config.effects, ...template.effects },

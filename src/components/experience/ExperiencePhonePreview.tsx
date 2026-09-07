@@ -1037,7 +1037,7 @@ function PageFreeformPreview({
         hint="Link-in-bio landing — edit video, photo, name, socials and cards in the panel"
         screen={
           <div className="h-[560px] w-full">
-            <CreatorLinkPage profile={creatorProfileFor(experience)} compact />
+            <CreatorLinkPage profile={creatorProfileFor(experience)} accentColor={experience.theme.accent} compact />
           </div>
         }
       >
