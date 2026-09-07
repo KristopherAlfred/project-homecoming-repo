@@ -60,6 +60,14 @@ export function CreatorLinkPage({
     .filter(Boolean)
     .slice(0, 5);
   const featureItems = profile.features.slice(0, 3);
+  const exploreItems = profile.featured.length
+    ? profile.featured
+    : featureItems.map((feature) => ({
+        id: `explore-${feature.id}`,
+        image: poster || photo,
+        caption: feature.label,
+        overlayTitle: feature.description,
+      }));
 
   return (
     <div
@@ -199,7 +207,7 @@ export function CreatorLinkPage({
         </div>
       </section>
 
-      {profile.featured.length ? (
+      {exploreItems.length ? (
         <section
           className={`relative z-10 mx-auto w-full max-w-[520px] px-4 ${compact ? "-mt-3 pb-8" : "-mt-10 pb-16"}`}
         >
@@ -209,7 +217,7 @@ export function CreatorLinkPage({
             <span className="creator-divider h-px flex-1" />
           </div>
           <div className="creator-glass overflow-hidden">
-          {profile.featured.map((card) => {
+          {exploreItems.map((card) => {
             const art = resolveExperiencePreviewUrl(card.image);
             return (
               <a
@@ -224,9 +232,14 @@ export function CreatorLinkPage({
                     <img src={art} alt="" className="h-full w-full object-cover" />
                   ) : null}
                 </div>
-                <p className={`min-w-0 flex-1 truncate font-bold text-white ${compact ? "text-[10px]" : "text-sm"}`}>
-                  {card.caption || card.overlayTitle || "Explore"}
-                </p>
+                <div className="min-w-0 flex-1 text-left">
+                  <p className={`truncate font-bold text-white ${compact ? "text-[10px]" : "text-sm"}`}>
+                    {card.caption || card.overlayTitle || "Explore"}
+                  </p>
+                  {card.caption && card.overlayTitle ? (
+                    <p className={`mt-0.5 truncate text-white/45 ${compact ? "text-[7px]" : "text-[10px]"}`}>{card.overlayTitle}</p>
+                  ) : null}
+                </div>
                 <ChevronRight className="creator-accent-text shrink-0" size={compact ? 14 : 18} />
               </a>
             );

@@ -1030,7 +1030,7 @@ function PageFreeformPreview({
   };
 
 
-  if (pageKey === "landing" && experience.creator?.enabled !== false) {
+  if (pageKey === "landing") {
     return (
       <PhoneFrame
         label={label}

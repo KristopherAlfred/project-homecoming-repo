@@ -103,7 +103,7 @@ function PageView({
   const page: ExperiencePageConfig | undefined =
     experience.pages[pageKey] ?? experience.pages.landing ?? Object.values(experience.pages)[0];
   if (!page) return null;
-  if (pageKey === "landing" && experience.creator?.enabled !== false) {
+  if (pageKey === "landing") {
     return <CreatorLinkPage profile={creatorProfileFor(experience)} accentColor={experience.theme.accent} compact onJoin={onCta} />;
   }
   const brand = experience.brand;
