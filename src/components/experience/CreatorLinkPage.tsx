@@ -132,6 +132,23 @@ export function CreatorLinkPage({
               {profile.secondaryHandle}
             </p>
           ) : null}
+
+          <button
+            type="button"
+            onClick={onJoin}
+            className={`group mt-6 inline-flex items-center justify-center gap-2 rounded-full font-display font-black uppercase tracking-[0.04em] text-black shadow-[0_14px_38px_rgba(0,0,0,0.55)] transition-all duration-200 ease-out hover:scale-[1.03] hover:brightness-105 active:scale-[0.97] active:brightness-95 ${
+              compact
+                ? "px-7 py-3 text-[12px]"
+                : "px-8 py-4 text-[15px]"
+            }`}
+            style={{
+              width: compact ? 200 : 240,
+              background: "linear-gradient(180deg,#FFFFFF 0%,#EDEDED 100%)",
+            }}
+          >
+            <Lock size={compact ? 13 : 16} strokeWidth={2.6} />
+            {joinLabel}
+          </button>
         </div>
       </section>
 
