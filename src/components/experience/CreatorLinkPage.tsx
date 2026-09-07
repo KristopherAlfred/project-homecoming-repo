@@ -104,21 +104,6 @@ export function CreatorLinkPage({
             </p>
           ) : null}
 
-          {profile.socials.length ? (
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-2.5">
-              {profile.socials.map((s) => (
-                <SocialBadge
-                  key={s.id}
-                  platform={s.platform}
-                  url={s.url}
-                  label={s.label}
-                  badgeColor={s.badgeColor}
-                  size={iconSize}
-                />
-              ))}
-            </div>
-          ) : null}
-
           {profile.followerCount ? (
             <button
               type="button"
