@@ -1,4 +1,4 @@
-import { ChevronDown, Link2, Lock } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronRight, Clock, Gift, Play, Sparkles, Star, type LucideIcon } from "lucide-react";
 
 import type { CreatorProfile } from "../../lib/creatorProfile";
 import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewUrl";
@@ -25,12 +25,22 @@ function VerifiedBadge({ size = 18 }: { size?: number }) {
   );
 }
 
+const FEATURE_ICONS: Record<string, LucideIcon> = {
+  clock: Clock,
+  gift: Gift,
+  play: Play,
+  sparkles: Sparkles,
+  sparkle: Sparkles,
+  star: Star,
+};
+
 export function CreatorLinkPage({
   profile,
   compact = false,
   className = "",
   onJoin,
-  joinLabel = "Join the Circle",
+  joinLabel,
+  accentColor = "#9EF7C5",
 }: {
   profile: CreatorProfile;
   /** Phone-sized rendering (studio preview). */
@@ -39,20 +49,33 @@ export function CreatorLinkPage({
   /** Triggers the join / subscribe flow. */
   onJoin?: () => void;
   joinLabel?: string;
+  accentColor?: string;
 }) {
   const video = resolveExperiencePreviewUrl(profile.videoSrc);
   const poster = resolveExperiencePreviewUrl(profile.videoPoster);
   const photo = resolveExperiencePreviewUrl(profile.photo);
   const avatar = compact ? 68 : 100;
+  const cta = joinLabel || profile.ctaLabel || "Join My Circle";
+  const proofFaces = [photo, ...profile.featured.map((item) => resolveExperiencePreviewUrl(item.image))]
+    .filter(Boolean)
+    .slice(0, 5);
+  const featureItems = profile.features.slice(0, 3);
+  const exploreItems = profile.featured.length
+    ? profile.featured
+    : featureItems.map((feature) => ({
+        id: `explore-${feature.id}`,
+        image: poster || photo,
+        caption: feature.label,
+        overlayTitle: feature.description,
+        url: "",
+      }));
 
   return (
     <div
-      className={`relative h-full w-full overflow-y-auto bg-black text-white ${className}`}
-      style={{ scrollbarWidth: "none" }}
+      className={`creator-glass-page relative h-full w-full overflow-y-auto text-white ${className}`}
+      style={{ scrollbarWidth: "none", "--creator-accent": accentColor } as React.CSSProperties}
     >
-      {/* Hero: full-bleed looping video */}
-      <section className={`relative w-full ${compact ? "min-h-[330px]" : "min-h-[62vh]"}`}>
-        <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
           {video ? (
             <video
               src={video}
@@ -66,29 +89,32 @@ export function CreatorLinkPage({
           ) : poster ? (
             <img src={poster} alt="" className="h-full w-full object-cover" />
           ) : (
-            <div className="h-full w-full bg-[radial-gradient(120%_90%_at_50%_0%,#1b1d24_0%,#000_72%)]" />
+            <div className="h-full w-full bg-neutral-950" />
           )}
-          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.08)_32%,rgba(0,0,0,0.72)_78%,#000_100%)]" />
-        </div>
+          <div className="creator-media-overlay pointer-events-none absolute inset-0" />
+          <div className="creator-accent-glow pointer-events-none absolute inset-x-0 top-0 h-[38%]" />
+      </div>
+
+      <section className={`relative w-full ${compact ? "min-h-[560px]" : "min-h-screen"}`}>
 
         {/* Profile block */}
         <div
           className={`relative z-10 mx-auto flex w-full max-w-[520px] flex-col items-center px-5 text-center ${
-            compact ? "pt-[150px] pb-5" : "pt-[34vh] pb-8"
+            compact ? "pt-[132px] pb-7" : "pt-[24vh] pb-12"
           }`}
         >
           {photo ? (
             <img
               src={photo}
               alt={profile.name}
-              className="rounded-full border border-white/25 object-cover shadow-[0_10px_40px_rgba(0,0,0,0.7)]"
+              className="rounded-full border border-white/35 object-cover shadow-2xl"
               style={{ width: avatar, height: avatar }}
             />
           ) : null}
 
           <div className="mt-3 flex items-center justify-center gap-2">
             <h1
-              className={`font-display font-black leading-tight tracking-[-0.02em] ${
+              className={`font-display font-black leading-tight ${
                 compact ? "text-[22px]" : "text-[34px] sm:text-[40px]"
               }`}
             >
@@ -135,74 +161,91 @@ export function CreatorLinkPage({
           <button
             type="button"
             onClick={onJoin}
-            className={`group mt-6 inline-flex items-center justify-center gap-2 rounded-full font-display font-black uppercase tracking-[0.04em] text-black shadow-[0_14px_38px_rgba(0,0,0,0.55)] transition-all duration-200 ease-out hover:scale-[1.03] hover:brightness-105 active:scale-[0.97] active:brightness-95 ${
+            className={`creator-primary-cta group mt-6 inline-flex items-center justify-center gap-2 rounded-full font-black text-neutral-950 transition-all duration-200 ease-out hover:scale-[1.02] hover:brightness-105 active:scale-[0.98] active:brightness-95 ${
               compact
-                ? "px-7 py-3 text-[12px]"
+                ? "px-7 py-3.5 text-[12px]"
                 : "px-8 py-4 text-[15px]"
             }`}
-            style={{
-              width: compact ? 200 : 240,
-              background: "linear-gradient(180deg,#FFFFFF 0%,#EDEDED 100%)",
-            }}
+            style={{ width: compact ? 220 : 260 }}
           >
-            <Lock size={compact ? 13 : 16} strokeWidth={2.6} />
-            {joinLabel}
+            {cta}
+            <ArrowRight size={compact ? 14 : 18} strokeWidth={2.5} />
           </button>
+          <p className={`mt-2 max-w-[310px] text-white/45 ${compact ? "text-[8px]" : "text-[11px]"}`}>
+            {profile.joinMicrocopy}
+          </p>
+
+          {featureItems.length ? (
+            <div className={`mt-5 grid w-full grid-cols-3 ${compact ? "gap-1.5" : "gap-2.5"}`}>
+              {featureItems.map((feature) => {
+                const Icon = FEATURE_ICONS[feature.icon.toLowerCase()] ?? Star;
+                return (
+                  <div key={feature.id} className={`creator-glass flex min-w-0 flex-col items-center text-center ${compact ? "px-1.5 py-2.5" : "px-3 py-4"}`}>
+                    <Icon className="creator-accent-text" size={compact ? 14 : 18} strokeWidth={1.6} />
+                    <strong className={`mt-1.5 leading-tight ${compact ? "text-[8px]" : "text-xs"}`}>{feature.label}</strong>
+                    <span className={`mt-1 line-clamp-2 leading-tight text-white/50 ${compact ? "text-[6px]" : "text-[10px]"}`}>{feature.description}</span>
+                  </div>
+                );
+              })}
+            </div>
+          ) : null}
+
+          <div className={`creator-glass mt-3 flex w-full items-center ${compact ? "gap-2 px-3 py-2.5" : "gap-3 px-4 py-3.5"}`}>
+            <div className="flex -space-x-2">
+              {(proofFaces.length ? proofFaces : ["", "", "", ""]).map((face, index) =>
+                face ? (
+                  <img key={`${face}-${index}`} src={face} alt="" className={`${compact ? "h-6 w-6" : "h-8 w-8"} rounded-full border-2 border-white/40 object-cover`} />
+                ) : (
+                  <span key={index} className={`${compact ? "h-6 w-6" : "h-8 w-8"} creator-proof-avatar rounded-full border-2 border-white/40`} />
+                ),
+              )}
+            </div>
+            <div className="min-w-0 text-left leading-tight">
+              <p className={`truncate font-extrabold ${compact ? "text-[9px]" : "text-sm"}`}>{profile.proofHeadline}</p>
+              <p className={`mt-0.5 truncate text-white/50 ${compact ? "text-[7px]" : "text-[10px]"}`}>{profile.proofSupporting}</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Featured cards */}
-      {profile.featured.length ? (
+      {exploreItems.length ? (
         <section
-          className={`relative z-10 mx-auto w-full max-w-[520px] px-4 ${compact ? "pb-6" : "pb-14"} space-y-5`}
+          className={`relative z-10 mx-auto w-full max-w-[520px] px-4 ${compact ? "-mt-3 pb-8" : "-mt-10 pb-16"}`}
         >
-          {profile.featured.map((card) => {
+          <div className="mb-3 flex items-center gap-3">
+            <span className="creator-divider h-px flex-1" />
+            <span className={`font-bold uppercase text-white/60 ${compact ? "text-[7px]" : "text-[10px]"}`}>Explore More</span>
+            <span className="creator-divider h-px flex-1" />
+          </div>
+          <div className="creator-glass overflow-hidden">
+          {exploreItems.map((card) => {
             const art = resolveExperiencePreviewUrl(card.image);
-            const title = card.titleImage ? resolveExperiencePreviewUrl(card.titleImage) : "";
             return (
               <a
                 key={card.id}
                 href={card.url || undefined}
                 target={card.url ? "_blank" : undefined}
                 rel="noreferrer"
-                className="block"
+                className="flex items-center gap-3 border-b border-white/10 px-3 py-2.5 last:border-b-0 transition-colors hover:bg-white/10"
               >
-                <div
-                  className={`relative w-full overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.04] ${
-                    compact ? "aspect-[16/10]" : "aspect-[16/9]"
-                  }`}
-                >
+                <div className={`${compact ? "h-11 w-11" : "h-16 w-16"} shrink-0 overflow-hidden rounded-xl bg-white/10`}>
                   {art ? (
-                    <img src={art} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                    <img src={art} alt="" className="h-full w-full object-cover" />
                   ) : null}
-                  <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.15),rgba(0,0,0,0.55))]" />
-                  {title ? (
-                    <img
-                      src={title}
-                      alt=""
-                      className="absolute inset-0 m-auto max-h-[70%] w-[78%] object-contain"
-                    />
-                  ) : card.overlayTitle ? (
-                    <p
-                      className={`absolute inset-0 flex items-center justify-center px-6 text-center font-display font-black uppercase leading-[0.9] tracking-[-0.02em] text-white drop-shadow-[0_6px_24px_rgba(0,0,0,0.8)] ${
-                        compact ? "text-2xl" : "text-5xl"
-                      }`}
-                    >
-                      {card.overlayTitle}
-                    </p>
-                  ) : null}
-                  <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur">
-                    <Link2 size={15} />
-                  </span>
                 </div>
-                {card.caption ? (
-                  <p className={`mt-2 font-bold text-white ${compact ? "text-[12px]" : "text-base"}`}>
-                    {card.caption}
+                <div className="min-w-0 flex-1 text-left">
+                  <p className={`truncate font-bold text-white ${compact ? "text-[10px]" : "text-sm"}`}>
+                    {card.caption || card.overlayTitle || "Explore"}
                   </p>
-                ) : null}
+                  {card.caption && card.overlayTitle ? (
+                    <p className={`mt-0.5 truncate text-white/45 ${compact ? "text-[7px]" : "text-[10px]"}`}>{card.overlayTitle}</p>
+                  ) : null}
+                </div>
+                <ChevronRight className="creator-accent-text shrink-0" size={compact ? 14 : 18} />
               </a>
             );
           })}
+          </div>
         </section>
       ) : null}
     </div>
@@ -216,7 +259,7 @@ export function CreatorLinkPage({
 export function creatorProfileFor(experience: {
   brand: { wordmark: string; tagline: string };
   creator: CreatorProfile;
-  pages: Record<string, { heroImage?: string; headline?: string; body?: string } | undefined>;
+  pages: Record<string, { heroImage?: string; headline?: string; body?: string; ctaLabel?: string; features?: Array<{ id: string; icon: string; label: string }>; memberProof?: { count?: string; label?: string } } | undefined>;
 }): CreatorProfile {
   const landing = experience.pages.landing;
   const c = experience.creator;
@@ -225,6 +268,13 @@ export function creatorProfileFor(experience: {
     name: c.name || experience.brand.wordmark || landing?.headline || "",
     videoPoster: c.videoPoster || landing?.heroImage || "",
     bio: c.bio || experience.brand.tagline || landing?.body || "",
+    ctaLabel: c.ctaLabel || landing?.ctaLabel || "Join My Circle",
+    features: landing?.features?.length
+      ? landing.features.slice(0, 3).map((feature) => ({ ...feature, description: "Members-only access" }))
+      : c.features,
+    proofHeadline: landing?.memberProof?.count
+      ? `${landing.memberProof.count} ${landing.memberProof.label || "Fans Already Joined"}`
+      : c.proofHeadline,
   };
 }
 

@@ -30,6 +30,13 @@ export type CreatorFeaturedCard = {
   url?: string;
 };
 
+export type CreatorFeature = {
+  id: string;
+  icon: string;
+  label: string;
+  description: string;
+};
+
 export type CreatorProfile = {
   enabled: boolean;
   /** Full-bleed looping background video behind the hero. */
@@ -45,6 +52,11 @@ export type CreatorProfile = {
   followerLabel: string;
   bio: string;
   secondaryHandle: string;
+  ctaLabel: string;
+  joinMicrocopy: string;
+  features: CreatorFeature[];
+  proofHeadline: string;
+  proofSupporting: string;
   featured: CreatorFeaturedCard[];
 };
 
@@ -67,6 +79,15 @@ export const DEFAULT_CREATOR_PROFILE: CreatorProfile = {
   followerLabel: "Total Followers",
   bio: "",
   secondaryHandle: "",
+  ctaLabel: "Join My Circle",
+  joinMicrocopy: "By joining, you agree to receive occasional updates.",
+  features: [
+    { id: "early", icon: "clock", label: "Early Access", description: "Be first in line" },
+    { id: "drops", icon: "gift", label: "Exclusive Drops", description: "Members-only releases" },
+    { id: "content", icon: "sparkles", label: "Exclusive Content", description: "Closer to the action" },
+  ],
+  proofHeadline: "100K+ Fans Already Joined",
+  proofSupporting: "Be part of the inner circle",
   featured: [],
 };
 
@@ -103,6 +124,18 @@ export function normalizeCreatorProfile(raw: unknown): CreatorProfile {
         .slice(0, 12)
     : [];
 
+  const features = Array.isArray(c.features)
+    ? c.features
+        .filter((f): f is CreatorFeature => Boolean(f) && typeof f === "object")
+        .map((f, i) => ({
+          id: str(f.id, `feature_${i}`),
+          icon: str(f.icon, "star"),
+          label: str(f.label, "Member Access"),
+          description: str(f.description, "Made for the circle"),
+        }))
+        .slice(0, 3)
+    : DEFAULT_CREATOR_PROFILE.features.map((f) => ({ ...f }));
+
   return {
     enabled: c.enabled !== false,
     videoSrc: str(c.videoSrc),
@@ -116,6 +149,11 @@ export function normalizeCreatorProfile(raw: unknown): CreatorProfile {
     followerLabel: str(c.followerLabel, DEFAULT_CREATOR_PROFILE.followerLabel),
     bio: str(c.bio),
     secondaryHandle: str(c.secondaryHandle),
+    ctaLabel: str(c.ctaLabel, DEFAULT_CREATOR_PROFILE.ctaLabel),
+    joinMicrocopy: str(c.joinMicrocopy, DEFAULT_CREATOR_PROFILE.joinMicrocopy),
+    features,
+    proofHeadline: str(c.proofHeadline, DEFAULT_CREATOR_PROFILE.proofHeadline),
+    proofSupporting: str(c.proofSupporting, DEFAULT_CREATOR_PROFILE.proofSupporting),
     featured,
   };
 }
