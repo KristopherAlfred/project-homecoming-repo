@@ -1,6 +1,5 @@
-import { ChevronDown, Link2 } from "lucide-react";
+import { ChevronDown, Link2, Lock } from "lucide-react";
 
-import { brandIconMap } from "../settings/BrandIcons";
 import type { CreatorProfile } from "../../lib/creatorProfile";
 import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewUrl";
 
