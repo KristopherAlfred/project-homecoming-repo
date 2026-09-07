@@ -26,64 +26,24 @@ function VerifiedBadge({ size = 18 }: { size?: number }) {
   );
 }
 
-function SocialBadge({
-  platform,
-  url,
-  label,
-  badgeColor,
-  size,
-}: {
-  platform: string;
-  url?: string;
-  label?: string;
-  badgeColor?: string;
-  size: number;
-}) {
-  const Icon = brandIconMap[platform];
-  const content = Icon ? (
-    <Icon size={Math.round(size * 0.5)} />
-  ) : (
-    <span
-      className="font-display font-black leading-none"
-      style={{ fontSize: Math.round(size * 0.42) }}
-    >
-      {(label || platform || "•").charAt(0).toUpperCase()}
-    </span>
-  );
-
-  return (
-    <a
-      href={url || undefined}
-      target={url ? "_blank" : undefined}
-      rel="noreferrer"
-      aria-label={label || platform}
-      className="flex items-center justify-center rounded-full text-black shadow-[0_6px_18px_rgba(0,0,0,0.45)] transition hover:scale-105 active:scale-95"
-      style={{
-        width: size,
-        height: size,
-        background: badgeColor || "#FFFFFF",
-        color: badgeColor ? "#FFFFFF" : "#0A0A0A",
-      }}
-    >
-      {content}
-    </a>
-  );
-}
-
 export function CreatorLinkPage({
   profile,
   compact = false,
   className = "",
+  onJoin,
+  joinLabel = "Join the Circle",
 }: {
   profile: CreatorProfile;
   /** Phone-sized rendering (studio preview). */
   compact?: boolean;
   className?: string;
+  /** Triggers the join / subscribe flow. */
+  onJoin?: () => void;
+  joinLabel?: string;
 }) {
   const video = resolveExperiencePreviewUrl(profile.videoSrc);
   const poster = resolveExperiencePreviewUrl(profile.videoPoster);
   const photo = resolveExperiencePreviewUrl(profile.photo);
-  const iconSize = compact ? 30 : 44;
   const avatar = compact ? 68 : 100;
 
   return (
