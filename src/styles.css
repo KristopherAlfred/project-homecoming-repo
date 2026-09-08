@@ -289,9 +289,9 @@ body {
     background: linear-gradient(
       180deg,
       rgb(var(--creator-panel-rgb) / 0) 0,
-      rgb(var(--creator-panel-rgb) / 0.36) 30px,
-      rgb(var(--creator-panel-rgb) / 0.82) 62px,
-      rgb(var(--creator-panel-rgb)) 92px,
+      rgb(var(--creator-panel-rgb) / 0.22) 34px,
+      rgb(var(--creator-panel-rgb) / 0.62) 76px,
+      rgb(var(--creator-panel-rgb)) 116px,
       rgb(var(--creator-panel-rgb)) 100%
     );
     color: rgb(var(--creator-panel-foreground));
