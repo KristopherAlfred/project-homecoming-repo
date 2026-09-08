@@ -1,3 +1,4 @@
+import { useCallback, useState } from "react";
 import { ArrowRight, ChevronDown, ChevronRight, Clock, Gift, Play, Sparkles, Star, type LucideIcon } from "lucide-react";
 
 import type { CreatorProfile } from "../../lib/creatorProfile";
@@ -34,6 +35,68 @@ const FEATURE_ICONS: Record<string, LucideIcon> = {
   star: Star,
 };
 
+type SampledPanelTone = {
+  rgb: string;
+  foreground: string;
+  muted: string;
+  card: string;
+  border: string;
+};
+
+function accentFallbackTone(accent: string): SampledPanelTone {
+  const match = accent.trim().match(/^#([0-9a-f]{6})$/i);
+  const rgb = match
+    ? [1, 3, 5].map((offset) => Number.parseInt(match[1].slice(offset, offset + 2), 16))
+    : [112, 118, 112];
+  const average = (rgb[0] + rgb[1] + rgb[2]) / 3;
+  const muted = rgb.map((channel) => Math.round(channel * 0.18 + average * 0.12 + 30));
+  return toneFromRgb(muted[0], muted[1], muted[2]);
+}
+
+function toneFromRgb(red: number, green: number, blue: number): SampledPanelTone {
+  const average = (red + green + blue) / 3;
+  const muted = [red, green, blue].map((channel) => Math.round(channel * 0.48 + average * 0.32));
+  const luminance = (0.2126 * muted[0] + 0.7152 * muted[1] + 0.0722 * muted[2]) / 255;
+  const isLight = luminance > 0.56;
+  return {
+    rgb: muted.join(" "),
+    foreground: isLight ? "24 25 24" : "248 248 246",
+    muted: isLight ? "24 25 24 / 0.56" : "248 248 246 / 0.62",
+    card: isLight ? "255 255 255 / 0.18" : "255 255 255 / 0.1",
+    border: isLight ? "0 0 0 / 0.1" : "255 255 255 / 0.13",
+  };
+}
+
+function sampleMediaTone(media: HTMLImageElement | HTMLVideoElement): SampledPanelTone | null {
+  try {
+    const width = media instanceof HTMLVideoElement ? media.videoWidth : media.naturalWidth;
+    const height = media instanceof HTMLVideoElement ? media.videoHeight : media.naturalHeight;
+    if (!width || !height) return null;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = 36;
+    canvas.height = 16;
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    if (!context) return null;
+    context.drawImage(media, 0, height * 0.62, width, height * 0.38, 0, 0, canvas.width, canvas.height);
+    const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    let red = 0;
+    let green = 0;
+    let blue = 0;
+    let count = 0;
+    for (let index = 0; index < pixels.length; index += 4) {
+      if (pixels[index + 3] < 180) continue;
+      red += pixels[index];
+      green += pixels[index + 1];
+      blue += pixels[index + 2];
+      count += 1;
+    }
+    return count ? toneFromRgb(red / count, green / count, blue / count) : null;
+  } catch {
+    return null;
+  }
+}
+
 export function CreatorLinkPage({
   profile,
   compact = false,
@@ -68,11 +131,26 @@ export function CreatorLinkPage({
         overlayTitle: feature.description,
         url: "",
       }));
+  const [panelTone, setPanelTone] = useState<SampledPanelTone>(() => accentFallbackTone(accentColor));
+  const updatePanelTone = useCallback(
+    (media: HTMLImageElement | HTMLVideoElement) => {
+      setPanelTone(sampleMediaTone(media) ?? accentFallbackTone(accentColor));
+    },
+    [accentColor],
+  );
 
   return (
     <div
       className={`creator-glass-page relative h-full w-full overflow-y-auto ${className}`}
-      style={{ scrollbarWidth: "none", "--creator-accent": accentColor } as React.CSSProperties}
+      style={{
+        scrollbarWidth: "none",
+        "--creator-accent": accentColor,
+        "--creator-panel-rgb": panelTone.rgb,
+        "--creator-panel-foreground": panelTone.foreground,
+        "--creator-panel-muted": panelTone.muted,
+        "--creator-panel-card": panelTone.card,
+        "--creator-panel-border": panelTone.border,
+      } as React.CSSProperties}
     >
       {/* ── Top zone: media only ─────────────────────────────── */}
       <section
@@ -88,10 +166,11 @@ export function CreatorLinkPage({
               loop
               muted
               playsInline
+              onLoadedData={(event) => updatePanelTone(event.currentTarget)}
               className="h-full w-full object-cover"
             />
           ) : poster ? (
-            <img key={poster} src={poster} alt="" className="h-full w-full object-cover" />
+            <img key={poster} src={poster} alt="" onLoad={(event) => updatePanelTone(event.currentTarget)} className="h-full w-full object-cover" />
           ) : (
             <div className="h-full w-full bg-neutral-950" />
           )}
@@ -136,10 +215,10 @@ export function CreatorLinkPage({
         </div>
       </section>
 
-      {/* ── Bottom zone: light tinted sheet ──────────────────── */}
+      {/* ── Bottom zone: media-matched seamless continuation ── */}
       <section
-        className={`creator-sheet relative z-20 -mt-6 min-h-[54%] w-full rounded-t-[24px] ${
-          compact ? "px-4 pb-8 pt-6" : "px-6 pb-16 pt-9"
+        className={`creator-sheet relative z-20 -mt-20 min-h-[calc(54%+5rem)] w-full ${
+          compact ? "px-4 pb-8 pt-24" : "px-6 pb-16 pt-28"
         }`}
       >
         <div className="mx-auto flex w-full max-w-[520px] flex-col items-center text-center">
@@ -154,7 +233,7 @@ export function CreatorLinkPage({
           ) : null}
 
           {profile.secondaryHandle ? (
-            <p className={`mt-1 text-black/45 ${compact ? "text-[11px]" : "text-sm"}`}>
+            <p className={`creator-sheet-muted mt-1 ${compact ? "text-[11px]" : "text-sm"}`}>
               {profile.secondaryHandle}
             </p>
           ) : null}
@@ -170,7 +249,7 @@ export function CreatorLinkPage({
             {cta}
             <ArrowRight size={compact ? 14 : 18} strokeWidth={2.5} />
           </button>
-          <p className={`mt-2 max-w-[310px] text-black/45 ${compact ? "text-[8px]" : "text-[11px]"}`}>
+          <p className={`creator-sheet-muted mt-2 max-w-[310px] ${compact ? "text-[8px]" : "text-[11px]"}`}>
             {profile.joinMicrocopy}
           </p>
 
@@ -187,7 +266,7 @@ export function CreatorLinkPage({
                     <strong className={`mt-1.5 leading-tight ${compact ? "text-[8px]" : "text-xs"}`}>
                       {feature.label}
                     </strong>
-                    <span className={`mt-1 line-clamp-2 leading-tight text-black/50 ${compact ? "text-[6px]" : "text-[10px]"}`}>
+                    <span className={`creator-sheet-muted mt-1 line-clamp-2 leading-tight ${compact ? "text-[6px]" : "text-[10px]"}`}>
                       {feature.description}
                     </span>
                   </div>
@@ -200,15 +279,15 @@ export function CreatorLinkPage({
             <div className="flex -space-x-2">
               {(proofFaces.length ? proofFaces : ["", "", "", ""]).map((face, index) =>
                 face ? (
-                  <img key={`${face}-${index}`} src={face} alt="" className={`${compact ? "h-6 w-6" : "h-8 w-8"} rounded-full border-2 border-white object-cover`} />
+                  <img key={`${face}-${index}`} src={face} alt="" className={`${compact ? "h-6 w-6" : "h-8 w-8"} creator-avatar-border rounded-full border-2 object-cover`} />
                 ) : (
-                  <span key={index} className={`${compact ? "h-6 w-6" : "h-8 w-8"} creator-proof-avatar rounded-full border-2 border-white`} />
+                   <span key={index} className={`${compact ? "h-6 w-6" : "h-8 w-8"} creator-proof-avatar creator-avatar-border rounded-full border-2`} />
                 ),
               )}
             </div>
             <div className="min-w-0 text-left leading-tight">
               <p className={`truncate font-extrabold ${compact ? "text-[9px]" : "text-sm"}`}>{profile.proofHeadline}</p>
-              <p className={`mt-0.5 truncate text-black/50 ${compact ? "text-[7px]" : "text-[10px]"}`}>{profile.proofSupporting}</p>
+               <p className={`creator-sheet-muted mt-0.5 truncate ${compact ? "text-[7px]" : "text-[10px]"}`}>{profile.proofSupporting}</p>
             </div>
           </div>
 
@@ -216,7 +295,7 @@ export function CreatorLinkPage({
             <div className="mt-6 w-full">
               <div className="mb-3 flex items-center gap-3">
                 <span className="creator-divider h-px flex-1" />
-                <span className={`font-bold uppercase text-black/50 ${compact ? "text-[7px]" : "text-[10px]"}`}>Explore More</span>
+                 <span className={`creator-sheet-muted font-bold uppercase ${compact ? "text-[7px]" : "text-[10px]"}`}>Explore More</span>
                 <span className="creator-divider h-px flex-1" />
               </div>
               <div className="creator-sheet-card overflow-hidden">
@@ -228,9 +307,9 @@ export function CreatorLinkPage({
                       href={card.url || undefined}
                       target={card.url ? "_blank" : undefined}
                       rel="noreferrer"
-                      className="flex items-center gap-3 border-b border-black/5 px-3 py-2.5 last:border-b-0 transition-colors hover:bg-black/[0.04]"
+                       className="creator-explore-row flex items-center gap-3 border-b px-3 py-2.5 last:border-b-0 transition-colors"
                     >
-                      <div className={`${compact ? "h-11 w-11" : "h-16 w-16"} shrink-0 overflow-hidden rounded-xl bg-black/5`}>
+                       <div className={`${compact ? "h-11 w-11" : "h-16 w-16"} creator-thumbnail-bg shrink-0 overflow-hidden rounded-xl`}>
                         {art ? <img src={art} alt="" className="h-full w-full object-cover" /> : null}
                       </div>
                       <div className="min-w-0 flex-1 text-left">
@@ -238,7 +317,7 @@ export function CreatorLinkPage({
                           {card.caption || card.overlayTitle || "Explore"}
                         </p>
                         {card.caption && card.overlayTitle ? (
-                          <p className={`mt-0.5 truncate text-black/45 ${compact ? "text-[7px]" : "text-[10px]"}`}>{card.overlayTitle}</p>
+                           <p className={`creator-sheet-muted mt-0.5 truncate ${compact ? "text-[7px]" : "text-[10px]"}`}>{card.overlayTitle}</p>
                         ) : null}
                       </div>
                       <ChevronRight className="creator-accent-text shrink-0" size={compact ? 14 : 18} />

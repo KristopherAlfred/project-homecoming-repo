@@ -239,7 +239,7 @@ body {
 
 @layer components {
   .creator-glass-page {
-    background-color: color-mix(in oklab, var(--creator-accent) 8%, oklch(0.08 0.01 250));
+    background-color: rgb(var(--creator-panel-rgb));
   }
 
   .creator-media-overlay {
@@ -275,25 +275,45 @@ body {
     background: color-mix(in oklab, var(--creator-accent) 35%, rgb(255 255 255 / 0.16));
   }
 
-  /* Bottom sheet: light frosted panel tinted by the template accent. */
+  /* Seamless continuation of the media, sampled from each template's image/video. */
   .creator-sheet {
     background: linear-gradient(
       180deg,
-      color-mix(in oklab, var(--creator-accent) 9%, rgb(248 249 250 / 0.94)),
-      color-mix(in oklab, var(--creator-accent) 5%, rgb(243 244 246 / 0.96))
+      rgb(var(--creator-panel-rgb) / 0) 0,
+      rgb(var(--creator-panel-rgb) / 0.36) 30px,
+      rgb(var(--creator-panel-rgb) / 0.82) 62px,
+      rgb(var(--creator-panel-rgb)) 92px,
+      rgb(var(--creator-panel-rgb)) 100%
     );
-    backdrop-filter: blur(22px) saturate(140%);
-    border-top: 1px solid rgb(255 255 255 / 0.6);
-    box-shadow: 0 -18px 44px rgb(0 0 0 / 0.35);
-    color: oklch(0.22 0.01 250);
+    color: rgb(var(--creator-panel-foreground));
   }
 
   .creator-sheet-card {
-    border: 1px solid color-mix(in oklab, var(--creator-accent) 22%, rgb(0 0 0 / 0.06));
+    border: 1px solid rgb(var(--creator-panel-border));
     border-radius: 18px;
-    background: color-mix(in oklab, var(--creator-accent) 7%, rgb(255 255 255 / 0.78));
+    background: rgb(var(--creator-panel-card));
     backdrop-filter: blur(12px);
-    box-shadow: 0 8px 22px rgb(0 0 0 / 0.06);
+    box-shadow: 0 8px 22px rgb(0 0 0 / 0.08);
+  }
+
+  .creator-sheet-muted {
+    color: rgb(var(--creator-panel-muted));
+  }
+
+  .creator-avatar-border {
+    border-color: rgb(var(--creator-panel-rgb));
+  }
+
+  .creator-explore-row {
+    border-color: rgb(var(--creator-panel-border));
+  }
+
+  .creator-explore-row:hover {
+    background: rgb(var(--creator-panel-card));
+  }
+
+  .creator-thumbnail-bg {
+    background: rgb(var(--creator-panel-border));
   }
 
   .dt-main-canvas {
