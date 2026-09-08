@@ -1299,19 +1299,38 @@ export function applyExperienceTemplate(
 
   return {
     ...config,
+    /**
+     * Templates replace the creator hero outright — nothing from the
+     * previously applied template (video, photo, name, copy) may leak
+     * through, otherwise the preview keeps showing the old media.
+     */
     creator: {
       ...DEFAULT_CREATOR_PROFILE,
-      ...config.creator,
+      // identity the athlete owns stays put
+      name: template.creator?.name || config.creator.name,
+      handle: template.creator?.handle || config.creator.handle,
+      followerCount: template.creator?.followerCount || config.creator.followerCount,
+      photo: template.creator?.photo || config.creator.photo || template.photo || "",
       enabled: true,
-      videoPoster: template.creator?.videoPoster || template.photo || template.landing?.heroImage || config.creator.videoPoster,
-      ...template.creator,
-      ctaLabel: template.creator?.ctaLabel || template.landing?.ctaLabel || config.creator.ctaLabel,
-      features: (template.creator?.features ?? template.landing?.features?.slice(0, 3).map((feature) => ({
-        ...feature,
-        description: "Members-only access",
-      })) ?? config.creator.features).map((feature) => ({ ...feature })),
+      videoSrc: template.creator?.videoSrc || "",
+      videoPoster:
+        template.creator?.videoPoster || template.photo || template.landing?.heroImage || "",
+      bio: template.creator?.bio || template.landing?.body || config.creator.bio,
+      ctaLabel:
+        template.creator?.ctaLabel || template.landing?.ctaLabel || DEFAULT_CREATOR_PROFILE.ctaLabel,
+      features: (
+        template.creator?.features ??
+        template.landing?.features?.slice(0, 3).map((feature) => ({
+          ...feature,
+          description: "Members-only access",
+        })) ??
+        DEFAULT_CREATOR_PROFILE.features
+      ).map((feature) => ({ ...feature })),
       socials: (template.creator?.socials ?? config.creator.socials).map((social) => ({ ...social })),
-      featured: (template.creator?.featured ?? config.creator.featured).map((card) => ({ ...card })),
+      featured: (template.creator?.featured ?? []).map((card) => ({ ...card })),
+      proofHeadline: template.landing?.memberProof?.count
+        ? `${template.landing.memberProof.count} ${template.landing.memberProof.label || "Fans Already Joined"}`
+        : template.creator?.proofHeadline || DEFAULT_CREATOR_PROFILE.proofHeadline,
     },
     brand: { ...config.brand, ...template.brand },
     theme: { ...config.theme, ...template.theme },

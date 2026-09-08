@@ -72,12 +72,17 @@ export function CreatorLinkPage({
 
   return (
     <div
-      className={`creator-glass-page relative h-full w-full overflow-y-auto text-white ${className}`}
+      className={`creator-glass-page relative h-full w-full overflow-y-auto ${className}`}
       style={{ scrollbarWidth: "none", "--creator-accent": accentColor } as React.CSSProperties}
     >
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+      {/* ── Top zone: media only ─────────────────────────────── */}
+      <section
+        className={`relative w-full text-white ${compact ? "h-[46%] min-h-[300px]" : "h-[46vh] min-h-[380px]"}`}
+      >
+        <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
           {video ? (
             <video
+              key={video}
               src={video}
               poster={poster || undefined}
               autoPlay
@@ -87,20 +92,17 @@ export function CreatorLinkPage({
               className="h-full w-full object-cover"
             />
           ) : poster ? (
-            <img src={poster} alt="" className="h-full w-full object-cover" />
+            <img key={poster} src={poster} alt="" className="h-full w-full object-cover" />
           ) : (
             <div className="h-full w-full bg-neutral-950" />
           )}
           <div className="creator-media-overlay pointer-events-none absolute inset-0" />
-          <div className="creator-accent-glow pointer-events-none absolute inset-x-0 top-0 h-[38%]" />
-      </div>
+          <div className="creator-accent-glow pointer-events-none absolute inset-x-0 top-0 h-[60%]" />
+        </div>
 
-      <section className={`relative w-full ${compact ? "min-h-[560px]" : "min-h-screen"}`}>
-
-        {/* Profile block */}
         <div
-          className={`relative z-10 mx-auto flex w-full max-w-[520px] flex-col items-center px-5 text-center ${
-            compact ? "pt-[132px] pb-7" : "pt-[24vh] pb-12"
+          className={`relative z-10 mx-auto flex h-full w-full max-w-[520px] flex-col items-center justify-end px-5 pb-8 text-center ${
+            compact ? "pt-10" : "pt-16"
           }`}
         >
           {photo ? (
@@ -124,7 +126,7 @@ export function CreatorLinkPage({
           </div>
 
           {profile.handle ? (
-            <p className={`mt-0.5 text-white/45 ${compact ? "text-[11px]" : "text-sm"}`}>
+            <p className={`mt-0.5 text-white/60 ${compact ? "text-[11px]" : "text-sm"}`}>
               {profile.handle.startsWith("@") ? profile.handle : `@${profile.handle}`}
             </p>
           ) : null}
@@ -132,19 +134,28 @@ export function CreatorLinkPage({
           {profile.followerCount ? (
             <button
               type="button"
-              className={`mt-4 inline-flex items-center gap-1.5 text-white/85 ${
+              className={`mt-2 inline-flex items-center gap-1.5 text-white/85 ${
                 compact ? "text-[11px]" : "text-sm"
               }`}
             >
               <span className="font-bold text-white">{profile.followerCount}</span>
-              <span className="text-white/60">{profile.followerLabel}</span>
-              <ChevronDown size={compact ? 12 : 16} className="text-white/60" />
+              <span className="text-white/65">{profile.followerLabel}</span>
+              <ChevronDown size={compact ? 12 : 16} className="text-white/65" />
             </button>
           ) : null}
+        </div>
+      </section>
 
+      {/* ── Bottom zone: light tinted sheet ──────────────────── */}
+      <section
+        className={`creator-sheet relative z-20 -mt-6 min-h-[54%] w-full rounded-t-[24px] ${
+          compact ? "px-4 pb-8 pt-6" : "px-6 pb-16 pt-9"
+        }`}
+      >
+        <div className="mx-auto flex w-full max-w-[520px] flex-col items-center text-center">
           {profile.bio ? (
             <p
-              className={`mt-3 max-w-[420px] font-semibold leading-snug text-white ${
+              className={`max-w-[420px] font-semibold leading-snug ${
                 compact ? "text-[12px]" : "text-base"
               }`}
             >
@@ -153,7 +164,7 @@ export function CreatorLinkPage({
           ) : null}
 
           {profile.secondaryHandle ? (
-            <p className={`mt-1 text-white/45 ${compact ? "text-[11px]" : "text-sm"}`}>
+            <p className={`mt-1 text-black/45 ${compact ? "text-[11px]" : "text-sm"}`}>
               {profile.secondaryHandle}
             </p>
           ) : null}
@@ -161,17 +172,15 @@ export function CreatorLinkPage({
           <button
             type="button"
             onClick={onJoin}
-            className={`creator-primary-cta group mt-6 inline-flex items-center justify-center gap-2 rounded-full font-black text-neutral-950 transition-all duration-200 ease-out hover:scale-[1.02] hover:brightness-105 active:scale-[0.98] active:brightness-95 ${
-              compact
-                ? "px-7 py-3.5 text-[12px]"
-                : "px-8 py-4 text-[15px]"
+            className={`creator-primary-cta group mt-5 inline-flex items-center justify-center gap-2 rounded-full font-black text-neutral-950 transition-all duration-200 ease-out hover:scale-[1.02] hover:brightness-105 active:scale-[0.98] active:brightness-95 ${
+              compact ? "px-7 py-3.5 text-[12px]" : "px-8 py-4 text-[15px]"
             }`}
             style={{ width: compact ? 220 : 260 }}
           >
             {cta}
             <ArrowRight size={compact ? 14 : 18} strokeWidth={2.5} />
           </button>
-          <p className={`mt-2 max-w-[310px] text-white/45 ${compact ? "text-[8px]" : "text-[11px]"}`}>
+          <p className={`mt-2 max-w-[310px] text-black/45 ${compact ? "text-[8px]" : "text-[11px]"}`}>
             {profile.joinMicrocopy}
           </p>
 
@@ -180,74 +189,77 @@ export function CreatorLinkPage({
               {featureItems.map((feature) => {
                 const Icon = FEATURE_ICONS[feature.icon.toLowerCase()] ?? Star;
                 return (
-                  <div key={feature.id} className={`creator-glass flex min-w-0 flex-col items-center text-center ${compact ? "px-1.5 py-2.5" : "px-3 py-4"}`}>
+                  <div
+                    key={feature.id}
+                    className={`creator-sheet-card flex min-w-0 flex-col items-center text-center ${compact ? "px-1.5 py-2.5" : "px-3 py-4"}`}
+                  >
                     <Icon className="creator-accent-text" size={compact ? 14 : 18} strokeWidth={1.6} />
-                    <strong className={`mt-1.5 leading-tight ${compact ? "text-[8px]" : "text-xs"}`}>{feature.label}</strong>
-                    <span className={`mt-1 line-clamp-2 leading-tight text-white/50 ${compact ? "text-[6px]" : "text-[10px]"}`}>{feature.description}</span>
+                    <strong className={`mt-1.5 leading-tight ${compact ? "text-[8px]" : "text-xs"}`}>
+                      {feature.label}
+                    </strong>
+                    <span className={`mt-1 line-clamp-2 leading-tight text-black/50 ${compact ? "text-[6px]" : "text-[10px]"}`}>
+                      {feature.description}
+                    </span>
                   </div>
                 );
               })}
             </div>
           ) : null}
 
-          <div className={`creator-glass mt-3 flex w-full items-center ${compact ? "gap-2 px-3 py-2.5" : "gap-3 px-4 py-3.5"}`}>
+          <div className={`creator-sheet-card mt-3 flex w-full items-center rounded-full ${compact ? "gap-2 px-3 py-2.5" : "gap-3 px-4 py-3.5"}`}>
             <div className="flex -space-x-2">
               {(proofFaces.length ? proofFaces : ["", "", "", ""]).map((face, index) =>
                 face ? (
-                  <img key={`${face}-${index}`} src={face} alt="" className={`${compact ? "h-6 w-6" : "h-8 w-8"} rounded-full border-2 border-white/40 object-cover`} />
+                  <img key={`${face}-${index}`} src={face} alt="" className={`${compact ? "h-6 w-6" : "h-8 w-8"} rounded-full border-2 border-white object-cover`} />
                 ) : (
-                  <span key={index} className={`${compact ? "h-6 w-6" : "h-8 w-8"} creator-proof-avatar rounded-full border-2 border-white/40`} />
+                  <span key={index} className={`${compact ? "h-6 w-6" : "h-8 w-8"} creator-proof-avatar rounded-full border-2 border-white`} />
                 ),
               )}
             </div>
             <div className="min-w-0 text-left leading-tight">
               <p className={`truncate font-extrabold ${compact ? "text-[9px]" : "text-sm"}`}>{profile.proofHeadline}</p>
-              <p className={`mt-0.5 truncate text-white/50 ${compact ? "text-[7px]" : "text-[10px]"}`}>{profile.proofSupporting}</p>
+              <p className={`mt-0.5 truncate text-black/50 ${compact ? "text-[7px]" : "text-[10px]"}`}>{profile.proofSupporting}</p>
             </div>
           </div>
+
+          {exploreItems.length ? (
+            <div className="mt-6 w-full">
+              <div className="mb-3 flex items-center gap-3">
+                <span className="creator-divider h-px flex-1" />
+                <span className={`font-bold uppercase text-black/50 ${compact ? "text-[7px]" : "text-[10px]"}`}>Explore More</span>
+                <span className="creator-divider h-px flex-1" />
+              </div>
+              <div className="creator-sheet-card overflow-hidden">
+                {exploreItems.map((card) => {
+                  const art = resolveExperiencePreviewUrl(card.image);
+                  return (
+                    <a
+                      key={card.id}
+                      href={card.url || undefined}
+                      target={card.url ? "_blank" : undefined}
+                      rel="noreferrer"
+                      className="flex items-center gap-3 border-b border-black/5 px-3 py-2.5 last:border-b-0 transition-colors hover:bg-black/[0.04]"
+                    >
+                      <div className={`${compact ? "h-11 w-11" : "h-16 w-16"} shrink-0 overflow-hidden rounded-xl bg-black/5`}>
+                        {art ? <img src={art} alt="" className="h-full w-full object-cover" /> : null}
+                      </div>
+                      <div className="min-w-0 flex-1 text-left">
+                        <p className={`truncate font-bold ${compact ? "text-[10px]" : "text-sm"}`}>
+                          {card.caption || card.overlayTitle || "Explore"}
+                        </p>
+                        {card.caption && card.overlayTitle ? (
+                          <p className={`mt-0.5 truncate text-black/45 ${compact ? "text-[7px]" : "text-[10px]"}`}>{card.overlayTitle}</p>
+                        ) : null}
+                      </div>
+                      <ChevronRight className="creator-accent-text shrink-0" size={compact ? 14 : 18} />
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          ) : null}
         </div>
       </section>
-
-      {exploreItems.length ? (
-        <section
-          className={`relative z-10 mx-auto w-full max-w-[520px] px-4 ${compact ? "-mt-3 pb-8" : "-mt-10 pb-16"}`}
-        >
-          <div className="mb-3 flex items-center gap-3">
-            <span className="creator-divider h-px flex-1" />
-            <span className={`font-bold uppercase text-white/60 ${compact ? "text-[7px]" : "text-[10px]"}`}>Explore More</span>
-            <span className="creator-divider h-px flex-1" />
-          </div>
-          <div className="creator-glass overflow-hidden">
-          {exploreItems.map((card) => {
-            const art = resolveExperiencePreviewUrl(card.image);
-            return (
-              <a
-                key={card.id}
-                href={card.url || undefined}
-                target={card.url ? "_blank" : undefined}
-                rel="noreferrer"
-                className="flex items-center gap-3 border-b border-white/10 px-3 py-2.5 last:border-b-0 transition-colors hover:bg-white/10"
-              >
-                <div className={`${compact ? "h-11 w-11" : "h-16 w-16"} shrink-0 overflow-hidden rounded-xl bg-white/10`}>
-                  {art ? (
-                    <img src={art} alt="" className="h-full w-full object-cover" />
-                  ) : null}
-                </div>
-                <div className="min-w-0 flex-1 text-left">
-                  <p className={`truncate font-bold text-white ${compact ? "text-[10px]" : "text-sm"}`}>
-                    {card.caption || card.overlayTitle || "Explore"}
-                  </p>
-                  {card.caption && card.overlayTitle ? (
-                    <p className={`mt-0.5 truncate text-white/45 ${compact ? "text-[7px]" : "text-[10px]"}`}>{card.overlayTitle}</p>
-                  ) : null}
-                </div>
-                <ChevronRight className="creator-accent-text shrink-0" size={compact ? 14 : 18} />
-              </a>
-            );
-          })}
-          </div>
-        </section>
-      ) : null}
     </div>
   );
 }
