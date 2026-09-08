@@ -243,7 +243,16 @@ body {
   }
 
   .creator-media-overlay {
-    background: linear-gradient(180deg, rgb(0 0 0 / 0.52) 0%, rgb(0 0 0 / 0.12) 38%, rgb(0 0 0 / 0.28) 58%, rgb(0 0 0 / 0.68) 100%);
+    background: linear-gradient(180deg, rgb(0 0 0 / 0.38) 0%, rgb(0 0 0 / 0.06) 38%, rgb(0 0 0 / 0.2) 58%, rgb(0 0 0 / 0.6) 100%);
+  }
+
+  /* Crisper, richer hero footage: GPU-composited, high-quality downscale. */
+  .creator-hero-media {
+    filter: saturate(1.08) contrast(1.05) brightness(1.03);
+    image-rendering: high-quality;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
   }
 
   .creator-accent-glow {

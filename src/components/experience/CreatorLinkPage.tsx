@@ -166,11 +166,13 @@ export function CreatorLinkPage({
               loop
               muted
               playsInline
+              preload="auto"
+              disablePictureInPicture
               onLoadedData={(event) => updatePanelTone(event.currentTarget)}
-              className="h-full w-full object-cover"
+              className="creator-hero-media h-full w-full object-cover"
             />
           ) : poster ? (
-            <img key={poster} src={poster} alt="" onLoad={(event) => updatePanelTone(event.currentTarget)} className="h-full w-full object-cover" />
+            <img key={poster} src={poster} alt="" onLoad={(event) => updatePanelTone(event.currentTarget)} className="creator-hero-media h-full w-full object-cover" />
           ) : (
             <div className="h-full w-full bg-neutral-950" />
           )}
