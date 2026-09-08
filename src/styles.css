@@ -268,14 +268,25 @@ body {
   }
 
   .creator-primary-cta {
-    /* Soft, barely-tinted fill that echoes the template accent without glaring. */
+    /* Moody two-tone horizontal gradient pulled from the template accent. */
     background: linear-gradient(
-      180deg,
-      color-mix(in oklab, var(--creator-accent) 12%, white 88%),
-      color-mix(in oklab, var(--creator-accent) 18%, white 82%)
+      90deg,
+      color-mix(in oklab, var(--creator-accent) 32%, black 68%),
+      color-mix(in oklab, var(--creator-accent) 20%, black 80%)
     );
-    border: 1px solid color-mix(in oklab, var(--creator-accent) 22%, rgb(255 255 255 / 0.85));
-    box-shadow: 0 4px 18px color-mix(in oklab, var(--creator-accent) 22%, transparent), 0 8px 22px rgb(0 0 0 / 0.12);
+    /* Floating shadow: dark, soft, offset downward so the button lifts off the seam. */
+    box-shadow:
+      0 18px 38px rgb(0 0 0 / 0.28),
+      0 8px 16px color-mix(in oklab, var(--creator-accent) 18%, rgb(0 0 0 / 0.35)),
+      inset 0 1px 0 rgb(255 255 255 / 0.08);
+  }
+
+  .creator-primary-cta:hover {
+    filter: brightness(1.08);
+    box-shadow:
+      0 22px 44px rgb(0 0 0 / 0.32),
+      0 10px 20px color-mix(in oklab, var(--creator-accent) 22%, rgb(0 0 0 / 0.38)),
+      inset 0 1px 0 rgb(255 255 255 / 0.1);
   }
 
   .creator-accent-text {
