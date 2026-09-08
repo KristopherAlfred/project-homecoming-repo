@@ -54,7 +54,6 @@ export function CreatorLinkPage({
   const video = resolveExperiencePreviewUrl(profile.videoSrc);
   const poster = resolveExperiencePreviewUrl(profile.videoPoster);
   const photo = resolveExperiencePreviewUrl(profile.photo);
-  const avatar = compact ? 68 : 100;
   const cta = joinLabel || profile.ctaLabel || "Join My Circle";
   const proofFaces = [photo, ...profile.featured.map((item) => resolveExperiencePreviewUrl(item.image))]
     .filter(Boolean)
@@ -105,16 +104,7 @@ export function CreatorLinkPage({
             compact ? "pt-10" : "pt-16"
           }`}
         >
-          {photo ? (
-            <img
-              src={photo}
-              alt={profile.name}
-              className="rounded-full border border-white/35 object-cover shadow-2xl"
-              style={{ width: avatar, height: avatar }}
-            />
-          ) : null}
-
-          <div className="mt-3 flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-2">
             <h1
               className={`font-display font-black leading-tight ${
                 compact ? "text-[22px]" : "text-[34px] sm:text-[40px]"
