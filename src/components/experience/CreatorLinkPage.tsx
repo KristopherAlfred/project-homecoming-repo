@@ -220,9 +220,28 @@ export function CreatorLinkPage({
       {/* ── Bottom zone: media-matched seamless continuation ── */}
       <section
         className={`creator-sheet relative z-20 -mt-20 min-h-[calc(54%+5rem)] w-full ${
-          compact ? "px-4 pb-8 pt-24" : "px-6 pb-16 pt-28"
+          compact ? "px-4 pb-8 pt-20" : "px-6 pb-16 pt-24"
         }`}
       >
+        {/* CTA anchors the video-to-panel seam; its center sits in the gradient blend zone. */}
+        <div
+          className={`absolute left-1/2 z-30 -translate-x-1/2 ${
+            compact ? "top-8" : "top-9"
+          }`}
+        >
+          <button
+            type="button"
+            onClick={onJoin}
+            className={`creator-primary-cta group inline-flex items-center justify-center gap-2 rounded-full font-black text-neutral-950 transition-all duration-200 ease-out hover:scale-[1.02] hover:brightness-105 active:scale-[0.98] active:brightness-95 ${
+              compact ? "px-7 py-3.5 text-[12px]" : "px-8 py-4 text-[15px]"
+            }`}
+            style={{ width: compact ? 220 : 260 }}
+          >
+            {cta}
+            <ArrowRight size={compact ? 14 : 18} strokeWidth={2.5} />
+          </button>
+        </div>
+
         <div className="mx-auto flex w-full max-w-[520px] flex-col items-center text-center">
           {profile.bio ? (
             <p
@@ -240,17 +259,6 @@ export function CreatorLinkPage({
             </p>
           ) : null}
 
-          <button
-            type="button"
-            onClick={onJoin}
-            className={`creator-primary-cta group mt-5 inline-flex items-center justify-center gap-2 rounded-full font-black text-neutral-950 transition-all duration-200 ease-out hover:scale-[1.02] hover:brightness-105 active:scale-[0.98] active:brightness-95 ${
-              compact ? "px-7 py-3.5 text-[12px]" : "px-8 py-4 text-[15px]"
-            }`}
-            style={{ width: compact ? 220 : 260 }}
-          >
-            {cta}
-            <ArrowRight size={compact ? 14 : 18} strokeWidth={2.5} />
-          </button>
           <p className={`creator-sheet-muted mt-2 max-w-[310px] ${compact ? "text-[8px]" : "text-[11px]"}`}>
             {profile.joinMicrocopy}
           </p>
