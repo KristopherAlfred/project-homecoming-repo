@@ -268,8 +268,14 @@ body {
   }
 
   .creator-primary-cta {
-    background: linear-gradient(180deg, color-mix(in oklab, var(--creator-accent) 88%, white), var(--creator-accent));
-    box-shadow: 0 0 28px color-mix(in oklab, var(--creator-accent) 48%, transparent), 0 12px 30px rgb(0 0 0 / 0.22);
+    /* Soft, barely-tinted fill that echoes the template accent without glaring. */
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--creator-accent) 12%, white 88%),
+      color-mix(in oklab, var(--creator-accent) 18%, white 82%)
+    );
+    border: 1px solid color-mix(in oklab, var(--creator-accent) 22%, rgb(255 255 255 / 0.85));
+    box-shadow: 0 4px 18px color-mix(in oklab, var(--creator-accent) 22%, transparent), 0 8px 22px rgb(0 0 0 / 0.12);
   }
 
   .creator-accent-text {
