@@ -232,7 +232,7 @@ export function CreatorLinkPage({
           <button
             type="button"
             onClick={onJoin}
-            className={`creator-primary-cta group inline-flex items-center justify-center gap-2 rounded-full font-black text-neutral-950 transition-all duration-200 ease-out hover:scale-[1.02] hover:brightness-105 active:scale-[0.98] active:brightness-95 ${
+            className={`creator-primary-cta group inline-flex items-center justify-center gap-2 rounded-full font-black text-neutral-950 transition-all duration-200 ease-out hover:scale-[1.02] hover:shadow-[0_6px_22px_color-mix(in_oklab,var(--creator-accent)_28%,transparent),0_10px_26px_rgb(0_0_0/0.14)] active:scale-[0.98] active:brightness-[0.96] ${
               compact ? "px-7 py-3.5 text-[12px]" : "px-8 py-4 text-[15px]"
             }`}
             style={{ width: compact ? 220 : 260 }}
