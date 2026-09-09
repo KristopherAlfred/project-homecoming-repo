@@ -119,10 +119,11 @@ export const themeTemplates: {
   {
     id: "default",
     name: "Players OS",
-    description: "Brand red & black",
-    swatches: ["#E2231A", "#f0f0f0", "#080808"],
-    preview: "linear-gradient(135deg, #080808 0%, #1a0303 45%, #E2231A 100%)",
+    description: "Mint glass & deep green",
+    swatches: ["#5FE3B0", "#eafff5", "#05100c"],
+    preview: "linear-gradient(135deg, #05100c 0%, #0e2b22 45%, #5FE3B0 100%)",
   },
+
   {
     id: "team",
     name: "Court Glow",
