@@ -37,19 +37,18 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
 }
 
 const defaultPalette: ThemePalette = {
-  bg: "#0c0507",
-  panel: "#1a0c0e",
-  card: "#281417",
-  border: "#3b1d21",
-  muted: "#b39095",
-  text: "#fff0f1",
-  accent: "#E23744",
-  accentHover: "#F0616C",
-  chartSecondary: "#F0616C",
-  chartTertiary: "#9C2E36",
-  trafficShades: shades("#E23744"),
+  bg: "#080808",
+  panel: "#0f0f0f",
+  card: "#121212",
+  border: "#1e1e1e",
+  muted: "#8a8a8a",
+  text: "#f0f0f0",
+  accent: "#E2231A",
+  accentHover: "#F5382E",
+  chartSecondary: "#F5382E",
+  chartTertiary: "#7A0F0A",
+  trafficShades: shades("#E2231A"),
 };
-
 
 const teamPalette: ThemePalette = {
   bg: "#0a0a0a",
@@ -119,11 +118,10 @@ export const themeTemplates: {
   {
     id: "default",
     name: "Players OS",
-    description: "Red glass & deep crimson",
-    swatches: ["#E23744", "#fff0f1", "#0c0507"],
-    preview: "linear-gradient(135deg, #0c0507 0%, #2b0e12 45%, #E23744 100%)",
+    description: "Brand red & black",
+    swatches: ["#E2231A", "#f0f0f0", "#080808"],
+    preview: "linear-gradient(135deg, #080808 0%, #1a0303 45%, #E2231A 100%)",
   },
-
   {
     id: "team",
     name: "Court Glow",
@@ -238,48 +236,35 @@ export function applyPalette(basePalette: ThemePalette) {
     // Drives every accent glow / shadow across the dashboard.
     root.style.setProperty("--theme-accent-rgb", `${r}, ${g}, ${b}`);
 
-    const tint = (a: number) => `rgba(${r}, ${g}, ${b}, ${a})`;
-    const glass = (hex: string, a: number) => {
-      const c = hexToRgb(hex);
-      return c ? `rgba(${c.r}, ${c.g}, ${c.b}, ${a})` : hex;
-    };
-
     root.style.setProperty(
       "--gradient-bg",
-      `radial-gradient(ellipse 90% 55% at 50% -12%, ${tint(0.16)} 0%, transparent 58%), radial-gradient(ellipse 70% 45% at 100% 100%, ${tint(0.07)} 0%, transparent 55%), linear-gradient(180deg, ${palette.bg} 0%, ${palette.panel} 45%, ${palette.bg} 100%)`,
+      `radial-gradient(ellipse 80% 50% at 50% -10%, rgba(${r}, ${g}, ${b}, 0.08) 0%, transparent 50%), linear-gradient(180deg, ${palette.bg} 0%, ${palette.panel} 40%, ${palette.bg} 100%)`,
     );
     root.style.setProperty(
       "--gradient-panel",
-      `radial-gradient(ellipse 80% 50% at 0% 0%, ${tint(0.12)} 0%, transparent 55%), linear-gradient(180deg, ${glass(palette.panel, 0.8)} 0%, ${glass(palette.bg, 0.7)} 100%)`,
+      `radial-gradient(ellipse 70% 45% at 0% 0%, rgba(${r}, ${g}, ${b}, 0.06) 0%, transparent 50%), linear-gradient(180deg, ${palette.panel} 0%, ${palette.bg} 100%)`,
     );
     root.style.setProperty(
       "--gradient-card",
-      `radial-gradient(ellipse 100% 70% at 8% -18%, ${tint(0.16)} 0%, transparent 52%), linear-gradient(152deg, ${glass(palette.card, 0.72)} 0%, ${glass(palette.panel, 0.6)} 50%, ${glass(palette.bg, 0.72)} 100%)`,
+      `radial-gradient(ellipse 100% 65% at 8% -15%, rgba(${r}, ${g}, ${b}, 0.1) 0%, transparent 48%), linear-gradient(152deg, ${palette.card} 0%, ${palette.panel} 50%, ${palette.bg} 100%)`,
     );
     root.style.setProperty(
       "--gradient-inset",
-      `linear-gradient(140deg, ${glass(palette.bg, 0.8)} 0%, ${glass(palette.panel, 0.66)} 45%, ${glass(palette.bg, 0.8)} 100%)`,
+      `linear-gradient(140deg, ${palette.bg} 0%, ${palette.panel} 45%, ${palette.bg} 100%)`,
     );
     root.style.setProperty(
       "--gradient-header",
-      `linear-gradient(90deg, ${tint(0.22)} 0%, ${glass(palette.bg, 0.6)} 45%, transparent 100%)`,
+      `linear-gradient(90deg, rgba(${r}, ${g}, ${b}, 0.16) 0%, rgba(0, 0, 0, 0.7) 40%, transparent 100%)`,
     );
     root.style.setProperty(
       "--gradient-input",
-      `linear-gradient(168deg, ${glass(palette.panel, 0.75)} 0%, ${glass(palette.bg, 0.65)} 100%)`,
+      `linear-gradient(168deg, ${palette.bg} 0%, ${palette.panel} 50%, ${palette.bg} 100%)`,
     );
     root.style.setProperty(
       "--gradient-main",
-      `radial-gradient(ellipse 85% 50% at 50% 0%, ${tint(0.14)} 0%, transparent 50%), linear-gradient(180deg, ${palette.bg} 0%, ${palette.panel} 50%, ${palette.bg} 100%)`,
-    );
-    root.style.setProperty("--surface-border", `${tint(0.2)}`);
-    root.style.setProperty("--surface-highlight", `inset 0 1px 0 rgba(255, 255, 255, 0.1)`);
-    root.style.setProperty(
-      "--surface-shadow",
-      `0 18px 44px rgba(0, 0, 0, 0.45), 0 0 0 1px ${tint(0.08)}`,
+      `radial-gradient(ellipse 80% 45% at 50% 0%, rgba(${r}, ${g}, ${b}, 0.08) 0%, transparent 45%), linear-gradient(180deg, ${palette.bg} 0%, ${palette.panel} 50%, ${palette.bg} 100%)`,
     );
   }
-
 }
 
 export const STORAGE_KEY = "playersos-theme-template";
