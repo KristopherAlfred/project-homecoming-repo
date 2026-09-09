@@ -37,17 +37,17 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
 }
 
 const defaultPalette: ThemePalette = {
-  bg: "#05100c",
-  panel: "#0b1a15",
-  card: "#102820",
-  border: "#1d3b31",
-  muted: "#8fb3a5",
-  text: "#eafff5",
-  accent: "#5FE3B0",
-  accentHover: "#86F0C6",
-  chartSecondary: "#86F0C6",
-  chartTertiary: "#2E9C79",
-  trafficShades: shades("#5FE3B0"),
+  bg: "#0c0507",
+  panel: "#1a0c0e",
+  card: "#281417",
+  border: "#3b1d21",
+  muted: "#b39095",
+  text: "#fff0f1",
+  accent: "#E23744",
+  accentHover: "#F0616C",
+  chartSecondary: "#F0616C",
+  chartTertiary: "#9C2E36",
+  trafficShades: shades("#E23744"),
 };
 
 
@@ -119,9 +119,9 @@ export const themeTemplates: {
   {
     id: "default",
     name: "Players OS",
-    description: "Mint glass & deep green",
-    swatches: ["#5FE3B0", "#eafff5", "#05100c"],
-    preview: "linear-gradient(135deg, #05100c 0%, #0e2b22 45%, #5FE3B0 100%)",
+    description: "Red glass & deep crimson",
+    swatches: ["#E23744", "#fff0f1", "#0c0507"],
+    preview: "linear-gradient(135deg, #0c0507 0%, #2b0e12 45%, #E23744 100%)",
   },
 
   {
