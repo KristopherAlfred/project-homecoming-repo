@@ -151,7 +151,7 @@ export function CreatorLinkPage({
       className={`creator-glass-page relative h-full w-full overflow-y-auto ${className}`}
       style={{
         scrollbarWidth: "none",
-        "--creator-accent": accentColor,
+        "--creator-accent": MINT_ACCENT,
         "--creator-panel-rgb": panelTone.rgb,
         "--creator-panel-foreground": panelTone.foreground,
         "--creator-panel-muted": panelTone.muted,
