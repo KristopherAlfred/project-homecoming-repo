@@ -58,6 +58,12 @@ export function CreatorLinkPage({
   const proofFaces = [photo, ...profile.featured.map((item) => resolveExperiencePreviewUrl(item.image))]
     .filter(Boolean)
     .slice(0, 5);
+  const fanActivity = [
+    { name: "Maya", note: "just joined", time: "Now" },
+    { name: "Jordan", note: "joined the circle", time: "2m" },
+    { name: "Alex", note: "unlocked member access", time: "4m" },
+    { name: "Taylor", note: "just joined", time: "7m" },
+  ];
   const featureItems = profile.features.slice(0, 3);
   const exploreItems = profile.featured.length
     ? profile.featured
@@ -108,9 +114,9 @@ export function CreatorLinkPage({
             compact ? "pt-10" : "pt-16"
           } ${compact ? "px-6 pb-12" : "px-8 pb-24"}`}
         >
-          <div className="flex min-w-0 max-w-full items-center gap-2">
+          <div className="flex min-w-0 max-w-full items-center gap-2 whitespace-nowrap">
             <h1
-              className={`creator-name min-w-0 leading-none ${
+              className={`creator-name min-w-0 leading-none whitespace-nowrap ${
                 compact ? "text-[30px]" : "text-[56px] sm:text-[64px]"
               }`}
             >
@@ -119,11 +125,25 @@ export function CreatorLinkPage({
             {profile.verified ? <VerifiedBadge size={compact ? 15 : 22} /> : null}
           </div>
 
-          {profile.handle ? (
-            <p className={`mt-2 font-medium text-white/65 ${compact ? "text-[9px]" : "text-sm"}`}>
-              {profile.handle.startsWith("@") ? profile.handle : `@${profile.handle}`}
-            </p>
-          ) : null}
+          <div className={`flex flex-wrap items-center ${compact ? "mt-2 gap-2" : "mt-3 gap-3"}`}>
+            {profile.handle ? (
+              <p className={`font-medium text-white/65 ${compact ? "text-[9px]" : "text-sm"}`}>
+                {profile.handle.startsWith("@") ? profile.handle : `@${profile.handle}`}
+              </p>
+            ) : null}
+            {profile.followerCount ? (
+              <button
+                type="button"
+                className={`creator-follower-pill inline-flex w-fit items-center gap-1.5 rounded-full backdrop-blur-md ${
+                  compact ? "px-2.5 py-1 text-[8px]" : "px-3.5 py-2 text-xs"
+                }`}
+              >
+                <span className="font-bold">{profile.followerCount}</span>
+                <span className="text-white/55">{profile.followerLabel}</span>
+                <ChevronDown size={compact ? 10 : 14} className="text-white/45" />
+              </button>
+            ) : null}
+          </div>
 
         </div>
       </section>
@@ -151,32 +171,36 @@ export function CreatorLinkPage({
             </p>
           ) : null}
 
-          {profile.followerCount ? (
-            <button
-              type="button"
-              className={`creator-follower-pill inline-flex w-fit items-center gap-2 rounded-full px-3.5 backdrop-blur-md ${
-                compact ? "mt-3 py-1.5 text-[8px]" : "mt-5 py-2 text-xs"
-              }`}
-            >
-              <span className="font-bold">{profile.followerCount}</span>
-              <span className="creator-sheet-muted">{profile.followerLabel}</span>
-              <ChevronDown size={compact ? 12 : 16} className="creator-sheet-muted" />
-            </button>
-          ) : null}
-
-          <div className={`creator-proof-line grid w-full grid-cols-[auto_minmax(0,1fr)] items-center ${compact ? "mt-3 gap-2 py-2" : "mt-7 gap-4 py-5"}`}>
-            <div className="flex -space-x-2">
-              {(proofFaces.length ? proofFaces : ["", "", ""]).slice(0, 3).map((face, index) =>
-                face ? (
-                  <img key={`${face}-${index}`} src={face} alt="" className={`${compact ? "h-7 w-7" : "h-9 w-9"} creator-avatar-border rounded-full border-2 object-cover`} />
-                ) : (
-                  <span key={index} className={`${compact ? "h-7 w-7" : "h-9 w-9"} creator-proof-avatar creator-avatar-border rounded-full border-2`} />
-                ),
-              )}
+          <div className={compact ? "mt-3 w-full" : "mt-7 w-full"}>
+            <div className={`flex items-center justify-between ${compact ? "mb-2" : "mb-3"}`}>
+              <p className={`creator-section-label font-semibold uppercase ${compact ? "text-[6px]" : "text-[10px]"}`}>Joining now</p>
+              <span className={`creator-live-status inline-flex items-center gap-1.5 ${compact ? "text-[6px]" : "text-[9px]"}`}>
+                <span className="creator-live-dot" /> Live
+              </span>
             </div>
-            <div className="min-w-0 leading-tight">
-              <p className={`truncate font-bold ${compact ? "text-[9px]" : "text-sm"}`}>{profile.proofHeadline}</p>
-              <p className={`creator-sheet-muted mt-0.5 truncate uppercase ${compact ? "text-[6px]" : "text-[9px]"}`}>{profile.proofSupporting}</p>
+            <div className="creator-fan-rail overflow-hidden">
+              <div className="creator-fan-track flex w-max gap-2.5">
+                {[...fanActivity, ...fanActivity].map((fan, index) => {
+                  const face = proofFaces[index % Math.max(proofFaces.length, 1)];
+                  return (
+                    <div
+                      key={`${fan.name}-${index}`}
+                      className={`creator-fan-chip flex shrink-0 items-center ${compact ? "w-[152px] gap-2 p-2" : "w-[220px] gap-3 p-3"}`}
+                    >
+                      {face ? (
+                        <img src={face} alt="" className={`${compact ? "h-7 w-7" : "h-10 w-10"} rounded-full object-cover`} />
+                      ) : (
+                        <span className={`${compact ? "h-7 w-7" : "h-10 w-10"} creator-proof-avatar rounded-full`} />
+                      )}
+                      <span className="min-w-0 flex-1 leading-tight">
+                        <strong className={`block truncate ${compact ? "text-[8px]" : "text-xs"}`}>{fan.name}</strong>
+                        <span className={`creator-sheet-muted block truncate ${compact ? "text-[6px]" : "text-[9px]"}`}>{fan.note}</span>
+                      </span>
+                      <span className={`creator-sheet-muted ${compact ? "text-[6px]" : "text-[8px]"}`}>{fan.time}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
