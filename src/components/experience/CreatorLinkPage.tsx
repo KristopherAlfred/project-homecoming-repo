@@ -59,10 +59,18 @@ export function CreatorLinkPage({
     .filter(Boolean)
     .slice(0, 5);
   const featureItems = profile.features.slice(0, 3);
-  const exploreItems = profile.featured;
+  const exploreItems = profile.featured.length
+    ? profile.featured
+    : featureItems.map((feature) => ({
+        id: `link-${feature.id}`,
+        image: poster || photo,
+        caption: feature.label,
+        overlayTitle: feature.description,
+        url: "",
+      }));
   return (
     <div
-      className={`creator-glass-page relative h-full w-full overflow-y-auto ${className}`}
+      className={`creator-glass-page relative h-full w-full ${compact ? "overflow-hidden" : "overflow-y-auto"} ${className}`}
       style={{
         scrollbarWidth: "none",
         "--creator-accent": accentColor,
@@ -70,7 +78,7 @@ export function CreatorLinkPage({
     >
       {/* ── Top zone: media only ─────────────────────────────── */}
       <section
-        className={`relative w-full text-white ${compact ? "h-[60%] min-h-[390px]" : "h-[64vh] min-h-[560px]"}`}
+        className={`relative w-full text-white ${compact ? "h-[36%] min-h-0" : "h-[64vh] min-h-[560px]"}`}
       >
         <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
           {video ? (
@@ -98,13 +106,13 @@ export function CreatorLinkPage({
         <div
           className={`relative z-10 mx-auto flex h-full w-full max-w-[520px] flex-col items-start justify-end text-left ${
             compact ? "pt-10" : "pt-16"
-          } ${compact ? "px-6 pb-16" : "px-8 pb-24"}`}
+          } ${compact ? "px-6 pb-8" : "px-8 pb-24"}`}
         >
-          <p className={`creator-eyebrow mb-3 font-semibold uppercase ${compact ? "text-[7px]" : "text-[10px]"}`}>Official inner circle</p>
+          <p className={`creator-eyebrow font-semibold uppercase ${compact ? "mb-2 text-[6px]" : "mb-3 text-[10px]"}`}>Official inner circle</p>
           <div className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
             <h1
               className={`creator-display min-w-0 leading-[0.92] ${
-                compact ? "text-[40px]" : "text-[62px] sm:text-[72px]"
+                compact ? "text-[34px]" : "text-[62px] sm:text-[72px]"
               }`}
             >
               {profile.name}
@@ -121,8 +129,8 @@ export function CreatorLinkPage({
           {profile.followerCount ? (
             <button
               type="button"
-              className={`creator-follower-pill mt-5 inline-flex items-center gap-2 rounded-full px-3.5 py-2 backdrop-blur-md ${
-                compact ? "text-[9px]" : "text-xs"
+              className={`creator-follower-pill inline-flex items-center gap-2 rounded-full px-3.5 backdrop-blur-md ${
+                compact ? "mt-3 py-1.5 text-[8px]" : "mt-5 py-2 text-xs"
               }`}
             >
               <span className="font-bold text-white">{profile.followerCount}</span>
@@ -135,15 +143,15 @@ export function CreatorLinkPage({
 
       {/* ── Bottom zone: editorial membership experience ── */}
       <section
-        className={`creator-sheet relative z-20 -mt-16 w-full ${
-          compact ? "px-6 pb-10 pt-16" : "px-8 pb-14 pt-20"
+        className={`creator-sheet relative z-20 -mt-7 w-full ${
+          compact ? "h-[64%] px-5 pb-[88px] pt-7" : "px-8 pb-14 pt-20"
         }`}
       >
         <div className="mx-auto flex w-full max-w-[520px] flex-col text-left">
           {profile.bio ? (
             <p
               className={`creator-intro max-w-[440px] leading-snug ${
-                compact ? "text-[23px]" : "text-[30px]"
+                compact ? "text-[15px]" : "text-[30px]"
               }`}
             >
               {profile.bio}
@@ -156,7 +164,7 @@ export function CreatorLinkPage({
             </p>
           ) : null}
 
-          <div className={`creator-proof-line mt-7 grid w-full grid-cols-[auto_minmax(0,1fr)] items-center ${compact ? "gap-3 py-4" : "gap-4 py-5"}`}>
+          <div className={`creator-proof-line grid w-full grid-cols-[auto_minmax(0,1fr)] items-center ${compact ? "mt-3 gap-2 py-2" : "mt-7 gap-4 py-5"}`}>
             <div className="flex -space-x-2">
               {(proofFaces.length ? proofFaces : ["", "", ""]).slice(0, 3).map((face, index) =>
                 face ? (
@@ -173,22 +181,22 @@ export function CreatorLinkPage({
           </div>
 
           {featureItems.length ? (
-            <div className="mt-9 w-full">
-              <p className={`creator-section-label mb-4 font-semibold uppercase ${compact ? "text-[7px]" : "text-[10px]"}`}>Membership perks</p>
-              <div className="grid grid-cols-2 gap-3">
+            <div className={compact ? "mt-3 w-full" : "mt-9 w-full"}>
+              <p className={`creator-section-label font-semibold uppercase ${compact ? "mb-2 text-[6px]" : "mb-4 text-[10px]"}`}>Membership perks</p>
+              <div className={`grid ${compact ? "grid-cols-3 gap-2" : "grid-cols-2 gap-3"}`}>
               {featureItems.map((feature) => {
                 const Icon = FEATURE_ICONS[feature.icon.toLowerCase()] ?? Star;
                 return (
                   <div
                     key={feature.id}
-                    className={`creator-sheet-card flex min-w-0 flex-col items-start text-left ${compact ? "min-h-[126px] gap-3 p-4" : "min-h-[154px] gap-4 p-5"}`}
+                    className={`creator-sheet-card flex min-w-0 flex-col items-start text-left ${compact ? "min-h-[66px] gap-1.5 p-2" : "min-h-[154px] gap-4 p-5"}`}
                   >
-                    <span className={`creator-feature-icon flex shrink-0 items-center justify-center ${compact ? "h-9 w-9" : "h-11 w-11"}`}>
-                      <Icon size={compact ? 15 : 19} strokeWidth={1.6} />
+                    <span className={`creator-feature-icon flex shrink-0 items-center justify-center ${compact ? "h-6 w-6" : "h-11 w-11"}`}>
+                      <Icon size={compact ? 11 : 19} strokeWidth={1.6} />
                     </span>
                     <span className="min-w-0">
                       <strong className={`block leading-tight ${compact ? "text-[10px]" : "text-sm"}`}>{feature.label}</strong>
-                      <span className={`creator-sheet-muted mt-1 block leading-snug ${compact ? "text-[7px]" : "text-[11px]"}`}>{feature.description}</span>
+                      <span className={`creator-sheet-muted mt-1 block leading-snug ${compact ? "line-clamp-1 text-[6px]" : "text-[11px]"}`}>{feature.description}</span>
                     </span>
                   </div>
                 );
@@ -198,9 +206,9 @@ export function CreatorLinkPage({
           ) : null}
 
           {exploreItems.length ? (
-            <div className="mt-10 w-full">
-              <div className="mb-5 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
-                <span className={`creator-display ${compact ? "text-[20px]" : "text-[28px]"}`}>Latest drops</span>
+            <div className={compact ? "mt-3 w-full" : "mt-10 w-full"}>
+              <div className={`grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 ${compact ? "mb-2" : "mb-5"}`}>
+                <span className={`creator-display ${compact ? "text-[15px]" : "text-[28px]"}`}>Live links</span>
                 <span className={`creator-section-label font-bold uppercase ${compact ? "text-[7px]" : "text-[10px]"}`}>Explore all</span>
               </div>
               <div className="creator-explore-rail flex snap-x gap-3 overflow-x-auto pb-2">
@@ -212,12 +220,12 @@ export function CreatorLinkPage({
                       href={card.url || undefined}
                       target={card.url ? "_blank" : undefined}
                       rel="noreferrer"
-                        className={`creator-sheet-card creator-explore-tile grid shrink-0 snap-start grid-rows-[auto_1fr] overflow-hidden transition-transform hover:-translate-y-0.5 ${compact ? "w-[72%]" : "w-[62%]"}`}
+                        className={`creator-sheet-card creator-explore-tile shrink-0 snap-start overflow-hidden transition-transform hover:-translate-y-0.5 ${compact ? "grid w-[62%] grid-cols-[52px_minmax(0,1fr)]" : "grid w-[62%] grid-rows-[auto_1fr]"}`}
                     >
-                        <div className={`${compact ? "h-24" : "h-36"} creator-thumbnail-bg w-full overflow-hidden`}>
+                        <div className={`${compact ? "h-11" : "h-36"} creator-thumbnail-bg w-full overflow-hidden`}>
                         {art ? <img src={art} alt="" className="h-full w-full object-cover" /> : null}
                       </div>
-                       <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 p-3 text-left">
+                       <div className={`grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center text-left ${compact ? "gap-1 p-2" : "gap-2 p-3"}`}>
                         <div className="min-w-0">
                         <p className={`truncate font-bold ${compact ? "text-[10px]" : "text-sm"}`}>
                           {card.caption || card.overlayTitle || "Explore"}
@@ -237,11 +245,11 @@ export function CreatorLinkPage({
         </div>
       </section>
 
-      <div className={`creator-sticky-join sticky inset-x-0 bottom-0 z-40 ${compact ? "px-6 pb-5 pt-5" : "px-8 pb-7 pt-6"}`}>
+      <div className={`creator-sticky-join absolute inset-x-0 bottom-0 z-40 ${compact ? "px-5 pb-4 pt-4" : "sticky px-8 pb-7 pt-6"}`}>
         <button
           type="button"
           onClick={onJoin}
-          className={`creator-primary-cta group flex w-full items-center justify-center gap-2 transition duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.985] ${compact ? "h-14 text-[12px]" : "h-16 text-[15px]"}`}
+          className={`creator-primary-cta group flex w-full items-center justify-center gap-2 transition duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.985] ${compact ? "h-12 text-[11px]" : "h-16 text-[15px]"}`}
         >
           {cta}
           <ArrowRight size={compact ? 15 : 19} strokeWidth={2.2} />
