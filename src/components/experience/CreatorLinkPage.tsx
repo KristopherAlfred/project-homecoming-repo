@@ -78,7 +78,7 @@ export function CreatorLinkPage({
     >
       {/* ── Top zone: media only ─────────────────────────────── */}
       <section
-        className={`relative w-full text-white ${compact ? "h-[47%] min-h-0" : "h-[64vh] min-h-[560px]"}`}
+        className={`relative w-full text-white ${compact ? "h-[36%] min-h-0" : "h-[64vh] min-h-[560px]"}`}
       >
         <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
           {video ? (
@@ -106,7 +106,7 @@ export function CreatorLinkPage({
         <div
           className={`relative z-10 mx-auto flex h-full w-full max-w-[520px] flex-col items-start justify-end text-left ${
             compact ? "pt-10" : "pt-16"
-          } ${compact ? "px-6 pb-11" : "px-8 pb-24"}`}
+          } ${compact ? "px-6 pb-8" : "px-8 pb-24"}`}
         >
           <p className={`creator-eyebrow font-semibold uppercase ${compact ? "mb-2 text-[6px]" : "mb-3 text-[10px]"}`}>Official inner circle</p>
           <div className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
@@ -143,8 +143,8 @@ export function CreatorLinkPage({
 
       {/* ── Bottom zone: editorial membership experience ── */}
       <section
-        className={`creator-sheet relative z-20 -mt-10 w-full ${
-          compact ? "h-[53%] px-5 pb-[92px] pt-9" : "px-8 pb-14 pt-20"
+        className={`creator-sheet relative z-20 -mt-7 w-full ${
+          compact ? "h-[64%] px-5 pb-[88px] pt-7" : "px-8 pb-14 pt-20"
         }`}
       >
         <div className="mx-auto flex w-full max-w-[520px] flex-col text-left">
@@ -189,7 +189,7 @@ export function CreatorLinkPage({
                 return (
                   <div
                     key={feature.id}
-                    className={`creator-sheet-card flex min-w-0 flex-col items-start text-left ${compact ? "min-h-[76px] gap-1.5 p-2" : "min-h-[154px] gap-4 p-5"}`}
+                    className={`creator-sheet-card flex min-w-0 flex-col items-start text-left ${compact ? "min-h-[66px] gap-1.5 p-2" : "min-h-[154px] gap-4 p-5"}`}
                   >
                     <span className={`creator-feature-icon flex shrink-0 items-center justify-center ${compact ? "h-6 w-6" : "h-11 w-11"}`}>
                       <Icon size={compact ? 11 : 19} strokeWidth={1.6} />
@@ -222,7 +222,7 @@ export function CreatorLinkPage({
                       rel="noreferrer"
                         className={`creator-sheet-card creator-explore-tile shrink-0 snap-start overflow-hidden transition-transform hover:-translate-y-0.5 ${compact ? "grid w-[62%] grid-cols-[52px_minmax(0,1fr)]" : "grid w-[62%] grid-rows-[auto_1fr]"}`}
                     >
-                        <div className={`${compact ? "h-[52px]" : "h-36"} creator-thumbnail-bg w-full overflow-hidden`}>
+                        <div className={`${compact ? "h-11" : "h-36"} creator-thumbnail-bg w-full overflow-hidden`}>
                         {art ? <img src={art} alt="" className="h-full w-full object-cover" /> : null}
                       </div>
                        <div className={`grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center text-left ${compact ? "gap-1 p-2" : "gap-2 p-3"}`}>
