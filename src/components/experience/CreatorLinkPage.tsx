@@ -53,14 +53,14 @@ function accentFallbackTone(accent: string): SampledPanelTone {
   return toneFromRgb(muted[0], muted[1], muted[2]);
 }
 
-/** House mint used across every fan-page template. */
-const MINT_ACCENT = "#5FE3B0";
-const MINT_TONE = [22, 54, 44];
+/** House PlayersOS red used across every fan-page template. */
+const MINT_ACCENT = "#E23744";
+const MINT_TONE = [48, 18, 22];
 
 function toneFromRgb(red: number, green: number, blue: number): SampledPanelTone {
   const average = (red + green + blue) / 3;
   const base = [red, green, blue].map((channel) => channel * 0.48 + average * 0.32);
-  // Pull every sampled panel toward the mint-glass house tone.
+  // Pull every sampled panel toward the red-glass house tone.
   const muted = base.map((channel, index) => Math.round(channel * 0.42 + MINT_TONE[index] * 0.58));
   const luminance = (0.2126 * muted[0] + 0.7152 * muted[1] + 0.0722 * muted[2]) / 255;
   const isLight = luminance > 0.56;
