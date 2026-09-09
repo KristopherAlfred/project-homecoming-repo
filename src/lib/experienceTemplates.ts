@@ -7,7 +7,6 @@ import { DEFAULT_EXPERIENCE_PAGES } from "./experienceConfig";
 
 import type { CreatorProfile } from "./creatorProfile";
 import { DEFAULT_CREATOR_PROFILE } from "./creatorProfile";
-import sloaneHero from "../assets/sloane-hero.mp4.asset.json";
 
 import type {
   ExperienceBrand,
@@ -1176,7 +1175,7 @@ EXPERIENCE_TEMPLATES.unshift({
   tags: ["dark", "video", "creator", "tennis"],
   swatches: ["#111715", "#263630", "#88DDB7", "#EDF6F1"],
   athlete: "Sloane Stephens",
-  photo: SPORT_PHOTOS["tennis"],
+  photo: "",
   theme: {
     bg: "#000000",
     bgGradientFrom: "#000000",
@@ -1212,7 +1211,8 @@ EXPERIENCE_TEMPLATES.unshift({
   },
   creator: {
     enabled: true,
-    videoSrc: sloaneHero.url,
+    videoSrc: "",
+    videoPoster: "",
     photo: "",
     name: "Sloane Stephens",
     verified: true,
