@@ -387,6 +387,19 @@ body {
     background: rgb(237 246 241 / 0.05);
   }
 
+  .creator-explore-rail {
+    scrollbar-width: none;
+    overscroll-behavior-inline: contain;
+  }
+
+  .creator-explore-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .creator-explore-tile {
+    border-radius: 20px;
+  }
+
   .creator-thumbnail-bg {
     background: #263630;
   }

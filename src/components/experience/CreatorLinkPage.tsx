@@ -175,22 +175,21 @@ export function CreatorLinkPage({
           {featureItems.length ? (
             <div className="mt-9 w-full">
               <p className={`creator-section-label mb-4 font-semibold uppercase ${compact ? "text-[7px]" : "text-[10px]"}`}>Membership perks</p>
-              <div className={compact ? "space-y-3" : "space-y-4"}>
+              <div className="grid grid-cols-2 gap-3">
               {featureItems.map((feature) => {
                 const Icon = FEATURE_ICONS[feature.icon.toLowerCase()] ?? Star;
                 return (
                   <div
                     key={feature.id}
-                    className={`creator-sheet-card grid min-w-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center text-left ${compact ? "gap-3 px-4 py-4" : "gap-4 px-5 py-5"}`}
+                    className={`creator-sheet-card flex min-w-0 flex-col items-start text-left ${compact ? "min-h-[126px] gap-3 p-4" : "min-h-[154px] gap-4 p-5"}`}
                   >
                     <span className={`creator-feature-icon flex shrink-0 items-center justify-center ${compact ? "h-9 w-9" : "h-11 w-11"}`}>
                       <Icon size={compact ? 15 : 19} strokeWidth={1.6} />
                     </span>
                     <span className="min-w-0">
                       <strong className={`block leading-tight ${compact ? "text-[10px]" : "text-sm"}`}>{feature.label}</strong>
-                      <span className={`creator-sheet-muted mt-1 block truncate ${compact ? "text-[7px]" : "text-[11px]"}`}>{feature.description}</span>
+                      <span className={`creator-sheet-muted mt-1 block leading-snug ${compact ? "text-[7px]" : "text-[11px]"}`}>{feature.description}</span>
                     </span>
-                    <ChevronRight className="creator-sheet-muted ml-auto shrink-0" size={compact ? 13 : 17} />
                   </div>
                 );
               })}
@@ -204,7 +203,7 @@ export function CreatorLinkPage({
                 <span className={`creator-display ${compact ? "text-[20px]" : "text-[28px]"}`}>Latest drops</span>
                 <span className={`creator-section-label font-bold uppercase ${compact ? "text-[7px]" : "text-[10px]"}`}>Explore all</span>
               </div>
-              <div className="creator-sheet-card overflow-hidden">
+              <div className="creator-explore-rail flex snap-x gap-3 overflow-x-auto pb-2">
                 {exploreItems.map((card) => {
                   const art = resolveExperiencePreviewUrl(card.image);
                   return (
@@ -213,20 +212,22 @@ export function CreatorLinkPage({
                       href={card.url || undefined}
                       target={card.url ? "_blank" : undefined}
                       rel="noreferrer"
-                        className="creator-explore-row grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 border-b px-3 py-3.5 last:border-b-0 transition-colors"
+                        className={`creator-sheet-card creator-explore-tile grid shrink-0 snap-start grid-rows-[auto_1fr] overflow-hidden transition-transform hover:-translate-y-0.5 ${compact ? "w-[72%]" : "w-[62%]"}`}
                     >
-                       <div className={`${compact ? "h-11 w-11" : "h-16 w-16"} creator-thumbnail-bg shrink-0 overflow-hidden rounded-xl`}>
+                        <div className={`${compact ? "h-24" : "h-36"} creator-thumbnail-bg w-full overflow-hidden`}>
                         {art ? <img src={art} alt="" className="h-full w-full object-cover" /> : null}
                       </div>
-                      <div className="min-w-0 flex-1 text-left">
+                       <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 p-3 text-left">
+                        <div className="min-w-0">
                         <p className={`truncate font-bold ${compact ? "text-[10px]" : "text-sm"}`}>
                           {card.caption || card.overlayTitle || "Explore"}
                         </p>
                         {card.caption && card.overlayTitle ? (
                            <p className={`creator-sheet-muted mt-0.5 truncate ${compact ? "text-[7px]" : "text-[10px]"}`}>{card.overlayTitle}</p>
                         ) : null}
-                      </div>
-                      <ChevronRight className="creator-accent-text shrink-0" size={compact ? 14 : 18} />
+                        </div>
+                        <ChevronRight className="creator-accent-text shrink-0" size={compact ? 14 : 18} />
+                       </div>
                     </a>
                   );
                 })}
