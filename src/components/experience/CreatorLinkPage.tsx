@@ -110,7 +110,7 @@ export function CreatorLinkPage({
   className = "",
   onJoin,
   joinLabel,
-  accentColor = "#9EF7C5",
+  accentColor = MINT_ACCENT,
 }: {
   profile: CreatorProfile;
   /** Phone-sized rendering (studio preview). */
