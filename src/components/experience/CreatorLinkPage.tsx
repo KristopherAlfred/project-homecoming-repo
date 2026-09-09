@@ -59,7 +59,15 @@ export function CreatorLinkPage({
     .filter(Boolean)
     .slice(0, 5);
   const featureItems = profile.features.slice(0, 3);
-  const exploreItems = profile.featured;
+  const exploreItems = profile.featured.length
+    ? profile.featured
+    : featureItems.map((feature) => ({
+        id: `link-${feature.id}`,
+        image: poster || photo,
+        caption: feature.label,
+        overlayTitle: feature.description,
+        url: "",
+      }));
   return (
     <div
       className={`creator-glass-page relative h-full w-full ${compact ? "overflow-hidden" : "overflow-y-auto"} ${className}`}
