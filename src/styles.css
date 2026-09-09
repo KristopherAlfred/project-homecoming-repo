@@ -241,7 +241,7 @@ body {
   .creator-glass-page {
     background: #111715;
     color: #edf6f1;
-    font-family: "Work Sans", sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
   }
 
   .creator-media-overlay {
@@ -262,10 +262,19 @@ body {
   }
 
   .creator-display,
-  .creator-intro {
-    font-family: "Instrument Serif", serif;
-    font-weight: 400;
+  .creator-intro,
+  .creator-name {
+    font-family: Arial, Helvetica, sans-serif;
     letter-spacing: 0;
+  }
+
+  .creator-name {
+    font-weight: 700;
+  }
+
+  .creator-intro {
+    font-weight: 500;
+    letter-spacing: -0.01em;
   }
 
   .creator-eyebrow,
@@ -275,9 +284,9 @@ body {
   }
 
   .creator-follower-pill {
-    border: 1px solid rgb(255 255 255 / 0.14);
-    background: rgb(17 23 21 / 0.28);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
+    border: 1px solid rgb(237 246 241 / 0.1);
+    background: rgb(237 246 241 / 0.06);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
   }
 
   .creator-glass {

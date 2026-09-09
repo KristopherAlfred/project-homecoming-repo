@@ -70,7 +70,7 @@ export function CreatorLinkPage({
       }));
   return (
     <div
-      className={`creator-glass-page relative h-full w-full ${compact ? "overflow-hidden" : "overflow-y-auto"} ${className}`}
+      className={`creator-glass-page relative h-full w-full overflow-y-auto ${className}`}
       style={{
         scrollbarWidth: "none",
         "--creator-accent": accentColor,
@@ -78,7 +78,7 @@ export function CreatorLinkPage({
     >
       {/* ── Top zone: media only ─────────────────────────────── */}
       <section
-        className={`relative w-full text-white ${compact ? "h-[36%] min-h-0" : "h-[64vh] min-h-[560px]"}`}
+        className={`relative w-full text-white ${compact ? "h-[52%] min-h-[290px]" : "h-[64vh] min-h-[560px]"}`}
       >
         <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
           {video ? (
@@ -106,13 +106,12 @@ export function CreatorLinkPage({
         <div
           className={`relative z-10 mx-auto flex h-full w-full max-w-[520px] flex-col items-start justify-end text-left ${
             compact ? "pt-10" : "pt-16"
-          } ${compact ? "px-6 pb-8" : "px-8 pb-24"}`}
+          } ${compact ? "px-6 pb-12" : "px-8 pb-24"}`}
         >
-          <p className={`creator-eyebrow font-semibold uppercase ${compact ? "mb-2 text-[6px]" : "mb-3 text-[10px]"}`}>Official inner circle</p>
-          <div className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+          <div className="flex min-w-0 max-w-full items-center gap-2">
             <h1
-              className={`creator-display min-w-0 leading-[0.92] ${
-                compact ? "text-[34px]" : "text-[62px] sm:text-[72px]"
+              className={`creator-name min-w-0 leading-none ${
+                compact ? "text-[30px]" : "text-[56px] sm:text-[64px]"
               }`}
             >
               {profile.name}
@@ -126,25 +125,13 @@ export function CreatorLinkPage({
             </p>
           ) : null}
 
-          {profile.followerCount ? (
-            <button
-              type="button"
-              className={`creator-follower-pill inline-flex items-center gap-2 rounded-full px-3.5 backdrop-blur-md ${
-                compact ? "mt-3 py-1.5 text-[8px]" : "mt-5 py-2 text-xs"
-              }`}
-            >
-              <span className="font-bold text-white">{profile.followerCount}</span>
-              <span className="text-white/65">{profile.followerLabel}</span>
-              <ChevronDown size={compact ? 12 : 16} className="text-white/65" />
-            </button>
-          ) : null}
         </div>
       </section>
 
       {/* ── Bottom zone: editorial membership experience ── */}
       <section
-        className={`creator-sheet relative z-20 -mt-7 w-full ${
-          compact ? "h-[64%] px-5 pb-[88px] pt-7" : "px-8 pb-14 pt-20"
+        className={`creator-sheet relative z-20 -mt-12 w-full ${
+          compact ? "min-h-[58%] px-5 pb-10 pt-12" : "px-8 pb-14 pt-20"
         }`}
       >
         <div className="mx-auto flex w-full max-w-[520px] flex-col text-left">
@@ -162,6 +149,19 @@ export function CreatorLinkPage({
             <p className={`creator-sheet-muted mt-2 ${compact ? "text-[9px]" : "text-sm"}`}>
               {profile.secondaryHandle}
             </p>
+          ) : null}
+
+          {profile.followerCount ? (
+            <button
+              type="button"
+              className={`creator-follower-pill inline-flex w-fit items-center gap-2 rounded-full px-3.5 backdrop-blur-md ${
+                compact ? "mt-3 py-1.5 text-[8px]" : "mt-5 py-2 text-xs"
+              }`}
+            >
+              <span className="font-bold">{profile.followerCount}</span>
+              <span className="creator-sheet-muted">{profile.followerLabel}</span>
+              <ChevronDown size={compact ? 12 : 16} className="creator-sheet-muted" />
+            </button>
           ) : null}
 
           <div className={`creator-proof-line grid w-full grid-cols-[auto_minmax(0,1fr)] items-center ${compact ? "mt-3 gap-2 py-2" : "mt-7 gap-4 py-5"}`}>
@@ -245,7 +245,7 @@ export function CreatorLinkPage({
         </div>
       </section>
 
-      <div className={`creator-sticky-join absolute inset-x-0 bottom-0 z-40 ${compact ? "px-5 pb-4 pt-4" : "sticky px-8 pb-7 pt-6"}`}>
+      <div className={`creator-sticky-join sticky inset-x-0 bottom-0 z-40 ${compact ? "px-5 pb-4 pt-4" : "px-8 pb-7 pt-6"}`}>
         <button
           type="button"
           onClick={onJoin}
