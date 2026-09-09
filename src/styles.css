@@ -397,12 +397,13 @@ body {
   .dt-main-canvas {
     position: relative;
     background: var(--gradient-main);
-    background-color: #000000;
+    background-color: var(--theme-bg);
   }
 
   .dt-surface {
     background: var(--gradient-card);
     border-color: var(--surface-border);
+    backdrop-filter: var(--surface-blur);
     box-shadow: var(--surface-highlight), var(--surface-shadow);
   }
 
@@ -413,6 +414,7 @@ body {
   .dt-surface-inset {
     background: var(--gradient-inset);
     border-color: var(--surface-border);
+    backdrop-filter: var(--surface-blur);
     box-shadow: var(--surface-highlight), var(--surface-shadow);
   }
 }
@@ -420,38 +422,42 @@ body {
 @layer utilities {
   .bg-dt-bg {
     background: var(--gradient-bg) !important;
-    background-color: #000000 !important;
+    background-color: var(--theme-bg) !important;
   }
 
   .bg-dt-panel {
     background: var(--gradient-panel) !important;
-    background-color: #000000 !important;
+    backdrop-filter: var(--surface-blur);
     box-shadow: var(--surface-highlight), var(--surface-shadow);
   }
 
   .bg-dt-card {
     background: var(--gradient-card) !important;
-    background-color: #000000 !important;
+    backdrop-filter: var(--surface-blur);
     box-shadow: var(--surface-highlight), var(--surface-shadow);
   }
 
   .bg-dt-bg\/40 {
-    background: linear-gradient(135deg, rgb(0 0 0 / 0.96) 0%, rgb(8 8 8 / 0.92) 50%, rgb(0 0 0 / 0.95) 100%) !important;
+    background: linear-gradient(135deg, rgb(9 24 19 / 0.62) 0%, rgb(14 33 27 / 0.5) 50%, rgb(7 19 15 / 0.6) 100%) !important;
+    backdrop-filter: var(--surface-blur);
     box-shadow: var(--surface-highlight), var(--surface-shadow);
   }
 
   .bg-dt-bg\/50 {
-    background: linear-gradient(135deg, rgb(0 0 0 / 0.97) 0%, rgb(10 10 10 / 0.94) 50%, rgb(0 0 0 / 0.96) 100%) !important;
+    background: linear-gradient(135deg, rgb(9 24 19 / 0.7) 0%, rgb(14 33 27 / 0.58) 50%, rgb(7 19 15 / 0.68) 100%) !important;
+    backdrop-filter: var(--surface-blur);
     box-shadow: var(--surface-highlight), var(--surface-shadow);
   }
 
   .bg-dt-bg\/60 {
-    background: linear-gradient(135deg, rgb(0 0 0 / 0.98) 0%, rgb(12 12 12 / 0.95) 50%, rgb(0 0 0 / 0.97) 100%) !important;
+    background: linear-gradient(135deg, rgb(9 24 19 / 0.78) 0%, rgb(14 33 27 / 0.66) 50%, rgb(7 19 15 / 0.76) 100%) !important;
+    backdrop-filter: var(--surface-blur);
     box-shadow: var(--surface-highlight), var(--surface-shadow);
   }
 
   .bg-dt-bg\/80 {
-    background: linear-gradient(160deg, rgb(0 0 0 / 0.99) 0%, rgb(8 8 8 / 0.96) 55%, rgb(0 0 0 / 0.98) 100%) !important;
+    background: linear-gradient(160deg, rgb(8 21 17 / 0.9) 0%, rgb(13 31 25 / 0.8) 55%, rgb(6 16 13 / 0.88) 100%) !important;
+    backdrop-filter: var(--surface-blur);
     box-shadow: var(--surface-highlight), var(--surface-shadow);
   }
 
@@ -463,10 +469,11 @@ body {
   select.bg-dt-bg,
   textarea.bg-dt-bg {
     background: var(--gradient-input) !important;
-    background-color: #000000 !important;
+    backdrop-filter: blur(10px) saturate(130%);
     box-shadow: var(--surface-highlight);
   }
 }
+
 
 ::-webkit-scrollbar {
   width: 6px;
