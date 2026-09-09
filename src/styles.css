@@ -239,11 +239,13 @@ body {
 
 @layer components {
   .creator-glass-page {
-    background-color: rgb(var(--creator-panel-rgb));
+    background: #111715;
+    color: #edf6f1;
+    font-family: "Work Sans", sans-serif;
   }
 
   .creator-media-overlay {
-    background: linear-gradient(180deg, rgb(0 0 0 / 0.38) 0%, rgb(0 0 0 / 0.06) 38%, rgb(0 0 0 / 0.2) 58%, rgb(0 0 0 / 0.6) 100%);
+    background: linear-gradient(180deg, rgb(17 23 21 / 0.3) 0%, rgb(17 23 21 / 0.02) 34%, rgb(17 23 21 / 0.24) 58%, #111715 100%);
   }
 
   /* Crisper, richer hero footage: GPU-composited, high-quality downscale. */
@@ -256,7 +258,20 @@ body {
   }
 
   .creator-accent-glow {
-    background: radial-gradient(ellipse 85% 80% at 50% 0%, color-mix(in oklab, var(--creator-accent) 42%, transparent), transparent 72%);
+    background: radial-gradient(ellipse 90% 70% at 20% 0%, color-mix(in oklab, var(--creator-accent) 26%, transparent), transparent 72%);
+  }
+
+  .creator-display,
+  .creator-intro {
+    font-family: "Instrument Serif", serif;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .creator-eyebrow,
+  .creator-section-label {
+    color: color-mix(in oklab, var(--creator-accent) 82%, #edf6f1);
+    letter-spacing: 0.16em;
   }
 
   .creator-glass {
@@ -271,25 +286,16 @@ body {
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    /* Mint-green glass texture — soft, fresh, premium. */
-    border: 1px solid rgb(180 255 210 / 0.55);
-    border-radius: 9999px;
-    background:
-      radial-gradient(ellipse 120% 180% at 30% -30%, rgb(230 255 240 / 0.9) 0%, transparent 55%),
-      radial-gradient(ellipse 130% 200% at 75% 130%, rgb(100 220 160 / 0.45) 0%, transparent 60%),
-      linear-gradient(160deg, rgb(210 255 225 / 0.78) 0%, rgb(160 240 195 / 0.55) 42%, rgb(120 220 165 / 0.48) 72%, rgb(200 250 220 / 0.65) 100%);
-    backdrop-filter: blur(14px) saturate(150%) brightness(1.05);
-    color: rgb(10 45 25 / 0.92);
+    border: 1px solid color-mix(in oklab, var(--creator-accent) 42%, white);
+    border-radius: 18px;
+    background: linear-gradient(112deg, color-mix(in oklab, var(--creator-accent) 88%, #edf6f1), var(--creator-accent));
+    color: #111715;
     font-weight: 800;
-    text-shadow: 0 1px 0 rgb(255 255 255 / 0.45);
-    /* Floating: deep soft drop shadow + mint-tinted inner highlights. */
+    letter-spacing: 0;
     box-shadow:
-      0 24px 48px rgb(0 0 0 / 0.32),
-      0 8px 20px rgb(0 0 0 / 0.18),
-      inset 0 2px 3px rgb(255 255 255 / 0.9),
-      inset 0 -3px 6px rgb(80 190 130 / 0.35),
-      inset 2px 0 4px rgb(255 255 255 / 0.35),
-      inset -2px 0 4px rgb(100 210 155 / 0.25);
+      0 18px 38px rgb(0 0 0 / 0.34),
+      0 5px 14px color-mix(in oklab, var(--creator-accent) 22%, transparent),
+      inset 0 1px 0 rgb(255 255 255 / 0.55);
   }
 
   /* Subtle traveling shine sweep to keep the premium click feel. */
@@ -305,7 +311,7 @@ body {
       transparent 58%
     );
     transform: translateX(-100%) skewX(-12deg);
-    animation: creator-cta-shine 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation: creator-cta-shine 4.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     pointer-events: none;
   }
 
@@ -320,14 +326,11 @@ body {
   }
 
   .creator-primary-cta:hover {
-    filter: brightness(1.06);
+    filter: brightness(1.03);
     box-shadow:
-      0 30px 56px rgb(0 0 0 / 0.36),
-      0 10px 24px rgb(0 0 0 / 0.2),
-      inset 0 2px 3px rgb(255 255 255 / 1),
-      inset 0 -3px 6px rgb(80 190 130 / 0.4),
-      inset 2px 0 4px rgb(255 255 255 / 0.4),
-      inset -2px 0 4px rgb(100 210 155 / 0.3);
+      0 22px 44px rgb(0 0 0 / 0.38),
+      0 7px 18px color-mix(in oklab, var(--creator-accent) 28%, transparent),
+      inset 0 1px 0 rgb(255 255 255 / 0.62);
   }
 
   .creator-accent-text {
@@ -339,48 +342,72 @@ body {
   }
 
   .creator-proof-avatar {
-    background: color-mix(in oklab, var(--creator-accent) 35%, rgb(255 255 255 / 0.16));
+    background: linear-gradient(135deg, #263630, var(--creator-accent));
   }
 
   /* Seamless continuation of the media, sampled from each template's image/video. */
   .creator-sheet {
     background: linear-gradient(
       180deg,
-      rgb(var(--creator-panel-rgb) / 0) 0,
-      rgb(var(--creator-panel-rgb) / 0.22) 34px,
-      rgb(var(--creator-panel-rgb) / 0.62) 76px,
-      rgb(var(--creator-panel-rgb)) 116px,
-      rgb(var(--creator-panel-rgb)) 100%
+      rgb(17 23 21 / 0) 0,
+      rgb(17 23 21 / 0.72) 44px,
+      #111715 94px,
+      #111715 100%
     );
-    color: rgb(var(--creator-panel-foreground));
+    color: #edf6f1;
   }
 
   .creator-sheet-card {
-    border: 1px solid rgb(var(--creator-panel-border));
-    border-radius: 18px;
-    background: rgb(var(--creator-panel-card));
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 22px rgb(0 0 0 / 0.08);
+    border: 1px solid rgb(237 246 241 / 0.1);
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgb(237 246 241 / 0.075), rgb(38 54 48 / 0.38));
+    backdrop-filter: blur(16px) saturate(120%);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 10px 28px rgb(0 0 0 / 0.12);
   }
 
   .creator-sheet-muted {
-    color: rgb(var(--creator-panel-muted));
+    color: rgb(237 246 241 / 0.52);
   }
 
   .creator-avatar-border {
-    border-color: rgb(var(--creator-panel-rgb));
+    border-color: #111715;
   }
 
   .creator-explore-row {
-    border-color: rgb(var(--creator-panel-border));
+    border-color: rgb(237 246 241 / 0.08);
   }
 
   .creator-explore-row:hover {
-    background: rgb(var(--creator-panel-card));
+    background: rgb(237 246 241 / 0.05);
   }
 
   .creator-thumbnail-bg {
-    background: rgb(var(--creator-panel-border));
+    background: #263630;
+  }
+
+  .creator-proof-line {
+    border-block: 1px solid rgb(237 246 241 / 0.09);
+  }
+
+  .creator-feature-icon {
+    border-radius: 12px;
+    background: color-mix(in oklab, var(--creator-accent) 13%, #263630);
+    color: var(--creator-accent);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--creator-accent) 18%, transparent);
+  }
+
+  .creator-sticky-join {
+    background: linear-gradient(180deg, transparent, rgb(17 23 21 / 0.93) 38%, #111715 72%);
+  }
+
+  .creator-consent {
+    color: rgb(237 246 241 / 0.38);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .creator-primary-cta::after {
+      animation: none;
+    }
   }
 
   .dt-main-canvas {
