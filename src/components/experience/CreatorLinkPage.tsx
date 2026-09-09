@@ -53,19 +53,26 @@ function accentFallbackTone(accent: string): SampledPanelTone {
   return toneFromRgb(muted[0], muted[1], muted[2]);
 }
 
+/** House mint used across every fan-page template. */
+const MINT_ACCENT = "#5FE3B0";
+const MINT_TONE = [22, 54, 44];
+
 function toneFromRgb(red: number, green: number, blue: number): SampledPanelTone {
   const average = (red + green + blue) / 3;
-  const muted = [red, green, blue].map((channel) => Math.round(channel * 0.48 + average * 0.32));
+  const base = [red, green, blue].map((channel) => channel * 0.48 + average * 0.32);
+  // Pull every sampled panel toward the mint-glass house tone.
+  const muted = base.map((channel, index) => Math.round(channel * 0.42 + MINT_TONE[index] * 0.58));
   const luminance = (0.2126 * muted[0] + 0.7152 * muted[1] + 0.0722 * muted[2]) / 255;
   const isLight = luminance > 0.56;
   return {
     rgb: muted.join(" "),
-    foreground: isLight ? "24 25 24" : "248 248 246",
-    muted: isLight ? "24 25 24 / 0.56" : "248 248 246 / 0.62",
-    card: isLight ? "255 255 255 / 0.18" : "255 255 255 / 0.1",
-    border: isLight ? "0 0 0 / 0.1" : "255 255 255 / 0.13",
+    foreground: isLight ? "12 34 27" : "230 255 244",
+    muted: isLight ? "12 34 27 / 0.56" : "214 250 234 / 0.66",
+    card: isLight ? "255 255 255 / 0.2" : "158 247 197 / 0.12",
+    border: isLight ? "12 60 44 / 0.12" : "158 247 197 / 0.2",
   };
 }
+
 
 function sampleMediaTone(media: HTMLImageElement | HTMLVideoElement): SampledPanelTone | null {
   try {
@@ -103,7 +110,7 @@ export function CreatorLinkPage({
   className = "",
   onJoin,
   joinLabel,
-  accentColor = "#9EF7C5",
+  accentColor = MINT_ACCENT,
 }: {
   profile: CreatorProfile;
   /** Phone-sized rendering (studio preview). */
@@ -144,7 +151,7 @@ export function CreatorLinkPage({
       className={`creator-glass-page relative h-full w-full overflow-y-auto ${className}`}
       style={{
         scrollbarWidth: "none",
-        "--creator-accent": accentColor,
+        "--creator-accent": MINT_ACCENT,
         "--creator-panel-rgb": panelTone.rgb,
         "--creator-panel-foreground": panelTone.foreground,
         "--creator-panel-muted": panelTone.muted,

@@ -271,12 +271,14 @@ body {
   }
 
   .creator-glass {
-    border: 1px solid rgb(255 255 255 / 0.18);
+    border: 1px solid rgb(178 250 214 / 0.24);
     border-radius: 18px;
-    background: rgb(255 255 255 / 0.11);
-    backdrop-filter: blur(18px) saturate(135%);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.12), 0 14px 36px rgb(0 0 0 / 0.18);
+    background:
+      linear-gradient(150deg, rgb(158 247 197 / 0.16) 0%, rgb(255 255 255 / 0.06) 60%, rgb(158 247 197 / 0.08) 100%);
+    backdrop-filter: blur(18px) saturate(150%);
+    box-shadow: inset 0 1px 0 rgb(230 255 244 / 0.2), 0 14px 36px rgb(2 26 18 / 0.24);
   }
+
 
   .creator-primary-cta {
     position: relative;
@@ -369,10 +371,15 @@ body {
   .creator-sheet-card {
     border: 1px solid rgb(var(--creator-panel-border));
     border-radius: 18px;
-    background: rgb(var(--creator-panel-card));
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 22px rgb(0 0 0 / 0.08);
+    background:
+      linear-gradient(150deg, rgb(158 247 197 / 0.14) 0%, rgb(158 247 197 / 0.04) 55%, rgb(255 255 255 / 0.06) 100%),
+      rgb(var(--creator-panel-card));
+    backdrop-filter: blur(16px) saturate(150%);
+    box-shadow:
+      inset 0 1px 0 rgb(214 255 236 / 0.22),
+      0 12px 28px rgb(2 26 18 / 0.24);
   }
+
 
   .creator-sheet-muted {
     color: rgb(var(--creator-panel-muted));
