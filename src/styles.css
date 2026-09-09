@@ -600,11 +600,12 @@ select option,
   animation: filter-pulse-accent 0.55s ease-in-out 3;
 }
 
-/* Commercial / marketing surfaces: red + black brand theme */
+/* Commercial / marketing surfaces: mint glass brand theme */
 .marketing-theme {
   --theme-accent: #5FE3B0;
   --theme-accent-hover: #86F0C6;
-  --theme-accent-rgb: 226, 35, 26;
+  --theme-accent-rgb: 95, 227, 176;
+
 
   --color-dt-red: #5FE3B0;
   --color-dt-red-hover: #86F0C6;
