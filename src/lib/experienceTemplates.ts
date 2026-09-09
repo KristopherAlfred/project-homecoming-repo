@@ -7,7 +7,6 @@ import { DEFAULT_EXPERIENCE_PAGES } from "./experienceConfig";
 
 import type { CreatorProfile } from "./creatorProfile";
 import { DEFAULT_CREATOR_PROFILE } from "./creatorProfile";
-import sloaneHero from "../assets/sloane-hero.mp4.asset.json";
 
 import type {
   ExperienceBrand,
@@ -1176,7 +1175,7 @@ EXPERIENCE_TEMPLATES.unshift({
   tags: ["dark", "video", "creator", "tennis"],
   swatches: ["#111715", "#263630", "#88DDB7", "#EDF6F1"],
   athlete: "Sloane Stephens",
-  photo: SPORT_PHOTOS["tennis"],
+  photo: "",
   theme: {
     bg: "#000000",
     bgGradientFrom: "#000000",
@@ -1212,7 +1211,8 @@ EXPERIENCE_TEMPLATES.unshift({
   },
   creator: {
     enabled: true,
-    videoSrc: sloaneHero.url,
+    videoSrc: "",
+    videoPoster: "",
     photo: "",
     name: "Sloane Stephens",
     verified: true,
@@ -1289,6 +1289,16 @@ export function applyExperienceTemplate(
               (s.id === "hero" || s.role === "hero") ? { ...s, hidden: false } : s,
             ),
           };
+        } else if (template.creator) {
+          // Creator templates without their own art should not leak a previous
+          // template's hero image into the stage preview.
+          next = {
+            ...next,
+            heroImage: "",
+            stage: (next.stage ?? []).map((s) =>
+              (s.id === "hero" || s.role === "hero") ? { ...s, hidden: true } : s,
+            ),
+          };
         }
       }
       return [key, next];
@@ -1312,9 +1322,9 @@ export function applyExperienceTemplate(
       followerCount: template.creator?.followerCount || config.creator.followerCount,
       photo: template.creator?.photo || config.creator.photo || template.photo || "",
       enabled: true,
-      videoSrc: template.creator?.videoSrc || "",
+      videoSrc: template.creator?.videoSrc ?? "",
       videoPoster:
-        template.creator?.videoPoster || template.photo || template.landing?.heroImage || "",
+        template.creator?.videoPoster ?? template.photo ?? template.landing?.heroImage ?? "",
       bio: template.creator?.bio || template.landing?.body || config.creator.bio,
       ctaLabel:
         template.creator?.ctaLabel || template.landing?.ctaLabel || DEFAULT_CREATOR_PROFILE.ctaLabel,
