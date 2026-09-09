@@ -37,18 +37,19 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
 }
 
 const defaultPalette: ThemePalette = {
-  bg: "#080808",
-  panel: "#0f0f0f",
-  card: "#121212",
-  border: "#1e1e1e",
-  muted: "#8a8a8a",
-  text: "#f0f0f0",
-  accent: "#E2231A",
-  accentHover: "#F5382E",
-  chartSecondary: "#F5382E",
-  chartTertiary: "#7A0F0A",
-  trafficShades: shades("#E2231A"),
+  bg: "#05100c",
+  panel: "#0b1a15",
+  card: "#102820",
+  border: "#1d3b31",
+  muted: "#8fb3a5",
+  text: "#eafff5",
+  accent: "#5FE3B0",
+  accentHover: "#86F0C6",
+  chartSecondary: "#86F0C6",
+  chartTertiary: "#2E9C79",
+  trafficShades: shades("#5FE3B0"),
 };
+
 
 const teamPalette: ThemePalette = {
   bg: "#0a0a0a",
