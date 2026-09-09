@@ -271,19 +271,25 @@ body {
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    /* Frosted grey glass — matches the feature cards / social-proof bar below. */
-    border: 1px solid rgb(var(--creator-panel-border));
+    /* Glassy "welcome" texture — translucent icy glass like the macOS welcome text. */
+    border: 1px solid rgb(255 255 255 / 0.55);
     border-radius: 9999px;
-    background: rgb(var(--creator-panel-card));
-    backdrop-filter: blur(16px) saturate(130%);
-    color: rgb(var(--creator-panel-foreground));
-    font-weight: 700;
-    text-shadow: none;
-    /* Soft floating shadow so it lifts above the seam like the glass cards. */
+    background:
+      radial-gradient(ellipse 120% 180% at 30% -30%, rgb(255 255 255 / 0.85) 0%, transparent 55%),
+      radial-gradient(ellipse 130% 200% at 75% 130%, rgb(160 200 235 / 0.55) 0%, transparent 60%),
+      linear-gradient(160deg, rgb(255 255 255 / 0.72) 0%, rgb(205 226 245 / 0.5) 42%, rgb(165 195 225 / 0.45) 72%, rgb(225 240 252 / 0.6) 100%);
+    backdrop-filter: blur(14px) saturate(150%) brightness(1.06);
+    color: rgb(20 30 45 / 0.92);
+    font-weight: 800;
+    text-shadow: 0 1px 0 rgb(255 255 255 / 0.5);
+    /* Floating: deep soft drop shadow + glassy inner refraction highlights. */
     box-shadow:
-      0 20px 40px rgb(0 0 0 / 0.22),
-      0 8px 18px color-mix(in oklab, var(--creator-accent) 16%, rgb(0 0 0 / 0.18)),
-      inset 0 1px 0 rgb(255 255 255 / 0.14);
+      0 24px 48px rgb(0 0 0 / 0.32),
+      0 8px 20px rgb(0 0 0 / 0.18),
+      inset 0 2px 3px rgb(255 255 255 / 0.9),
+      inset 0 -3px 6px rgb(120 160 200 / 0.35),
+      inset 2px 0 4px rgb(255 255 255 / 0.35),
+      inset -2px 0 4px rgb(140 175 210 / 0.25);
   }
 
   /* Subtle traveling shine sweep to keep the premium click feel. */
@@ -291,11 +297,11 @@ body {
     content: "";
     position: absolute;
     inset: -40% -120%;
-    z-index: -1;
+    z-index: 1;
     background: linear-gradient(
       100deg,
       transparent 42%,
-      rgb(255 255 255 / 0.35) 50%,
+      rgb(255 255 255 / 0.7) 50%,
       transparent 58%
     );
     transform: translateX(-100%) skewX(-12deg);
@@ -314,11 +320,14 @@ body {
   }
 
   .creator-primary-cta:hover {
-    filter: brightness(1.04);
+    filter: brightness(1.06);
     box-shadow:
-      0 26px 50px rgb(0 0 0 / 0.26),
-      0 10px 22px color-mix(in oklab, var(--creator-accent) 20%, rgb(0 0 0 / 0.2)),
-      inset 0 1px 0 rgb(255 255 255 / 0.18);
+      0 30px 56px rgb(0 0 0 / 0.36),
+      0 10px 24px rgb(0 0 0 / 0.2),
+      inset 0 2px 3px rgb(255 255 255 / 1),
+      inset 0 -3px 6px rgb(120 160 200 / 0.4),
+      inset 2px 0 4px rgb(255 255 255 / 0.4),
+      inset -2px 0 4px rgb(140 175 210 / 0.3);
   }
 
   .creator-accent-text {
