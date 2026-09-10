@@ -239,7 +239,11 @@ body {
 
 @layer components {
   .creator-glass-page {
-    background: #000000;
+    background:
+      radial-gradient(120% 60% at 50% 0%, color-mix(in oklab, var(--creator-accent) 10%, transparent), transparent 60%),
+      radial-gradient(90% 50% at 12% 42%, color-mix(in oklab, var(--creator-accent) 7%, transparent), transparent 65%),
+      radial-gradient(80% 45% at 88% 88%, color-mix(in oklab, var(--creator-accent) 6%, transparent), transparent 65%),
+      #000000;
     color: #edf6f1;
     font-family: Arial, Helvetica, sans-serif;
     -webkit-overflow-scrolling: touch;
@@ -458,13 +462,15 @@ body {
 
   /* Seamless continuation of the media, sampled from each template's image/video. */
   .creator-sheet {
-    background: linear-gradient(
-      180deg,
-      rgb(0 0 0 / 0) 0,
-      rgb(0 0 0 / 0.78) 44px,
-      #000000 94px,
-      #000000 100%
-    );
+    background:
+      linear-gradient(
+        180deg,
+        rgb(0 0 0 / 0) 0,
+        rgb(0 0 0 / 0.55) 52px,
+        rgb(0 0 0 / 0.86) 110px,
+        rgb(0 0 0 / 0.92) 100%
+      ),
+      radial-gradient(100% 40% at 50% 0%, color-mix(in oklab, var(--creator-accent) 12%, transparent), transparent 70%);
     color: #edf6f1;
   }
 
@@ -535,13 +541,15 @@ body {
     border: 1px solid rgb(255 255 255 / 0.1);
     border-radius: 22px;
     background:
-      linear-gradient(150deg, rgb(255 255 255 / 0.13), rgb(255 255 255 / 0.02) 55%),
-      radial-gradient(120% 140% at 0% 0%, color-mix(in oklab, var(--creator-accent) 20%, transparent), transparent 60%),
-      rgb(0 0 0 / 0.45);
-    backdrop-filter: blur(26px) saturate(160%);
+      linear-gradient(150deg, rgb(255 255 255 / 0.14), rgb(255 255 255 / 0.02) 52%),
+      radial-gradient(130% 140% at 0% 0%, color-mix(in oklab, var(--creator-accent) 24%, transparent), transparent 60%),
+      rgb(0 0 0 / 0.34);
+    backdrop-filter: blur(30px) saturate(175%);
     box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.16),
-      0 16px 34px rgb(0 0 0 / 0.45);
+      inset 0 1px 0 rgb(255 255 255 / 0.22),
+      inset 0 -18px 34px rgb(0 0 0 / 0.26),
+      0 18px 38px rgb(0 0 0 / 0.48);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   }
 
   .creator-fan-chip::after {
@@ -602,13 +610,14 @@ body {
     border: 1px solid rgb(255 255 255 / 0.1);
     border-radius: 26px;
     background:
-      linear-gradient(165deg, rgb(255 255 255 / 0.12), rgb(255 255 255 / 0.015) 58%),
-      radial-gradient(130% 110% at 50% -20%, color-mix(in oklab, var(--creator-accent) 22%, transparent), transparent 65%),
-      rgb(0 0 0 / 0.5);
-    backdrop-filter: blur(26px) saturate(165%);
+      linear-gradient(165deg, rgb(255 255 255 / 0.14), rgb(255 255 255 / 0.02) 52%),
+      radial-gradient(140% 120% at 50% -30%, color-mix(in oklab, var(--creator-accent) 26%, transparent), transparent 62%),
+      rgb(0 0 0 / 0.34);
+    backdrop-filter: blur(30px) saturate(175%);
     box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.18),
-      0 18px 40px rgb(0 0 0 / 0.5);
+      inset 0 1px 0 rgb(255 255 255 / 0.22),
+      inset 0 -20px 40px rgb(0 0 0 / 0.28),
+      0 20px 46px rgb(0 0 0 / 0.5);
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   }
 
