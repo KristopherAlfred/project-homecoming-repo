@@ -169,13 +169,13 @@ export function CreatorLinkPage({
       }));
   return (
     <div
-      className={`creator-glass-page relative h-full w-full overflow-y-auto ${className}`}
+      className={`creator-glass-page relative h-full w-full overflow-hidden ${className}`}
       style={{
         scrollbarWidth: "none",
         "--creator-accent": accentColor,
       } as React.CSSProperties}
     >
-      {/* ── Full-page media background ───────────────────────── */}
+      {/* ── Fixed full-page media background ─────────────────── */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         {video ? (
           <video
@@ -197,7 +197,9 @@ export function CreatorLinkPage({
         <div className="creator-accent-glow absolute inset-x-0 top-0 h-[40%]" />
       </div>
 
-      {/* ── Top zone: identity over the media ────────────────── */}
+      {/* ── Scrollable content layer ─────────────────────────── */}
+      <div className="creator-scroll-content relative z-10 h-full w-full overflow-y-auto">
+        {/* ── Top zone: identity over the media ────────────────── */}
       <section
         className={`relative w-full text-white ${compact ? "h-[64%] min-h-[360px]" : "h-[76vh] min-h-[640px]"}`}
       >
