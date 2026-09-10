@@ -1212,7 +1212,7 @@ EXPERIENCE_TEMPLATES.unshift({
   },
   creator: {
     enabled: true,
-    videoSrc: "",
+    videoSrc: sloaneHero.url,
     videoPoster: "",
     photo: "",
     name: "Sloane Stephens",
