@@ -445,7 +445,7 @@ body {
   }
 
   .creator-thumbnail-bg {
-    background: #263630;
+    background: color-mix(in oklab, var(--creator-accent) 12%, #000);
   }
 
   .creator-proof-line {
