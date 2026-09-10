@@ -351,6 +351,7 @@ export function CreatorLinkPage({
           ) : null}
         </div>
       </section>
+      </div>
     </div>
   );
 }
