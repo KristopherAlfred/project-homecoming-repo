@@ -257,11 +257,13 @@ body {
       rgb(8 12 16 / 0.12) 0%,
       rgb(10 14 18 / 0.04) 22%,
       rgb(12 18 24 / 0.28) 40%,
-      rgb(10 14 18 / 0.62) 60%,
-      rgb(8 12 16 / 0.88) 82%,
-      rgb(8 12 16 / 0.98) 100%
+      rgb(10 14 18 / 0.62) 58%,
+      rgb(9 13 17 / 0.9) 76%,
+      rgb(12 16 20 / 1) 92%,
+      rgb(12 16 20 / 1) 100%
     );
   }
+
 
 
   /* Link.me-style live link cards: full-bleed preview under reflective glass. */
