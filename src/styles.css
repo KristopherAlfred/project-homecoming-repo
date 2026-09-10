@@ -351,11 +351,12 @@ body {
 
   /* Crisper, richer hero footage: GPU-composited, high-quality downscale. */
   .creator-hero-media {
-    filter: saturate(1.08) contrast(1.05) brightness(1.03);
+    filter: saturate(1.14) contrast(1.1) brightness(1.05);
     image-rendering: high-quality;
-    transform: translateZ(0);
+    transform: translateZ(0) scale(1.02);
     backface-visibility: hidden;
     will-change: transform;
+    object-position: center;
   }
 
   .creator-accent-glow {
