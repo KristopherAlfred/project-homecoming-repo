@@ -177,7 +177,7 @@ export function CreatorLinkPage({
     >
       {/* ── Top zone: media only ─────────────────────────────── */}
       <section
-        className={`relative w-full text-white ${compact ? "h-[52%] min-h-[290px]" : "h-[64vh] min-h-[560px]"}`}
+        className={`relative w-full text-white ${compact ? "h-[64%] min-h-[360px]" : "h-[76vh] min-h-[640px]"}`}
       >
         <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
           {video ? (
@@ -241,7 +241,7 @@ export function CreatorLinkPage({
           <button
             type="button"
             onClick={onJoin}
-            className={`creator-primary-cta group mt-4 flex w-full max-w-[420px] items-center justify-center gap-2 transition duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.985] ${
+            className={`creator-primary-cta group ${compact ? "mt-6" : "mt-8"} flex w-full max-w-[420px] items-center justify-center gap-2 transition duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.985] ${
               compact ? "h-11 text-[11px]" : "h-14 text-[15px]"
             }`}
           >
