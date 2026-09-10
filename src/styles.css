@@ -254,13 +254,11 @@ body {
   .creator-media-overlay {
     background: linear-gradient(
       180deg,
-      rgb(8 12 16 / 0.12) 0%,
-      rgb(10 14 18 / 0.04) 22%,
-      rgb(12 18 24 / 0.28) 40%,
-      rgb(10 14 18 / 0.62) 58%,
-      rgb(9 13 17 / 0.9) 76%,
-      rgb(12 16 20 / 1) 92%,
-      rgb(12 16 20 / 1) 100%
+      rgb(8 12 16 / 0.3) 0%,
+      rgb(10 14 18 / 0.08) 18%,
+      rgb(12 18 24 / 0.22) 38%,
+      rgb(10 14 18 / 0.45) 60%,
+      rgb(9 13 17 / 0.55) 100%
     );
   }
 
@@ -476,14 +474,7 @@ body {
 
   /* Seamless smoky glass continuation of the hero video. */
   .creator-sheet {
-    background: linear-gradient(
-      180deg,
-      rgb(8 12 16 / 0) 0,
-      rgb(8 12 16 / 0.08) 60px,
-      rgb(8 12 16 / 0.24) 140px,
-      rgb(8 12 16 / 0.42) 260px,
-      rgb(8 12 16 / 0.5) 100%
-    );
+    background: transparent;
     border-top: 0;
     color: #eef2f5;
   }
