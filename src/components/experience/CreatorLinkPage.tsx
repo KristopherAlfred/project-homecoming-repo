@@ -145,6 +145,17 @@ export function CreatorLinkPage({
             ) : null}
           </div>
 
+          <button
+            type="button"
+            onClick={onJoin}
+            className={`creator-primary-cta group mt-4 flex w-full max-w-[420px] items-center justify-center gap-2 transition duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.985] ${
+              compact ? "h-11 text-[11px]" : "h-14 text-[15px]"
+            }`}
+          >
+            {cta}
+            <ArrowRight size={compact ? 14 : 18} strokeWidth={2.2} />
+          </button>
+          <p className={`creator-consent mt-2 ${compact ? "text-[6px]" : "text-[9px]"}`}>{profile.joinMicrocopy}</p>
         </div>
       </section>
 
