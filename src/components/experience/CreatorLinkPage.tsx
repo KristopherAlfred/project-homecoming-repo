@@ -65,16 +65,16 @@ function LinkPreviewRow({
       href={card.url || undefined}
       target={card.url ? "_blank" : undefined}
       rel="noreferrer"
-      className="creator-sheet-card creator-link-row block w-full overflow-hidden text-left transition-transform hover:-translate-y-0.5 active:scale-[0.99]"
+      className="creator-link-row group relative block w-full overflow-hidden text-left"
     >
-      <div className={`creator-link-preview relative w-full overflow-hidden ${compact ? "h-24" : "h-44"}`}>
+      <div className={`creator-link-preview relative w-full overflow-hidden ${compact ? "h-28" : "h-52"}`}>
         {screenshot && !failed ? (
           <img
             src={screenshot}
             alt=""
             loading="lazy"
             onError={() => setFailed(true)}
-            className="h-full w-full object-cover object-top"
+            className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
           />
         ) : (
           <span className="creator-link-fallback grid h-full w-full place-items-center font-black">
@@ -84,29 +84,47 @@ function LinkPreviewRow({
         <span className="creator-link-preview-veil pointer-events-none absolute inset-0" />
         {host ? (
           <span
-            className={`creator-link-host absolute left-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full ${
-              compact ? "px-2 py-0.5 text-[7px]" : "px-2.5 py-1 text-[10px]"
+            className={`creator-link-host absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full ${
+              compact ? "px-2 py-0.5 text-[7px]" : "px-3 py-1 text-[10px]"
             }`}
           >
             {favicon ? <img src={favicon} alt="" className={compact ? "h-2.5 w-2.5" : "h-3.5 w-3.5"} /> : null}
             {host}
           </span>
         ) : null}
-      </div>
-      <div
-        className={`grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center ${compact ? "gap-2 p-2.5" : "gap-3 p-4"}`}
-      >
-        <span className="min-w-0">
-          <span className={`block truncate font-bold ${compact ? "text-[11px]" : "text-[15px]"}`}>{title}</span>
-          <span className={`creator-sheet-muted mt-0.5 block truncate ${compact ? "text-[7px]" : "text-[11px]"}`}>
-            {card.overlayTitle && card.caption ? card.overlayTitle : host}
+
+        <div
+          className={`absolute inset-x-0 bottom-0 grid grid-cols-[minmax(0,1fr)_auto] items-end ${
+            compact ? "gap-2 p-3" : "gap-4 p-5"
+          }`}
+        >
+          <span className="min-w-0">
+            <span
+              className={`creator-link-title block truncate ${compact ? "text-[12px]" : "text-[20px]"}`}
+            >
+              {title}
+            </span>
+            {card.overlayTitle && card.caption ? (
+              <span
+                className={`creator-link-sub mt-0.5 block truncate ${compact ? "text-[7px]" : "text-[11px]"}`}
+              >
+                {card.overlayTitle}
+              </span>
+            ) : null}
           </span>
-        </span>
-        <ChevronRight className="creator-accent-text shrink-0" size={compact ? 14 : 18} />
+          <span
+            className={`creator-link-go inline-grid place-items-center rounded-full ${
+              compact ? "h-6 w-6" : "h-10 w-10"
+            }`}
+          >
+            <ChevronRight size={compact ? 12 : 18} strokeWidth={2.4} />
+          </span>
+        </div>
       </div>
     </a>
   );
 }
+
 
 
 export function CreatorLinkPage({
