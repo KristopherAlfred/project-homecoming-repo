@@ -1228,7 +1228,36 @@ EXPERIENCE_TEMPLATES.unshift({
       { id: "tiktok", platform: "tiktok", url: "" },
       { id: "youtube", platform: "youtube", url: "" },
     ],
-    featured: [],
+    featured: [
+      {
+        id: "sloane-site",
+        image: "",
+        caption: "SloaneStephens.com",
+        overlayTitle: "Official site",
+        url: "https://sloanestephens.com/",
+      },
+      {
+        id: "sloane-docglo",
+        image: "",
+        caption: "Doc & Glo",
+        overlayTitle: "Shop the collection on Amazon",
+        url: "https://www.amazon.com/stores/DocGlo/page/314FE124-50D0-43DB-AA94-4ACD2546D0F3",
+      },
+      {
+        id: "sloane-forbes",
+        image: "",
+        caption: "Forbes",
+        overlayTitle: "Calling for female-focused performance research",
+        url: "https://www.forbes.com/sites/michaellore/2022/09/01/sloane-stephens-calls-for-more-female-focused-performance-research/",
+      },
+      {
+        id: "sloane-yahoo",
+        image: "",
+        caption: "Yahoo Sports",
+        overlayTitle: "Sloane speaks out",
+        url: "https://sports.yahoo.com/articles/doesn-t-look-amazing-time-083837175.html",
+      },
+    ],
   },
 });
 
