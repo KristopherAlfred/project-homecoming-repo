@@ -239,22 +239,20 @@ body {
 
 @layer components {
   .creator-glass-page {
-    background-color: #2b3138;
+    background-color: #14181d;
     background-image:
-      radial-gradient(120% 60% at 50% 0%, color-mix(in oklab, var(--creator-accent) 8%, transparent), transparent 62%),
-      linear-gradient(180deg, rgb(20 24 28 / 0.35) 0%, rgb(20 24 28 / 0.55) 100%),
-      url("/__l5e/assets-v1/a73059a2-2389-4764-b413-d13156096710/creator-bg.png");
-    background-size: cover, cover, cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: scroll, scroll, fixed;
+      radial-gradient(120% 70% at 50% 0%, color-mix(in oklab, var(--creator-accent) 14%, transparent), transparent 60%),
+      radial-gradient(100% 60% at 80% 100%, rgb(255 255 255 / 0.05), transparent 65%),
+      radial-gradient(90% 55% at 12% 100%, color-mix(in oklab, var(--creator-accent) 8%, transparent), transparent 70%),
+      linear-gradient(180deg, rgb(255 255 255 / 0.09) 0%, rgb(255 255 255 / 0.03) 30%, rgb(255 255 255 / 0.05) 100%);
+    background-attachment: fixed;
     color: #eef2f5;
     font-family: Arial, Helvetica, sans-serif;
     -webkit-overflow-scrolling: touch;
   }
 
   .creator-media-overlay {
-    background: linear-gradient(180deg, rgb(18 22 26 / 0.2) 0%, rgb(18 22 26 / 0.04) 38%, rgb(30 35 41 / 0.55) 70%, #2b3138 100%);
+    background: linear-gradient(180deg, rgb(18 22 26 / 0.2) 0%, rgb(18 22 26 / 0.04) 38%, rgb(20 24 29 / 0.55) 70%, #14181d 100%);
   }
 
 
@@ -470,10 +468,10 @@ body {
     background:
       linear-gradient(
         180deg,
-        rgb(43 49 56 / 0) 0,
-        rgb(43 49 56 / 0.55) 52px,
-        rgb(38 44 50 / 0.78) 110px,
-        rgb(34 39 45 / 0.82) 100%
+        rgb(20 24 29 / 0) 0,
+        rgb(20 24 29 / 0.5) 52px,
+        rgb(20 24 29 / 0.72) 110px,
+        rgb(20 24 29 / 0.8) 100%
       ),
       radial-gradient(100% 40% at 50% 0%, color-mix(in oklab, var(--creator-accent) 10%, transparent), transparent 70%);
     backdrop-filter: blur(28px) saturate(120%);
