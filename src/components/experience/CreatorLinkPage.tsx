@@ -34,6 +34,79 @@ const FEATURE_ICONS: Record<string, LucideIcon> = {
   star: Star,
 };
 
+/** Linktree-style embedded preview row: site screenshot, favicon, title, host. */
+function LinkPreviewRow({
+  card,
+  compact,
+}: {
+  card: { id: string; image: string; caption: string; overlayTitle: string; url: string };
+  compact: boolean;
+}) {
+  const art = resolveExperiencePreviewUrl(card.image);
+  let host = "";
+  try {
+    host = card.url ? new URL(card.url).hostname.replace(/^www\./, "") : "";
+  } catch {
+    host = "";
+  }
+  const title = card.caption || card.overlayTitle || "Explore";
+  const screenshot =
+    art ||
+    (card.url
+      ? `https://api.microlink.io/?url=${encodeURIComponent(card.url)}&screenshot=true&meta=false&embed=screenshot.url`
+      : "");
+  const favicon = host ? `https://www.google.com/s2/favicons?domain=${host}&sz=128` : "";
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <a
+      href={card.url || undefined}
+      target={card.url ? "_blank" : undefined}
+      rel="noreferrer"
+      className="creator-sheet-card creator-link-row block w-full overflow-hidden text-left transition-transform hover:-translate-y-0.5 active:scale-[0.99]"
+    >
+      <div className={`creator-link-preview relative w-full overflow-hidden ${compact ? "h-24" : "h-44"}`}>
+        {screenshot && !failed ? (
+          <img
+            src={screenshot}
+            alt=""
+            loading="lazy"
+            onError={() => setFailed(true)}
+            className="h-full w-full object-cover object-top"
+          />
+        ) : (
+          <span className="creator-link-fallback grid h-full w-full place-items-center font-black">
+            {title.charAt(0).toUpperCase()}
+          </span>
+        )}
+        <span className="creator-link-preview-veil pointer-events-none absolute inset-0" />
+        {host ? (
+          <span
+            className={`creator-link-host absolute left-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full ${
+              compact ? "px-2 py-0.5 text-[7px]" : "px-2.5 py-1 text-[10px]"
+            }`}
+          >
+            {favicon ? <img src={favicon} alt="" className={compact ? "h-2.5 w-2.5" : "h-3.5 w-3.5"} /> : null}
+            {host}
+          </span>
+        ) : null}
+      </div>
+      <div
+        className={`grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center ${compact ? "gap-2 p-2.5" : "gap-3 p-4"}`}
+      >
+        <span className="min-w-0">
+          <span className={`block truncate font-bold ${compact ? "text-[11px]" : "text-[15px]"}`}>{title}</span>
+          <span className={`creator-sheet-muted mt-0.5 block truncate ${compact ? "text-[7px]" : "text-[11px]"}`}>
+            {card.overlayTitle && card.caption ? card.overlayTitle : host}
+          </span>
+        </span>
+        <ChevronRight className="creator-accent-text shrink-0" size={compact ? 14 : 18} />
+      </div>
+    </a>
+  );
+}
+
+
 export function CreatorLinkPage({
   profile,
   compact = false,
