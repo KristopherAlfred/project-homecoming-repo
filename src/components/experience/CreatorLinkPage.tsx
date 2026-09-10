@@ -275,63 +275,17 @@ export function CreatorLinkPage({
             </p>
           ) : null}
 
-          <div className={compact ? "mt-3 w-full" : "mt-7 w-full"}>
-            <div className={`flex items-center justify-between ${compact ? "mb-2" : "mb-3"}`}>
-              <p className={`creator-section-label font-semibold uppercase ${compact ? "text-[6px]" : "text-[10px]"}`}>Joining now</p>
-              <span className={`creator-live-status inline-flex items-center gap-1.5 ${compact ? "text-[6px]" : "text-[9px]"}`}>
-                <span className="creator-live-dot" /> Live
-              </span>
-            </div>
-            <div className="creator-fan-rail overflow-hidden">
-              <div className="creator-fan-track flex w-max gap-2.5">
-                {[...fanActivity, ...fanActivity].map((fan, index) => {
-                  const face = proofFaces[index % Math.max(proofFaces.length, 1)];
-                  return (
-                    <div
-                      key={`${fan.name}-${index}`}
-                      className={`creator-fan-chip flex shrink-0 items-center ${compact ? "w-[152px] gap-2 p-2" : "w-[220px] gap-3 p-3"}`}
-                    >
-                      {face ? (
-                        <img src={face} alt="" className={`${compact ? "h-7 w-7" : "h-10 w-10"} rounded-full object-cover`} />
-                      ) : (
-                        <span className={`${compact ? "h-7 w-7" : "h-10 w-10"} creator-proof-avatar rounded-full`} />
-                      )}
-                      <span className="min-w-0 flex-1 leading-tight">
-                        <strong className={`block truncate ${compact ? "text-[8px]" : "text-xs"}`}>{fan.name}</strong>
-                        <span className={`creator-sheet-muted block truncate ${compact ? "text-[6px]" : "text-[9px]"}`}>{fan.note}</span>
-                      </span>
-                      <span className={`creator-sheet-muted ${compact ? "text-[6px]" : "text-[8px]"}`}>{fan.time}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+          <div className={compact ? "mt-4 w-full" : "mt-9 w-full"}>
+            <CircleGlassSection
+              compact={compact}
+              members={fanActivity.map((fan, index) => ({
+                ...fan,
+                face: proofFaces[index % Math.max(proofFaces.length, 1)] || "",
+              }))}
+              perks={featureItems}
+            />
           </div>
 
-          {featureItems.length ? (
-            <div className={compact ? "mt-3 w-full" : "mt-9 w-full"}>
-              <p className={`creator-section-label font-semibold uppercase ${compact ? "mb-2 text-[6px]" : "mb-4 text-[10px]"}`}>Membership perks</p>
-              <div className={`grid ${compact ? "grid-cols-3 gap-2" : "grid-cols-2 gap-3"}`}>
-              {featureItems.map((feature) => {
-                const Icon = FEATURE_ICONS[feature.icon.toLowerCase()] ?? Star;
-                return (
-                  <div
-                    key={feature.id}
-                    className={`creator-perk-card flex min-w-0 flex-col items-start text-left ${compact ? "min-h-[66px] gap-1.5 p-2" : "min-h-[154px] gap-4 p-5"}`}
-                  >
-                    <span className={`creator-feature-icon flex shrink-0 items-center justify-center ${compact ? "h-6 w-6" : "h-11 w-11"}`}>
-                      <Icon size={compact ? 11 : 19} strokeWidth={1.6} />
-                    </span>
-                    <span className="min-w-0">
-                      <strong className={`block leading-tight ${compact ? "text-[10px]" : "text-sm"}`}>{feature.label}</strong>
-                      <span className={`creator-sheet-muted mt-1 block leading-snug ${compact ? "line-clamp-1 text-[6px]" : "text-[11px]"}`}>{feature.description}</span>
-                    </span>
-                  </div>
-                );
-              })}
-              </div>
-            </div>
-          ) : null}
 
           {exploreItems.length ? (
             <div className={compact ? "mt-4 w-full" : "mt-10 w-full"}>
