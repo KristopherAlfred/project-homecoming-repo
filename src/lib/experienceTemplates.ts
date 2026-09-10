@@ -2,6 +2,7 @@ import { SPORT_PHOTOS } from "./sportPhotos";
 import { buildTemplatePages } from "./experienceTemplatePages";
 import { TEMPLATE_NAV_TABS } from "./templatePageCopy";
 import { TEMPLATE_ART } from "./templateArt";
+import sloaneHero from "../assets/sloane-hero.mp4.asset.json";
 
 import { DEFAULT_EXPERIENCE_PAGES } from "./experienceConfig";
 
@@ -1211,7 +1212,7 @@ EXPERIENCE_TEMPLATES.unshift({
   },
   creator: {
     enabled: true,
-    videoSrc: "",
+    videoSrc: sloaneHero.url,
     videoPoster: "",
     photo: "",
     name: "Sloane Stephens",
