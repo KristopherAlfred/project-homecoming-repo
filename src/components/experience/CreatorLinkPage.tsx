@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { ArrowRight, ChevronDown, ChevronRight, Clock, Gift, Play, Sparkles, Star, type LucideIcon } from "lucide-react";
+
 
 import type { CreatorProfile } from "../../lib/creatorProfile";
 import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewUrl";
