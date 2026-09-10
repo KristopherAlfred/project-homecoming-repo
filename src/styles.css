@@ -699,7 +699,7 @@ body {
 
   /* Continuous frosted strip that bleeds past both edges. */
   .circle-strip {
-    margin-inline: -28px;
+    margin-inline: -60px;
     padding-block: 2px;
     border-block: 1px solid rgb(255 255 255 / 0.08);
     background: rgb(255 255 255 / 0.045);
