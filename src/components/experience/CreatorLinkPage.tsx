@@ -299,7 +299,7 @@ export function CreatorLinkPage({
                 return (
                   <div
                     key={feature.id}
-                    className={`creator-sheet-card flex min-w-0 flex-col items-start text-left ${compact ? "min-h-[66px] gap-1.5 p-2" : "min-h-[154px] gap-4 p-5"}`}
+                    className={`creator-perk-card flex min-w-0 flex-col items-start text-left ${compact ? "min-h-[66px] gap-1.5 p-2" : "min-h-[154px] gap-4 p-5"}`}
                   >
                     <span className={`creator-feature-icon flex shrink-0 items-center justify-center ${compact ? "h-6 w-6" : "h-11 w-11"}`}>
                       <Icon size={compact ? 11 : 19} strokeWidth={1.6} />
