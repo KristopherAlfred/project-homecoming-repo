@@ -41,10 +41,10 @@ function LinkPreviewRow({
   card,
   compact,
 }: {
-  card: { id: string; image: string; caption: string; overlayTitle: string; url: string };
+  card: { id: string; image?: string; caption?: string; overlayTitle?: string; url?: string };
   compact: boolean;
 }) {
-  const art = resolveExperiencePreviewUrl(card.image);
+  const art = resolveExperiencePreviewUrl(card.image || "");
   let host = "";
   try {
     host = card.url ? new URL(card.url).hostname.replace(/^www\./, "") : "";
