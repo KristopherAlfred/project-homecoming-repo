@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowRight, ChevronDown, ChevronRight, Clock, Gift, Play, Sparkles, Star, type LucideIcon } from "lucide-react";
 
 
@@ -125,6 +125,147 @@ function LinkPreviewRow({
   );
 }
 
+/** Horizontal glass rail with edge fade + pagination dots. */
+function GlassRail({
+  children,
+  pages,
+  variant = "dots",
+  className = "",
+}: {
+  children: React.ReactNode;
+  pages: number;
+  variant?: "dots" | "bars";
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [active, setActive] = useState(0);
+
+  const onScroll = () => {
+    const el = ref.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    const ratio = max > 0 ? el.scrollLeft / max : 0;
+    setActive(Math.round(ratio * (pages - 1)));
+  };
+
+  return (
+    <div className="w-full">
+      <div ref={ref} onScroll={onScroll} className={`circle-rail ${className}`}>
+        {children}
+      </div>
+      {pages > 1 ? (
+        <div className="mt-3 flex items-center justify-center gap-1.5">
+          {Array.from({ length: pages }).map((_, index) => (
+            <span
+              key={index}
+              className={`${variant === "bars" ? "circle-page-bar" : "circle-page-dot"} ${
+                index === active ? "is-active" : ""
+              }`}
+            />
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+/** Smoky charcoal glass "circle." panel: live members carousel + membership perks rail. */
+function CircleGlassSection({
+  compact,
+  members,
+  perks,
+}: {
+  compact: boolean;
+  members: Array<{ name: string; note: string; time: string; face: string }>;
+  perks: Array<{ id: string; icon: string; label: string; description: string }>;
+}) {
+  const roster = [...members, ...members];
+  return (
+    <section className={`circle-panel ${compact ? "px-4 py-5" : "px-7 py-9"}`}>
+      <header className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className={`circle-title ${compact ? "text-[26px]" : "text-[44px]"}`}>circle.</h2>
+          <p className={`circle-status mt-1 flex items-center gap-2 ${compact ? "text-[9px]" : "text-[13px]"}`}>
+            <span className="circle-dot" />
+            1,284 online now
+          </p>
+        </div>
+        <span className={`circle-live flex items-center gap-2 ${compact ? "text-[7px]" : "text-[10px]"}`}>
+          <span className="circle-dot" /> LIVE
+        </span>
+      </header>
+
+      <div className={compact ? "mt-4" : "mt-7"}>
+        <div className="circle-strip">
+          <GlassRail pages={4}>
+            {roster.map((fan, index) => (
+              <div
+                key={`${fan.name}-${index}`}
+                className={`circle-member ${compact ? "gap-2 px-3 py-2" : "gap-3 px-5 py-3"}`}
+              >
+                {fan.face ? (
+                  <img src={fan.face} alt="" className={`circle-avatar ${compact ? "h-8 w-8" : "h-11 w-11"}`} />
+                ) : (
+                  <span className={`circle-avatar ${compact ? "h-8 w-8" : "h-11 w-11"}`} />
+                )}
+                <span className="min-w-0 leading-tight">
+                  <strong className={`circle-member-name block truncate ${compact ? "text-[10px]" : "text-[14px]"}`}>
+                    {fan.name}
+                  </strong>
+                  <span className={`circle-member-note block truncate ${compact ? "text-[7px]" : "text-[11px]"}`}>
+                    {fan.note}
+                  </span>
+                </span>
+              </div>
+            ))}
+          </GlassRail>
+        </div>
+      </div>
+
+      <div className={`text-center ${compact ? "mt-5" : "mt-9"}`}>
+        <p className={`circle-lead ${compact ? "text-[12px]" : "text-[19px]"}`}>
+          A more private space for what&apos;s next.
+        </p>
+        <p className={`circle-sub mt-1 ${compact ? "text-[9px]" : "text-[14px]"}`}>
+          Real people. Real moments. A closer connection.
+        </p>
+        <span className={`circle-hairline ${compact ? "mt-4" : "mt-7"}`} />
+      </div>
+
+      {perks.length ? (
+        <div className={compact ? "mt-5" : "mt-8"}>
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <span className={`circle-eyebrow ${compact ? "text-[7px]" : "text-[11px]"}`}>MEMBERSHIP PERKS</span>
+            <span className={`circle-swipe inline-flex items-center gap-1 ${compact ? "text-[7px]" : "text-[11px]"}`}>
+              Swipe to explore <ChevronRight size={compact ? 10 : 14} />
+            </span>
+          </div>
+          <GlassRail pages={3} variant="bars">
+            {perks.map((perk) => {
+              const Icon = FEATURE_ICONS[perk.icon.toLowerCase()] ?? Star;
+              return (
+                <div
+                  key={perk.id}
+                  className={`circle-perk ${compact ? "min-w-[112px] px-3" : "min-w-[188px] px-7"}`}
+                >
+                  <span className={`circle-perk-icon ${compact ? "h-10 w-10" : "h-16 w-16"}`}>
+                    <Icon size={compact ? 16 : 24} strokeWidth={1.4} />
+                  </span>
+                  <strong className={`circle-perk-title mt-3 block ${compact ? "text-[10px]" : "text-[16px]"}`}>
+                    {perk.label}
+                  </strong>
+                  <span className={`circle-perk-desc mt-1 block ${compact ? "text-[7px]" : "text-[12px]"}`}>
+                    {perk.description}
+                  </span>
+                </div>
+              );
+            })}
+          </GlassRail>
+        </div>
+      ) : null}
+    </section>
+  );
+}
 
 
 export function CreatorLinkPage({
@@ -275,63 +416,17 @@ export function CreatorLinkPage({
             </p>
           ) : null}
 
-          <div className={compact ? "mt-3 w-full" : "mt-7 w-full"}>
-            <div className={`flex items-center justify-between ${compact ? "mb-2" : "mb-3"}`}>
-              <p className={`creator-section-label font-semibold uppercase ${compact ? "text-[6px]" : "text-[10px]"}`}>Joining now</p>
-              <span className={`creator-live-status inline-flex items-center gap-1.5 ${compact ? "text-[6px]" : "text-[9px]"}`}>
-                <span className="creator-live-dot" /> Live
-              </span>
-            </div>
-            <div className="creator-fan-rail overflow-hidden">
-              <div className="creator-fan-track flex w-max gap-2.5">
-                {[...fanActivity, ...fanActivity].map((fan, index) => {
-                  const face = proofFaces[index % Math.max(proofFaces.length, 1)];
-                  return (
-                    <div
-                      key={`${fan.name}-${index}`}
-                      className={`creator-fan-chip flex shrink-0 items-center ${compact ? "w-[152px] gap-2 p-2" : "w-[220px] gap-3 p-3"}`}
-                    >
-                      {face ? (
-                        <img src={face} alt="" className={`${compact ? "h-7 w-7" : "h-10 w-10"} rounded-full object-cover`} />
-                      ) : (
-                        <span className={`${compact ? "h-7 w-7" : "h-10 w-10"} creator-proof-avatar rounded-full`} />
-                      )}
-                      <span className="min-w-0 flex-1 leading-tight">
-                        <strong className={`block truncate ${compact ? "text-[8px]" : "text-xs"}`}>{fan.name}</strong>
-                        <span className={`creator-sheet-muted block truncate ${compact ? "text-[6px]" : "text-[9px]"}`}>{fan.note}</span>
-                      </span>
-                      <span className={`creator-sheet-muted ${compact ? "text-[6px]" : "text-[8px]"}`}>{fan.time}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+          <div className={compact ? "mt-4 w-full" : "mt-9 w-full"}>
+            <CircleGlassSection
+              compact={compact}
+              members={fanActivity.map((fan, index) => ({
+                ...fan,
+                face: proofFaces[index % Math.max(proofFaces.length, 1)] || "",
+              }))}
+              perks={featureItems}
+            />
           </div>
 
-          {featureItems.length ? (
-            <div className={compact ? "mt-3 w-full" : "mt-9 w-full"}>
-              <p className={`creator-section-label font-semibold uppercase ${compact ? "mb-2 text-[6px]" : "mb-4 text-[10px]"}`}>Membership perks</p>
-              <div className={`grid ${compact ? "grid-cols-3 gap-2" : "grid-cols-2 gap-3"}`}>
-              {featureItems.map((feature) => {
-                const Icon = FEATURE_ICONS[feature.icon.toLowerCase()] ?? Star;
-                return (
-                  <div
-                    key={feature.id}
-                    className={`creator-perk-card flex min-w-0 flex-col items-start text-left ${compact ? "min-h-[66px] gap-1.5 p-2" : "min-h-[154px] gap-4 p-5"}`}
-                  >
-                    <span className={`creator-feature-icon flex shrink-0 items-center justify-center ${compact ? "h-6 w-6" : "h-11 w-11"}`}>
-                      <Icon size={compact ? 11 : 19} strokeWidth={1.6} />
-                    </span>
-                    <span className="min-w-0">
-                      <strong className={`block leading-tight ${compact ? "text-[10px]" : "text-sm"}`}>{feature.label}</strong>
-                      <span className={`creator-sheet-muted mt-1 block leading-snug ${compact ? "line-clamp-1 text-[6px]" : "text-[11px]"}`}>{feature.description}</span>
-                    </span>
-                  </div>
-                );
-              })}
-              </div>
-            </div>
-          ) : null}
 
           {exploreItems.length ? (
             <div className={compact ? "mt-4 w-full" : "mt-10 w-full"}>
