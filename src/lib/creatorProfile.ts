@@ -17,7 +17,19 @@ export type CreatorSocialLink = {
   badgeColor?: string;
 };
 
-export type CreatorFeaturedCard = {
+/** Free-move / resize data shared by blocks and items (design units = phone px). */
+export type CreatorFrameLayout = {
+  /** Horizontal nudge from the natural slot. */
+  x?: number;
+  /** Vertical nudge from the natural slot. */
+  y?: number;
+  /** Width as a percent of the column (30–100). */
+  w?: number;
+  /** Height in design units (links only). */
+  h?: number;
+};
+
+export type CreatorFeaturedCard = CreatorFrameLayout & {
   id: string;
   /** Image or poster art for the card. */
   image: string;
@@ -30,12 +42,34 @@ export type CreatorFeaturedCard = {
   url?: string;
 };
 
-export type CreatorFeature = {
+export type CreatorFeature = CreatorFrameLayout & {
   id: string;
   icon: string;
   label: string;
   description: string;
 };
+
+export type CreatorBlockId = "identity" | "cta" | "bio" | "fans" | "perks" | "links";
+
+export type CreatorBlockLayout = CreatorFrameLayout & {
+  id: CreatorBlockId;
+  hidden?: boolean;
+};
+
+export const CREATOR_BLOCK_ORDER: CreatorBlockId[] = ["identity", "cta", "bio", "fans", "perks", "links"];
+
+export const CREATOR_BLOCK_LABELS: Record<CreatorBlockId, string> = {
+  identity: "Name",
+  cta: "Join button",
+  bio: "Bio",
+  fans: "Joining now",
+  perks: "Perks",
+  links: "Live links",
+};
+
+export const DEFAULT_CREATOR_LAYOUT: CreatorBlockLayout[] = CREATOR_BLOCK_ORDER.map((id) => ({ id }));
+
+export const DEFAULT_LINK_HEIGHT = 176;
 
 export type CreatorProfile = {
   enabled: boolean;
@@ -58,6 +92,17 @@ export type CreatorProfile = {
   proofHeadline: string;
   proofSupporting: string;
   featured: CreatorFeaturedCard[];
+  /** Section order, visibility and free-move offsets. */
+  layout: CreatorBlockLayout[];
+  /** Default embedded-link card height (design units). */
+  linkHeight: number;
+  /** Background focal point (object-position percent) and zoom percent. */
+  mediaX: number;
+  mediaY: number;
+  mediaScale: number;
+  fansLabel: string;
+  perksLabel: string;
+  linksLabel: string;
 };
 
 export const DEFAULT_CREATOR_PROFILE: CreatorProfile = {
@@ -89,10 +134,56 @@ export const DEFAULT_CREATOR_PROFILE: CreatorProfile = {
   proofHeadline: "100K+ Fans Already Joined",
   proofSupporting: "Be part of the inner circle",
   featured: [],
+  layout: DEFAULT_CREATOR_LAYOUT.map((b) => ({ ...b })),
+  linkHeight: DEFAULT_LINK_HEIGHT,
+  mediaX: 50,
+  mediaY: 50,
+  mediaScale: 100,
+  fansLabel: "Joining now",
+  perksLabel: "Membership perks",
+  linksLabel: "Live links",
 };
 
 function str(value: unknown, fallback = ""): string {
   return typeof value === "string" ? value : fallback;
+}
+
+function num(value: unknown, fallback: number, min = -Infinity, max = Infinity): number {
+  return typeof value === "number" && Number.isFinite(value) ? Math.min(max, Math.max(min, value)) : fallback;
+}
+
+function optNum(value: unknown, min: number, max: number): number | undefined {
+  return typeof value === "number" && Number.isFinite(value) ? Math.min(max, Math.max(min, value)) : undefined;
+}
+
+function frame(f: Partial<CreatorFrameLayout>): CreatorFrameLayout {
+  const out: CreatorFrameLayout = {};
+  const x = optNum(f.x, -400, 400);
+  const y = optNum(f.y, -600, 600);
+  const w = optNum(f.w, 30, 100);
+  const h = optNum(f.h, 72, 640);
+  if (x) out.x = x;
+  if (y) out.y = y;
+  if (w !== undefined) out.w = w;
+  if (h !== undefined) out.h = h;
+  return out;
+}
+
+export function normalizeCreatorLayout(raw: unknown): CreatorBlockLayout[] {
+  const seen = new Set<CreatorBlockId>();
+  const out: CreatorBlockLayout[] = [];
+  if (Array.isArray(raw)) {
+    for (const item of raw) {
+      if (!item || typeof item !== "object") continue;
+      const b = item as Partial<CreatorBlockLayout>;
+      const id = b.id as CreatorBlockId;
+      if (!CREATOR_BLOCK_ORDER.includes(id) || seen.has(id)) continue;
+      seen.add(id);
+      out.push({ id, ...(b.hidden ? { hidden: true } : {}), ...frame(b) });
+    }
+  }
+  for (const id of CREATOR_BLOCK_ORDER) if (!seen.has(id)) out.push({ id });
+  return out;
 }
 
 export function normalizeCreatorProfile(raw: unknown): CreatorProfile {
@@ -120,6 +211,7 @@ export function normalizeCreatorProfile(raw: unknown): CreatorProfile {
           overlayTitle: f.overlayTitle ? str(f.overlayTitle) : undefined,
           caption: f.caption ? str(f.caption) : undefined,
           url: f.url ? str(f.url) : undefined,
+          ...frame(f),
         }))
         .slice(0, 12)
     : [];
@@ -132,6 +224,7 @@ export function normalizeCreatorProfile(raw: unknown): CreatorProfile {
           icon: str(f.icon, "star"),
           label: str(f.label, "Member Access"),
           description: str(f.description, "Made for the circle"),
+          ...frame(f),
         }))
         .slice(0, 3)
     : DEFAULT_CREATOR_PROFILE.features.map((f) => ({ ...f }));
@@ -155,5 +248,13 @@ export function normalizeCreatorProfile(raw: unknown): CreatorProfile {
     proofHeadline: str(c.proofHeadline, DEFAULT_CREATOR_PROFILE.proofHeadline),
     proofSupporting: str(c.proofSupporting, DEFAULT_CREATOR_PROFILE.proofSupporting),
     featured,
+    layout: normalizeCreatorLayout(c.layout),
+    linkHeight: num(c.linkHeight, DEFAULT_LINK_HEIGHT, 72, 640),
+    mediaX: num(c.mediaX, 50, 0, 100),
+    mediaY: num(c.mediaY, 50, 0, 100),
+    mediaScale: num(c.mediaScale, 100, 100, 220),
+    fansLabel: str(c.fansLabel, DEFAULT_CREATOR_PROFILE.fansLabel),
+    perksLabel: str(c.perksLabel, DEFAULT_CREATOR_PROFILE.perksLabel),
+    linksLabel: str(c.linksLabel, DEFAULT_CREATOR_PROFILE.linksLabel),
   };
 }
