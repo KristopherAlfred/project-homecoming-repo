@@ -554,31 +554,21 @@ body {
   .creator-fan-chip {
     position: relative;
     overflow: hidden;
-    border: 1px solid rgb(255 255 255 / 0.1);
+    border: none;
     border-radius: 22px;
     background:
-      linear-gradient(150deg, rgb(255 255 255 / 0.14), rgb(255 255 255 / 0.02) 52%),
-      radial-gradient(130% 140% at 0% 0%, color-mix(in oklab, var(--creator-accent) 24%, transparent), transparent 60%),
-      rgb(0 0 0 / 0.34);
-    backdrop-filter: blur(30px) saturate(175%);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.22),
-      inset 0 -18px 34px rgb(0 0 0 / 0.26),
-      0 18px 38px rgb(0 0 0 / 0.48);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      linear-gradient(150deg, rgb(255 255 255 / 0.05), transparent 55%),
+      radial-gradient(130% 140% at 0% 0%, rgb(255 255 255 / 0.04), transparent 60%);
+    box-shadow: none;
+    transition: background 0.25s ease;
   }
 
   .creator-fan-chip::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(180deg, rgb(255 255 255 / 0.1), transparent 42%);
-    pointer-events: none;
+    content: none;
   }
 
   .creator-fan-chip img {
-    box-shadow: 0 0 0 1.5px color-mix(in oklab, var(--creator-accent) 55%, transparent), 0 6px 14px rgb(0 0 0 / 0.5);
+    box-shadow: none;
   }
 
 
@@ -608,51 +598,32 @@ body {
 
   .creator-feature-icon {
     border-radius: 999px;
-    background:
-      linear-gradient(160deg, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0.02)),
-      radial-gradient(100% 100% at 30% 0%, color-mix(in oklab, var(--creator-accent) 45%, transparent), transparent 70%),
-      rgb(0 0 0 / 0.4);
-    color: color-mix(in oklab, var(--creator-accent) 90%, white);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.32),
-      inset 0 0 0 1px color-mix(in oklab, var(--creator-accent) 24%, transparent),
-      0 8px 20px rgb(0 0 0 / 0.45);
+    background: rgb(255 255 255 / 0.06);
+    color: rgb(255 255 255 / 0.9);
+    box-shadow: none;
   }
 
-  /* Membership perk tiles: reflective glass with an accent light source. */
+  /* Membership perk tiles: borderless, blended into the background. */
   .creator-perk-card {
     position: relative;
     overflow: hidden;
-    border: 1px solid rgb(255 255 255 / 0.1);
+    border: none;
     border-radius: 26px;
     background:
-      linear-gradient(165deg, rgb(255 255 255 / 0.14), rgb(255 255 255 / 0.02) 52%),
-      radial-gradient(140% 120% at 50% -30%, color-mix(in oklab, var(--creator-accent) 26%, transparent), transparent 62%),
-      rgb(0 0 0 / 0.34);
-    backdrop-filter: blur(30px) saturate(175%);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.22),
-      inset 0 -20px 40px rgb(0 0 0 / 0.28),
-      0 20px 46px rgb(0 0 0 / 0.5);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      linear-gradient(165deg, rgb(255 255 255 / 0.05), transparent 55%),
+      radial-gradient(140% 120% at 50% -30%, rgb(255 255 255 / 0.04), transparent 62%);
+    box-shadow: none;
+    transition: background 0.25s ease;
   }
 
   .creator-perk-card::after {
-    content: "";
-    position: absolute;
-    inset: -60% -40% auto -40%;
-    height: 70%;
-    background: radial-gradient(closest-side, rgb(255 255 255 / 0.14), transparent);
-    pointer-events: none;
+    content: none;
   }
 
   .creator-perk-card:hover {
-    transform: translateY(-2px);
-    border-color: color-mix(in oklab, var(--creator-accent) 38%, transparent);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.24),
-      0 22px 48px rgb(0 0 0 / 0.6),
-      0 0 26px color-mix(in oklab, var(--creator-accent) 16%, transparent);
+    background:
+      linear-gradient(165deg, rgb(255 255 255 / 0.08), transparent 55%),
+      radial-gradient(140% 120% at 50% -30%, rgb(255 255 255 / 0.06), transparent 62%);
   }
 
 
