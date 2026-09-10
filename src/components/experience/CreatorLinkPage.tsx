@@ -175,32 +175,32 @@ export function CreatorLinkPage({
         "--creator-accent": accentColor,
       } as React.CSSProperties}
     >
-      {/* ── Top zone: media only ─────────────────────────────── */}
+      {/* ── Full-page media background ───────────────────────── */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        {video ? (
+          <video
+            key={video}
+            src={video}
+            poster={poster || undefined}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            disablePictureInPicture
+            className="creator-hero-media h-full w-full object-cover"
+          />
+        ) : poster ? (
+          <img key={poster} src={poster} alt="" className="creator-hero-media h-full w-full object-cover" />
+        ) : null}
+        <div className="creator-media-overlay absolute inset-0" />
+        <div className="creator-accent-glow absolute inset-x-0 top-0 h-[40%]" />
+      </div>
+
+      {/* ── Top zone: identity over the media ────────────────── */}
       <section
         className={`relative w-full text-white ${compact ? "h-[64%] min-h-[360px]" : "h-[76vh] min-h-[640px]"}`}
       >
-        <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-          {video ? (
-            <video
-              key={video}
-              src={video}
-              poster={poster || undefined}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              disablePictureInPicture
-              className="creator-hero-media h-full w-full object-cover"
-            />
-          ) : poster ? (
-            <img key={poster} src={poster} alt="" className="creator-hero-media h-full w-full object-cover" />
-          ) : (
-            <div className="h-full w-full bg-neutral-950" />
-          )}
-          <div className="creator-media-overlay pointer-events-none absolute inset-0" />
-          <div className="creator-accent-glow pointer-events-none absolute inset-x-0 top-0 h-[60%]" />
-        </div>
 
         <div
           className={`relative z-10 mx-auto flex h-full w-full max-w-[520px] flex-col items-start justify-end text-left ${
