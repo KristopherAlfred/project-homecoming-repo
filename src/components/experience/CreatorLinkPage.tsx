@@ -145,6 +145,17 @@ export function CreatorLinkPage({
             ) : null}
           </div>
 
+          <button
+            type="button"
+            onClick={onJoin}
+            className={`creator-primary-cta group mt-4 flex w-full max-w-[420px] items-center justify-center gap-2 transition duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.985] ${
+              compact ? "h-11 text-[11px]" : "h-14 text-[15px]"
+            }`}
+          >
+            {cta}
+            <ArrowRight size={compact ? 14 : 18} strokeWidth={2.2} />
+          </button>
+          <p className={`creator-consent mt-2 ${compact ? "text-[6px]" : "text-[9px]"}`}>{profile.joinMicrocopy}</p>
         </div>
       </section>
 
@@ -230,36 +241,49 @@ export function CreatorLinkPage({
           ) : null}
 
           {exploreItems.length ? (
-            <div className={compact ? "mt-3 w-full" : "mt-10 w-full"}>
+            <div className={compact ? "mt-4 w-full" : "mt-10 w-full"}>
               <div className={`grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 ${compact ? "mb-2" : "mb-5"}`}>
                 <span className={`creator-display ${compact ? "text-[15px]" : "text-[28px]"}`}>Live links</span>
                 <span className={`creator-section-label font-bold uppercase ${compact ? "text-[7px]" : "text-[10px]"}`}>Explore all</span>
               </div>
-              <div className="creator-explore-rail flex snap-x gap-3 overflow-x-auto pb-2">
+              <div className={`flex w-full flex-col ${compact ? "gap-2" : "gap-3"}`}>
                 {exploreItems.map((card) => {
                   const art = resolveExperiencePreviewUrl(card.image);
+                  let host = "";
+                  try {
+                    host = card.url ? new URL(card.url).hostname.replace(/^www\./, "") : "";
+                  } catch {
+                    host = "";
+                  }
+                  const title = card.caption || card.overlayTitle || "Explore";
                   return (
                     <a
                       key={card.id}
                       href={card.url || undefined}
                       target={card.url ? "_blank" : undefined}
                       rel="noreferrer"
-                        className={`creator-sheet-card creator-explore-tile shrink-0 snap-start overflow-hidden transition-transform hover:-translate-y-0.5 ${compact ? "grid w-[62%] grid-cols-[52px_minmax(0,1fr)]" : "grid w-[62%] grid-rows-[auto_1fr]"}`}
+                      className={`creator-sheet-card creator-link-row grid w-full grid-cols-[auto_minmax(0,1fr)_auto] items-center overflow-hidden text-left transition-transform hover:-translate-y-0.5 active:scale-[0.99] ${
+                        compact ? "gap-2 p-2" : "gap-3 p-3"
+                      }`}
                     >
-                        <div className={`${compact ? "h-11" : "h-36"} creator-thumbnail-bg w-full overflow-hidden`}>
-                        {art ? <img src={art} alt="" className="h-full w-full object-cover" /> : null}
-                      </div>
-                       <div className={`grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center text-left ${compact ? "gap-1 p-2" : "gap-2 p-3"}`}>
-                        <div className="min-w-0">
-                        <p className={`truncate font-bold ${compact ? "text-[10px]" : "text-sm"}`}>
-                          {card.caption || card.overlayTitle || "Explore"}
-                        </p>
-                        {card.caption && card.overlayTitle ? (
-                           <p className={`creator-sheet-muted mt-0.5 truncate ${compact ? "text-[7px]" : "text-[10px]"}`}>{card.overlayTitle}</p>
-                        ) : null}
-                        </div>
-                        <ChevronRight className="creator-accent-text shrink-0" size={compact ? 14 : 18} />
-                       </div>
+                      <span
+                        className={`creator-link-thumb grid shrink-0 place-items-center overflow-hidden ${
+                          compact ? "h-9 w-9 text-[11px]" : "h-14 w-14 text-base"
+                        }`}
+                      >
+                        {art ? (
+                          <img src={art} alt="" className="h-full w-full object-cover" />
+                        ) : (
+                          <span className="font-black">{title.charAt(0).toUpperCase()}</span>
+                        )}
+                      </span>
+                      <span className="min-w-0">
+                        <span className={`block truncate font-bold ${compact ? "text-[10px]" : "text-sm"}`}>{title}</span>
+                        <span className={`creator-sheet-muted mt-0.5 block truncate ${compact ? "text-[7px]" : "text-[11px]"}`}>
+                          {card.overlayTitle && card.caption ? card.overlayTitle : host}
+                        </span>
+                      </span>
+                      <ChevronRight className="creator-accent-text shrink-0" size={compact ? 14 : 18} />
                     </a>
                   );
                 })}
@@ -268,18 +292,6 @@ export function CreatorLinkPage({
           ) : null}
         </div>
       </section>
-
-      <div className={`creator-sticky-join sticky inset-x-0 bottom-0 z-40 ${compact ? "px-5 pb-4 pt-4" : "px-8 pb-7 pt-6"}`}>
-        <button
-          type="button"
-          onClick={onJoin}
-          className={`creator-primary-cta group flex w-full items-center justify-center gap-2 transition duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.985] ${compact ? "h-12 text-[11px]" : "h-16 text-[15px]"}`}
-        >
-          {cta}
-          <ArrowRight size={compact ? 15 : 19} strokeWidth={2.2} />
-        </button>
-        <p className={`creator-consent mt-2 text-center ${compact ? "text-[6px]" : "text-[9px]"}`}>{profile.joinMicrocopy}</p>
-      </div>
     </div>
   );
 }
