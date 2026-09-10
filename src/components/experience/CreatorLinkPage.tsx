@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { ArrowRight, ChevronDown, ChevronRight, Clock, Gift, Play, Sparkles, Star, type LucideIcon } from "lucide-react";
+
 
 import type { CreatorProfile } from "../../lib/creatorProfile";
 import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewUrl";
@@ -33,6 +35,79 @@ const FEATURE_ICONS: Record<string, LucideIcon> = {
   sparkle: Sparkles,
   star: Star,
 };
+
+/** Linktree-style embedded preview row: site screenshot, favicon, title, host. */
+function LinkPreviewRow({
+  card,
+  compact,
+}: {
+  card: { id: string; image?: string; caption?: string; overlayTitle?: string; url?: string };
+  compact: boolean;
+}) {
+  const art = resolveExperiencePreviewUrl(card.image || "");
+  let host = "";
+  try {
+    host = card.url ? new URL(card.url).hostname.replace(/^www\./, "") : "";
+  } catch {
+    host = "";
+  }
+  const title = card.caption || card.overlayTitle || "Explore";
+  const screenshot =
+    art ||
+    (card.url
+      ? `https://api.microlink.io/?url=${encodeURIComponent(card.url)}&screenshot=true&meta=false&embed=screenshot.url`
+      : "");
+  const favicon = host ? `https://www.google.com/s2/favicons?domain=${host}&sz=128` : "";
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <a
+      href={card.url || undefined}
+      target={card.url ? "_blank" : undefined}
+      rel="noreferrer"
+      className="creator-sheet-card creator-link-row block w-full overflow-hidden text-left transition-transform hover:-translate-y-0.5 active:scale-[0.99]"
+    >
+      <div className={`creator-link-preview relative w-full overflow-hidden ${compact ? "h-24" : "h-44"}`}>
+        {screenshot && !failed ? (
+          <img
+            src={screenshot}
+            alt=""
+            loading="lazy"
+            onError={() => setFailed(true)}
+            className="h-full w-full object-cover object-top"
+          />
+        ) : (
+          <span className="creator-link-fallback grid h-full w-full place-items-center font-black">
+            {title.charAt(0).toUpperCase()}
+          </span>
+        )}
+        <span className="creator-link-preview-veil pointer-events-none absolute inset-0" />
+        {host ? (
+          <span
+            className={`creator-link-host absolute left-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full ${
+              compact ? "px-2 py-0.5 text-[7px]" : "px-2.5 py-1 text-[10px]"
+            }`}
+          >
+            {favicon ? <img src={favicon} alt="" className={compact ? "h-2.5 w-2.5" : "h-3.5 w-3.5"} /> : null}
+            {host}
+          </span>
+        ) : null}
+      </div>
+      <div
+        className={`grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center ${compact ? "gap-2 p-2.5" : "gap-3 p-4"}`}
+      >
+        <span className="min-w-0">
+          <span className={`block truncate font-bold ${compact ? "text-[11px]" : "text-[15px]"}`}>{title}</span>
+          <span className={`creator-sheet-muted mt-0.5 block truncate ${compact ? "text-[7px]" : "text-[11px]"}`}>
+            {card.overlayTitle && card.caption ? card.overlayTitle : host}
+          </span>
+        </span>
+        <ChevronRight className="creator-accent-text shrink-0" size={compact ? 14 : 18} />
+      </div>
+    </a>
+  );
+}
+
 
 export function CreatorLinkPage({
   profile,
@@ -246,48 +321,12 @@ export function CreatorLinkPage({
                 <span className={`creator-display ${compact ? "text-[15px]" : "text-[28px]"}`}>Live links</span>
                 <span className={`creator-section-label font-bold uppercase ${compact ? "text-[7px]" : "text-[10px]"}`}>Explore all</span>
               </div>
-              <div className={`flex w-full flex-col ${compact ? "gap-2" : "gap-3"}`}>
-                {exploreItems.map((card) => {
-                  const art = resolveExperiencePreviewUrl(card.image);
-                  let host = "";
-                  try {
-                    host = card.url ? new URL(card.url).hostname.replace(/^www\./, "") : "";
-                  } catch {
-                    host = "";
-                  }
-                  const title = card.caption || card.overlayTitle || "Explore";
-                  return (
-                    <a
-                      key={card.id}
-                      href={card.url || undefined}
-                      target={card.url ? "_blank" : undefined}
-                      rel="noreferrer"
-                      className={`creator-sheet-card creator-link-row grid w-full grid-cols-[auto_minmax(0,1fr)_auto] items-center overflow-hidden text-left transition-transform hover:-translate-y-0.5 active:scale-[0.99] ${
-                        compact ? "gap-2 p-2" : "gap-3 p-3"
-                      }`}
-                    >
-                      <span
-                        className={`creator-link-thumb grid shrink-0 place-items-center overflow-hidden ${
-                          compact ? "h-9 w-9 text-[11px]" : "h-14 w-14 text-base"
-                        }`}
-                      >
-                        {art ? (
-                          <img src={art} alt="" className="h-full w-full object-cover" />
-                        ) : (
-                          <span className="font-black">{title.charAt(0).toUpperCase()}</span>
-                        )}
-                      </span>
-                      <span className="min-w-0">
-                        <span className={`block truncate font-bold ${compact ? "text-[10px]" : "text-sm"}`}>{title}</span>
-                        <span className={`creator-sheet-muted mt-0.5 block truncate ${compact ? "text-[7px]" : "text-[11px]"}`}>
-                          {card.overlayTitle && card.caption ? card.overlayTitle : host}
-                        </span>
-                      </span>
-                      <ChevronRight className="creator-accent-text shrink-0" size={compact ? 14 : 18} />
-                    </a>
-                  );
-                })}
+              <div className={`flex w-full flex-col ${compact ? "gap-2.5" : "gap-4"}`}>
+                {exploreItems.map((card) => (
+                  <LinkPreviewRow key={card.id} card={card} compact={compact} />
+                ))}
               </div>
+
             </div>
           ) : null}
         </div>
