@@ -239,19 +239,24 @@ body {
 
 @layer components {
   .creator-glass-page {
-    background:
-      radial-gradient(120% 60% at 50% 0%, color-mix(in oklab, var(--creator-accent) 10%, transparent), transparent 60%),
-      radial-gradient(90% 50% at 12% 42%, color-mix(in oklab, var(--creator-accent) 7%, transparent), transparent 65%),
-      radial-gradient(80% 45% at 88% 88%, color-mix(in oklab, var(--creator-accent) 6%, transparent), transparent 65%),
-      #000000;
-    color: #edf6f1;
+    background-color: #2b3138;
+    background-image:
+      radial-gradient(120% 60% at 50% 0%, color-mix(in oklab, var(--creator-accent) 8%, transparent), transparent 62%),
+      linear-gradient(180deg, rgb(20 24 28 / 0.35) 0%, rgb(20 24 28 / 0.55) 100%),
+      url("/__l5e/assets-v1/a73059a2-2389-4764-b413-d13156096710/creator-bg.png");
+    background-size: cover, cover, cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll, scroll, fixed;
+    color: #eef2f5;
     font-family: Arial, Helvetica, sans-serif;
     -webkit-overflow-scrolling: touch;
   }
 
   .creator-media-overlay {
-    background: linear-gradient(180deg, rgb(0 0 0 / 0.22) 0%, rgb(0 0 0 / 0.04) 40%, rgb(0 0 0 / 0.42) 68%, #000000 100%);
+    background: linear-gradient(180deg, rgb(18 22 26 / 0.2) 0%, rgb(18 22 26 / 0.04) 38%, rgb(30 35 41 / 0.55) 70%, #2b3138 100%);
   }
+
 
   /* Link.me-style live link cards: full-bleed preview under reflective glass. */
   .creator-link-row {
