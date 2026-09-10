@@ -17,7 +17,19 @@ export type CreatorSocialLink = {
   badgeColor?: string;
 };
 
-export type CreatorFeaturedCard = {
+/** Free-move / resize data shared by blocks and items (design units = phone px). */
+export type CreatorFrameLayout = {
+  /** Horizontal nudge from the natural slot. */
+  x?: number;
+  /** Vertical nudge from the natural slot. */
+  y?: number;
+  /** Width as a percent of the column (30–100). */
+  w?: number;
+  /** Height in design units (links only). */
+  h?: number;
+};
+
+export type CreatorFeaturedCard = CreatorFrameLayout & {
   id: string;
   /** Image or poster art for the card. */
   image: string;
@@ -30,12 +42,34 @@ export type CreatorFeaturedCard = {
   url?: string;
 };
 
-export type CreatorFeature = {
+export type CreatorFeature = CreatorFrameLayout & {
   id: string;
   icon: string;
   label: string;
   description: string;
 };
+
+export type CreatorBlockId = "identity" | "cta" | "bio" | "fans" | "perks" | "links";
+
+export type CreatorBlockLayout = CreatorFrameLayout & {
+  id: CreatorBlockId;
+  hidden?: boolean;
+};
+
+export const CREATOR_BLOCK_ORDER: CreatorBlockId[] = ["identity", "cta", "bio", "fans", "perks", "links"];
+
+export const CREATOR_BLOCK_LABELS: Record<CreatorBlockId, string> = {
+  identity: "Name",
+  cta: "Join button",
+  bio: "Bio",
+  fans: "Joining now",
+  perks: "Perks",
+  links: "Live links",
+};
+
+export const DEFAULT_CREATOR_LAYOUT: CreatorBlockLayout[] = CREATOR_BLOCK_ORDER.map((id) => ({ id }));
+
+export const DEFAULT_LINK_HEIGHT = 176;
 
 export type CreatorProfile = {
   enabled: boolean;
@@ -58,6 +92,17 @@ export type CreatorProfile = {
   proofHeadline: string;
   proofSupporting: string;
   featured: CreatorFeaturedCard[];
+  /** Section order, visibility and free-move offsets. */
+  layout: CreatorBlockLayout[];
+  /** Default embedded-link card height (design units). */
+  linkHeight: number;
+  /** Background focal point (object-position percent) and zoom percent. */
+  mediaX: number;
+  mediaY: number;
+  mediaScale: number;
+  fansLabel: string;
+  perksLabel: string;
+  linksLabel: string;
 };
 
 export const DEFAULT_CREATOR_PROFILE: CreatorProfile = {
