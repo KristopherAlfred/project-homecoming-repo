@@ -468,10 +468,10 @@ body {
     background:
       linear-gradient(
         180deg,
-        rgb(43 49 56 / 0) 0,
-        rgb(43 49 56 / 0.55) 52px,
-        rgb(38 44 50 / 0.78) 110px,
-        rgb(34 39 45 / 0.82) 100%
+        rgb(20 24 29 / 0) 0,
+        rgb(20 24 29 / 0.5) 52px,
+        rgb(20 24 29 / 0.72) 110px,
+        rgb(20 24 29 / 0.8) 100%
       ),
       radial-gradient(100% 40% at 50% 0%, color-mix(in oklab, var(--creator-accent) 10%, transparent), transparent 70%);
     backdrop-filter: blur(28px) saturate(120%);
