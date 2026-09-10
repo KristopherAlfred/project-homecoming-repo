@@ -330,16 +330,20 @@ body {
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    border: 1px solid color-mix(in oklab, var(--creator-accent) 36%, white);
-    border-radius: 20px;
-    background: linear-gradient(115deg, color-mix(in oklab, var(--creator-accent) 78%, #edf6f1), var(--creator-accent));
-    color: #111715;
+    border: 1px solid color-mix(in oklab, var(--creator-accent) 55%, rgb(255 255 255 / 0.5));
+    border-radius: 999px;
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.55), rgb(255 255 255 / 0.05) 46%, rgb(255 255 255 / 0.16)),
+      linear-gradient(115deg, color-mix(in oklab, var(--creator-accent) 88%, white), var(--creator-accent));
+    color: #04120c;
     font-weight: 800;
     letter-spacing: 0;
+    -webkit-tap-highlight-color: transparent;
     box-shadow:
-      0 20px 46px rgb(0 0 0 / 0.3),
-      0 6px 18px color-mix(in oklab, var(--creator-accent) 18%, transparent),
-      inset 0 1px 0 rgb(255 255 255 / 0.55);
+      0 22px 48px rgb(0 0 0 / 0.55),
+      0 8px 24px color-mix(in oklab, var(--creator-accent) 30%, transparent),
+      inset 0 1px 0 rgb(255 255 255 / 0.75),
+      inset 0 -8px 18px color-mix(in oklab, var(--creator-accent) 45%, transparent);
   }
 
   /* Subtle traveling shine sweep to keep the premium click feel. */
