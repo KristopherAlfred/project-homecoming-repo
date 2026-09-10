@@ -254,7 +254,7 @@ export function CreatorLinkPage({
 
       {/* ── Bottom zone: editorial membership experience ── */}
       <section
-        className={`creator-sheet relative z-20 -mt-12 w-full ${
+        className={`creator-sheet relative z-20 -mt-16 w-full ${
           compact ? "min-h-[58%] px-5 pb-10 pt-12" : "px-8 pb-14 pt-20"
         }`}
       >
