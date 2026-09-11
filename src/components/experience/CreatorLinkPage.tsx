@@ -55,6 +55,16 @@ import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewU
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
+/** True once the athlete has edited the perks away from the stock three. */
+function perksCustomized(features: CreatorFeature[] | undefined): boolean {
+  if (!features?.length) return false;
+  const stock = DEFAULT_CREATOR_PROFILE.features;
+  if (features.length !== stock.length) return true;
+  return features.some(
+    (f, i) => f.label !== stock[i].label || f.description !== stock[i].description || f.icon !== stock[i].icon,
+  );
+}
+
 function moveIndex<T>(list: T[], from: number, to: number): T[] {
   const next = list.slice();
   const [item] = next.splice(from, 1);
