@@ -36,7 +36,12 @@ import type {
   CreatorFrameLayout,
   CreatorProfile,
 } from "../../lib/creatorProfile";
-import { CREATOR_BLOCK_LABELS, CREATOR_BLOCK_ORDER, DEFAULT_LINK_HEIGHT } from "../../lib/creatorProfile";
+import {
+  CREATOR_BLOCK_LABELS,
+  CREATOR_BLOCK_ORDER,
+  DEFAULT_CREATOR_PROFILE,
+  DEFAULT_LINK_HEIGHT,
+} from "../../lib/creatorProfile";
 import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewUrl";
 
 /**
@@ -1091,7 +1096,7 @@ export function creatorProfileFor(experience: {
     videoPoster: c.videoPoster || landing?.heroImage || "",
     bio: c.bio || experience.brand.tagline || landing?.body || "",
     ctaLabel: c.ctaLabel || landing?.ctaLabel || "Join My Circle",
-    features: c.features?.length
+    features: perksCustomized(c.features)
       ? c.features
       : landing?.features?.length
         ? landing.features.slice(0, 3).map((feature) => ({ ...feature, description: "Members-only access" }))
