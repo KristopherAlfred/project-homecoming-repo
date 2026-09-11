@@ -36,7 +36,12 @@ import type {
   CreatorFrameLayout,
   CreatorProfile,
 } from "../../lib/creatorProfile";
-import { CREATOR_BLOCK_LABELS, CREATOR_BLOCK_ORDER, DEFAULT_LINK_HEIGHT } from "../../lib/creatorProfile";
+import {
+  CREATOR_BLOCK_LABELS,
+  CREATOR_BLOCK_ORDER,
+  DEFAULT_CREATOR_PROFILE,
+  DEFAULT_LINK_HEIGHT,
+} from "../../lib/creatorProfile";
 import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewUrl";
 
 /**
@@ -49,6 +54,16 @@ import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewU
  */
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
+
+/** True once the athlete has edited the perks away from the stock three. */
+function perksCustomized(features: CreatorFeature[] | undefined): boolean {
+  if (!features?.length) return false;
+  const stock = DEFAULT_CREATOR_PROFILE.features;
+  if (features.length !== stock.length) return true;
+  return features.some(
+    (f, i) => f.label !== stock[i].label || f.description !== stock[i].description || f.icon !== stock[i].icon,
+  );
+}
 
 function moveIndex<T>(list: T[], from: number, to: number): T[] {
   const next = list.slice();
@@ -1091,7 +1106,7 @@ export function creatorProfileFor(experience: {
     videoPoster: c.videoPoster || landing?.heroImage || "",
     bio: c.bio || experience.brand.tagline || landing?.body || "",
     ctaLabel: c.ctaLabel || landing?.ctaLabel || "Join My Circle",
-    features: c.features?.length
+    features: perksCustomized(c.features)
       ? c.features
       : landing?.features?.length
         ? landing.features.slice(0, 3).map((feature) => ({ ...feature, description: "Members-only access" }))

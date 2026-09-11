@@ -944,6 +944,10 @@ export function ExperiencePage() {
               patchExperience((prev) => ({ ...prev, brand: { ...prev.brand, ...patch } }))
             }
             onPatchPage={(patch) => patchPage(editingPageKey ?? "landing", patch)}
+            onPatchCreator={(patch) =>
+              patchExperience((prev) => ({ ...prev, creator: { ...prev.creator, ...patch } }))
+            }
+            onUploadMedia={(file, apply) => void uploadIntoExperience(apply, file)}
             onSaveLogo={() => {
               const stamp = createStampFromBrand(experience.brand);
               if (!stamp) {

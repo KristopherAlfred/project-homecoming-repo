@@ -56,6 +56,7 @@ import {
 import { heroBlendMaskStyle, heroBlendOverlayStyle } from "@/lib/heroBlend";
 import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewUrl";
 import { CreatorLinkPage, creatorProfileFor } from "./CreatorLinkPage";
+import type { CreatorProfile } from "../../lib/creatorProfile";
 import { resolveTitleFontFamily } from "../../lib/typography";
 import { TintedBrandLogo } from "./TintedBrandLogo";
 import { StyledTextRuns, WordStyleEditor, runsForPageField } from "./StyledText";
@@ -493,6 +494,8 @@ function PageFreeformPreview({
   label,
   onPatchPage,
   onPatchBrand,
+  onPatchCreator,
+  onUploadMedia,
   onSaveLogo,
   onPlaceStamp,
   onRemoveStamp,
@@ -503,6 +506,8 @@ function PageFreeformPreview({
   label: string;
   onPatchPage?: (patch: Partial<ExperiencePageConfig>) => void;
   onPatchBrand?: (patch: Partial<ExperienceBrand>) => void;
+  onPatchCreator?: (patch: Partial<CreatorProfile>) => void;
+  onUploadMedia?: (file: File, apply: (src: string) => void) => void;
   onSaveLogo?: () => void;
   onPlaceStamp?: (stampId: string) => void;
   onRemoveStamp?: (stampId: string) => void;
@@ -1034,10 +1039,21 @@ function PageFreeformPreview({
     return (
       <PhoneFrame
         label={label}
-        hint="Link-in-bio landing — edit video, photo, name, socials and cards in the panel"
+        hint={
+          onPatchCreator
+            ? "Click anything to edit · drag to move · grip to reorder · corner to resize · click the video to reframe it"
+            : "Link-in-bio landing"
+        }
         screen={
           <div className="h-[560px] w-full">
-            <CreatorLinkPage profile={creatorProfileFor(experience)} accentColor={experience.theme.accent} compact />
+            <CreatorLinkPage
+              profile={creatorProfileFor(experience)}
+              accentColor={experience.theme.accent}
+              compact
+              editable={Boolean(onPatchCreator)}
+              onChange={onPatchCreator}
+              onUploadMedia={onUploadMedia}
+            />
           </div>
         }
       >
@@ -1516,6 +1532,8 @@ export function ExperiencePhonePreview({
   pageKey,
   onPatchPage,
   onPatchBrand,
+  onPatchCreator,
+  onUploadMedia,
   onSaveLogo,
   onPlaceStamp,
   onRemoveStamp,
@@ -1526,6 +1544,8 @@ export function ExperiencePhonePreview({
   pageKey: ExperiencePageKey;
   onPatchPage?: (patch: Partial<ExperiencePageConfig>) => void;
   onPatchBrand?: (patch: Partial<ExperienceBrand>) => void;
+  onPatchCreator?: (patch: Partial<CreatorProfile>) => void;
+  onUploadMedia?: (file: File, apply: (src: string) => void) => void;
   onSaveLogo?: () => void;
   onPlaceStamp?: (stampId: string) => void;
   onRemoveStamp?: (stampId: string) => void;
@@ -1552,6 +1572,8 @@ export function ExperiencePhonePreview({
       label={label ?? MODE_LABEL[mode]}
       onPatchPage={onPatchPage}
       onPatchBrand={onPatchBrand}
+      onPatchCreator={onPatchCreator}
+      onUploadMedia={onUploadMedia}
       onSaveLogo={onSaveLogo}
       onPlaceStamp={onPlaceStamp}
       onRemoveStamp={onRemoveStamp}
