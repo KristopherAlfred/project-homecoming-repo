@@ -91,18 +91,27 @@ function toMessage(row: MessageRow): LiveChatMessage {
 
 /** Newest scheduled/live session, optionally scoped to one athlete. */
 export async function fetchLiveSession(athleteId?: string | null): Promise<LiveSession | null> {
-  let query = supabase
-    .from("live_sessions")
-    .select(SESSION_COLUMNS)
-    .in("status", ["scheduled", "live"])
-    .order("status", { ascending: true })
-    .order("created_at", { ascending: false })
-    .limit(1);
-  if (athleteId) query = query.eq("athlete_id", athleteId);
-  const { data, error } = await query.maybeSingle();
-  if (error) return null;
-  return toSession(data as SessionRow | null);
+  async function newest(scopeId?: string | null) {
+    let query = supabase
+      .from("live_sessions")
+      .select(SESSION_COLUMNS)
+      .in("status", ["scheduled", "live"])
+      .order("status", { ascending: true })
+      .order("created_at", { ascending: false })
+      .limit(1);
+    if (scopeId) query = query.eq("athlete_id", scopeId);
+    const { data, error } = await query.maybeSingle();
+    if (error) return null;
+    return toSession(data as SessionRow | null);
+  }
+
+  const scoped = athleteId ? await newest(athleteId) : null;
+  if (scoped) return scoped;
+  // Fall back to the newest active session so the fan app still shows the
+  // broadcast when the app record and the dashboard profile differ.
+  return newest(null);
 }
+
 
 export async function fetchLiveChat(sessionId: string, limit = 80): Promise<LiveChatMessage[]> {
   const { data, error } = await supabase
