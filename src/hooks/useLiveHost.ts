@@ -2,7 +2,20 @@ import { type RealtimeChannel, type SupabaseClient } from "@supabase/supabase-js
 import { useEffect, useRef, useState } from "react";
 import { getLiveSignalClient } from "../lib/liveApi";
 
-const ICE_SERVERS: RTCIceServer[] = [{ urls: "stun:stun.l.google.com:19302" }];
+const ICE_SERVERS: RTCIceServer[] = [
+  { urls: "stun:stun.l.google.com:19302" },
+  { urls: "stun:global.stun.twilio.com:3478" },
+  {
+    urls: [
+      "turn:openrelay.metered.ca:80",
+      "turn:openrelay.metered.ca:443",
+      "turn:openrelay.metered.ca:443?transport=tcp",
+    ],
+    username: "openrelayproject",
+    credential: "openrelayproject",
+  },
+];
+
 
 type SignalPayload =
   | { type: "viewer-join"; viewerId: string; sessionId: string }
