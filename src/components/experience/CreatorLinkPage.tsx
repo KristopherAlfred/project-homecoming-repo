@@ -960,7 +960,14 @@ export function CreatorLinkPage({
     <div
       ref={pageRef}
       className={`creator-glass-page relative h-full w-full overflow-hidden ${isSloane ? "creator-sloane-page" : ""} ${edit ? "is-editing" : ""} ${className}`}
-      style={{ scrollbarWidth: "none", "--creator-accent": accentColor } as CSSProperties}
+      style={
+        {
+          scrollbarWidth: "none",
+          "--creator-accent": accentColor,
+          "--creator-sheet-tint": profile.sheetColor || "#0c1015",
+          "--creator-sheet-alpha": `${profile.sheetOpacity ?? 34}%`,
+        } as CSSProperties
+      }
     >
       {/* ── Fixed full-page media background ─────────────────── */}
       <div className={`creator-media-stage pointer-events-none absolute inset-x-0 top-0 overflow-hidden ${isSloane ? "is-top-video" : "inset-y-0"}`} aria-hidden="true">
