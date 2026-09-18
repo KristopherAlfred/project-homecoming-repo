@@ -262,6 +262,10 @@ body {
     pointer-events: none;
   }
 
+  .creator-wallpaper-page .creator-media-overlay {
+    background: linear-gradient(180deg, rgb(5 7 9 / 0.08), rgb(5 7 9 / 0.18) 54%, rgb(5 7 9 / 0.36));
+  }
+
   .creator-sloane-page .creator-media-overlay {
     background: linear-gradient(180deg, rgb(4 7 10 / 0.05), rgb(6 9 13 / 0.1) 62%, rgb(8 11 15 / 0.34));
   }
@@ -526,10 +530,108 @@ body {
         color-mix(in srgb, var(--creator-sheet-tint, #0c1015) var(--creator-sheet-alpha, 34%), transparent)
       ),
       color-mix(in srgb, var(--creator-sheet-tint, #0c1015) calc(var(--creator-sheet-alpha, 34%) * 0.4), transparent);
-    backdrop-filter: blur(22px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(132%);
     mask-image: linear-gradient(180deg, transparent, black 200px);
     pointer-events: none;
   }
+
+  .fan-premium-page {
+    color: var(--foreground);
+    isolation: isolate;
+  }
+
+  .fan-premium-page > img {
+    animation: fan-image-drift 16s ease-in-out infinite alternate;
+  }
+
+  .fan-premium-page > div[style*="position: absolute"] img,
+  .fan-premium-page img.absolute {
+    filter: saturate(0.82) contrast(1.04) brightness(0.72);
+  }
+
+  .fan-premium-wash {
+    background: linear-gradient(180deg, rgb(7 9 12 / 0.08), rgb(7 9 12 / 0.26) 48%, rgb(7 9 12 / 0.76));
+    backdrop-filter: blur(1.5px) saturate(116%);
+    pointer-events: none;
+  }
+
+  .fan-instagram-tabs {
+    position: absolute;
+    inset-inline: 10px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    z-index: 150;
+    display: flex;
+    align-items: stretch;
+    min-height: 58px;
+    padding: 5px 4px;
+    border: 1px solid rgb(255 255 255 / 0.13);
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.13), rgb(16 19 23 / 0.52));
+    backdrop-filter: blur(24px) saturate(165%);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.19), 0 18px 36px rgb(0 0 0 / 0.38);
+  }
+
+  .fan-instagram-tabs button {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0;
+    transition: transform 180ms ease, opacity 180ms ease;
+  }
+
+  .fan-instagram-tabs button:active { transform: scale(0.9); }
+  .fan-instagram-tabs button i { position: absolute; bottom: 0; width: 18px; height: 2px; border-radius: 999px; }
+  .fan-tab-icon { display: grid; min-height: 22px; place-items: center; }
+
+  .fan-live-alert {
+    position: absolute;
+    top: max(12px, env(safe-area-inset-top));
+    left: 12px;
+    right: 12px;
+    z-index: 170;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    border-radius: 17px;
+    color: rgb(255 255 255 / 0.94);
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.16), rgb(18 22 27 / 0.56));
+    backdrop-filter: blur(22px) saturate(165%);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2), 0 16px 30px rgb(0 0 0 / 0.3);
+  }
+  .fan-live-alert strong, .fan-live-alert small { display: block; letter-spacing: 0; }
+  .fan-live-alert strong { font-size: 11px; }
+  .fan-live-alert small { margin-top: 1px; color: rgb(255 255 255 / 0.56); font-size: 8px; }
+  .fan-live-alert-icon { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 9px; background: rgb(255 255 255 / 0.12); }
+  .fan-live-alert.is-live .fan-live-alert-icon { animation: fan-live-pulse 1.6s ease-in-out infinite; }
+
+  .fan-live-experience { display: flex; flex-direction: column; gap: 16px; }
+  .fan-live-player { position: relative; overflow: hidden; aspect-ratio: 9 / 14; border-radius: 28px; border: 1px solid rgb(255 255 255 / 0.17); background: rgb(10 13 16 / 0.46); backdrop-filter: blur(20px); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18), 0 24px 52px rgb(0 0 0 / 0.44); }
+  .fan-live-placeholder { display: flex; height: 100%; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: rgb(255 255 255 / 0.65); text-align: center; }
+  .fan-live-placeholder p { font-size: 11px; }
+  .fan-live-placeholder strong { color: rgb(255 255 255 / 0.95); font-size: 30px; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+  .fan-live-orbit { display: grid; width: 62px; height: 62px; place-items: center; border: 1px solid rgb(255 255 255 / 0.16); border-radius: 50%; background: rgb(255 255 255 / 0.08); }
+  .fan-live-orbit.is-live { animation: fan-live-pulse 1.6s ease-in-out infinite; }
+  .fan-live-badge { position: absolute; left: 12px; top: 12px; padding: 5px 9px; border-radius: 999px; background: var(--destructive); color: var(--destructive-foreground); font-size: 8px; font-weight: 800; text-transform: uppercase; }
+  .fan-live-sound { position: absolute; right: 12px; bottom: 12px; display: grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; color: rgb(255 255 255 / 0.9); background: rgb(0 0 0 / 0.4); backdrop-filter: blur(14px); }
+  .fan-live-copy p { color: rgb(255 255 255 / 0.5); font-size: 9px; font-weight: 700; text-transform: uppercase; }
+  .fan-live-copy h2 { margin-top: 4px; color: rgb(255 255 255 / 0.96); font-size: 25px; font-weight: 750; letter-spacing: 0; }
+  .fan-live-copy span { display: block; margin-top: 5px; color: rgb(255 255 255 / 0.58); font-size: 11px; }
+  .fan-glass-note { display: flex; align-items: center; gap: 10px; padding: 13px 14px; border-radius: 18px; background: rgb(255 255 255 / 0.08); backdrop-filter: blur(18px); }
+  .fan-glass-note strong { color: rgb(255 255 255 / 0.9); font-size: 10px; }
+  .fan-glass-note p { color: rgb(255 255 255 / 0.48); font-size: 8px; }
+  .fan-live-dot { width: 7px; height: 7px; flex: none; border-radius: 50%; background: rgb(255 255 255 / 0.8); box-shadow: 0 0 12px rgb(255 255 255 / 0.45); }
+
+  @keyframes fan-live-pulse { 50% { transform: scale(1.06); box-shadow: 0 0 0 10px rgb(255 255 255 / 0); } }
+  @keyframes fan-image-drift { from { transform: scale(1.01) translate3d(0,0,0); } to { transform: scale(1.06) translate3d(-1%, -0.7%, 0); } }
 
 
   .creator-sheet-card {

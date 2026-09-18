@@ -3,6 +3,7 @@ import { supabase as rawSupabase } from "../integrations/supabase/client";
 const supabase = rawSupabase as any;
 import type { ExperienceConfig } from "./experienceConfig";
 import { normalizeExperienceConfig } from "./experienceConfig";
+import { TEMPLATE_PAGE_ART } from "./templatePageArt";
 
 /**
  * Publishing layer for the fan app the athlete designs in the Experience tab.
@@ -48,12 +49,28 @@ async function callAthleteState<T>(payload: Record<string, unknown>): Promise<T>
 
 function hydrate(row: Record<string, unknown> | null): FanAppRecord | null {
   if (!row) return null;
+  const config = normalizeExperienceConfig((row.config ?? {}) as Partial<ExperienceConfig>);
+  const inferredTemplateId = config.templateId || (config.creator.name.trim().toLowerCase() === "sloane stephens" ? "sloane-stephens" : "");
+  const pageArt = inferredTemplateId ? TEMPLATE_PAGE_ART[inferredTemplateId] : undefined;
+  if (pageArt) {
+    config.templateId = inferredTemplateId;
+    for (const [pageKey, image] of Object.entries(pageArt)) {
+      const page = config.pages[pageKey];
+      if (!page || page.heroImage || !image) continue;
+      page.heroImage = image;
+      page.heroFit = "cover";
+      page.heroOverlayOpacity = Math.min(page.heroOverlayOpacity, 68);
+      page.stage = page.stage.map((item) =>
+        item.id === "hero" || item.role === "hero" ? { ...item, hidden: false } : item,
+      );
+    }
+  }
   return {
     id: String(row.id),
     athlete_id: String(row.athlete_id),
     slug: String(row.slug),
     app_name: (row.app_name as string) ?? null,
-    config: normalizeExperienceConfig((row.config ?? {}) as Partial<ExperienceConfig>),
+    config,
     is_published: Boolean(row.is_published),
     view_count: Number(row.view_count ?? 0),
     published_at: (row.published_at as string) ?? null,

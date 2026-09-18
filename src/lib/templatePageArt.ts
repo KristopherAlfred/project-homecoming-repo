@@ -8,6 +8,10 @@ import curryDribble from "../assets/templates/curry/dribble.jpg";
 import curryTrophy from "../assets/templates/curry/trophy.jpg";
 import curryJerseyBack from "../assets/templates/curry/jersey-back.jpg";
 import currySuit from "../assets/templates/curry/suit.jpg";
+import sloaneCourt from "../assets/sloane-court-editorial.jpg";
+import sloaneArrival from "../assets/sloane-arrival-editorial.jpg";
+import sloaneServe from "../assets/sloane-serve-editorial.jpg";
+import sloaneFoundation from "../assets/sloane-foundation-editorial.jpg";
 
 const curryHero = curryLandingAsset.url;
 
@@ -32,5 +36,19 @@ export const TEMPLATE_PAGE_ART: Record<
     docAndGlo: curryJerseyBack,
     foundation: curryFamily,
     profile: curryTrophy,
+  },
+  "sloane-stephens": {
+    home: sloaneArrival,
+    social: sloaneArrival,
+    videos: sloaneCourt,
+    news: sloaneServe,
+    events: sloaneCourt,
+    live: sloaneServe,
+    docAndGlo: sloaneArrival,
+    foundation: sloaneFoundation,
+    bio: sloaneArrival,
+    profile: sloaneCourt,
+    settings: sloaneArrival,
+    youreIn: sloaneServe,
   },
 };

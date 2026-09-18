@@ -73,6 +73,8 @@ export const DEFAULT_LINK_HEIGHT = 176;
 
 export type CreatorProfile = {
   enabled: boolean;
+  /** Shared visual composition; never inferred from an athlete's name. */
+  layoutVariant: "standard" | "top-video-glass" | "wallpaper";
   /** Full-bleed looping background video behind the hero. */
   videoSrc: string;
   /** Poster/fallback still shown before the video paints. */
@@ -111,6 +113,7 @@ export type CreatorProfile = {
 
 export const DEFAULT_CREATOR_PROFILE: CreatorProfile = {
   enabled: true,
+  layoutVariant: "standard",
   videoSrc: "",
   videoPoster: "",
   photo: "",
@@ -237,6 +240,10 @@ export function normalizeCreatorProfile(raw: unknown): CreatorProfile {
 
   return {
     enabled: c.enabled !== false,
+    layoutVariant:
+      c.layoutVariant === "top-video-glass" || c.layoutVariant === "wallpaper"
+        ? c.layoutVariant
+        : DEFAULT_CREATOR_PROFILE.layoutVariant,
     videoSrc: str(c.videoSrc),
     videoPoster: str(c.videoPoster),
     photo: str(c.photo),

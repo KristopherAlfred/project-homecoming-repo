@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "@/lib/router-compat";
 import { Loader2, Lock } from "lucide-react";
 
 import { FanAppPageView } from "../components/experience/ExperienceAppPreview";
 import { JoinAuthSheet } from "../components/experience/JoinFlow";
+import { FanLiveAlert, useFanLiveState } from "../components/experience/FanLiveExperience";
 import type { ExperienceConfig, ExperiencePageKeyName } from "../lib/experienceConfig";
 import { themeBackgroundCss } from "../lib/experienceConfig";
 import { fetchPublicFanApp, registerFanAppView } from "../lib/fanAppPublish";
@@ -71,6 +72,16 @@ function FanAppRuntime({ experience }: { experience: ExperienceConfig }) {
   const [unlock, setUnlock] = useState(false);
   const page = experience.pages[pageKey];
   const backdrop = useMemo(() => themeBackgroundCss(experience.theme), [experience.theme]);
+  const liveState = useFanLiveState();
+  const swipeStart = useRef<number | null>(null);
+  const visibleTabs = useMemo(() => (experience.nav?.tabs ?? []).filter((tab) => !tab.hidden), [experience.nav?.tabs]);
+
+  const navigateBySwipe = (direction: number) => {
+    const index = visibleTabs.findIndex((tab) => tab.pageKey === pageKey);
+    if (index < 0) return;
+    const next = visibleTabs[index + direction];
+    if (next) setPageKey(next.pageKey);
+  };
 
   const onCta = () => {
     if (pageKey === "landing") {
@@ -86,8 +97,18 @@ function FanAppRuntime({ experience }: { experience: ExperienceConfig }) {
   };
 
   const screen = (
-    <div className="relative h-full w-full overflow-hidden">
+    <div
+      className="relative h-full w-full overflow-hidden"
+      onPointerDown={(event) => { swipeStart.current = event.clientX; }}
+      onPointerUp={(event) => {
+        if (swipeStart.current === null) return;
+        const distance = event.clientX - swipeStart.current;
+        swipeStart.current = null;
+        if (Math.abs(distance) > 64 && pageKey !== "landing" && pageKey !== "youreIn") navigateBySwipe(distance < 0 ? 1 : -1);
+      }}
+    >
       <FanAppPageView experience={experience} pageKey={pageKey} onNavigate={setPageKey} onCta={onCta} />
+      {pageKey !== "landing" && pageKey !== "live" ? <FanLiveAlert state={liveState} onOpen={() => setPageKey("live")} /> : null}
       {unlock && pageKey === "landing" ? (
         <JoinAuthSheet
           page={page}

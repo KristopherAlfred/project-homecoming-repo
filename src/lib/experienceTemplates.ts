@@ -1212,6 +1212,7 @@ EXPERIENCE_TEMPLATES.unshift({
   },
   creator: {
     enabled: true,
+    layoutVariant: "top-video-glass",
     videoSrc: sloaneHero.url,
     videoPoster: "",
     photo: "",
@@ -1260,6 +1261,46 @@ EXPERIENCE_TEMPLATES.unshift({
     ],
   },
 });
+
+const PREMIUM_TEMPLATE_SPECS: FullTemplateSpec[] = [
+  {
+    id: "wallpaper-live", label: "Wallpaper Live", vibe: "Lock-screen wallpaper with floating glass notifications", tags: ["premium", "wallpaper", "glass"], photo: "tennis",
+    wordmark: "YOUR WORLD", tagline: "Everything happening, beautifully arranged.", headline: "STAY CLOSE", body: "Live moments, exclusive links and new drops float over your signature wallpaper.", cta: "JOIN MY CIRCLE",
+    features: ["LIVE NOW", "NEW DROP", "LATEST STORY", "INNER CIRCLE"], icons: ["live", "gift", "news", "users"], count: "18K+", countLabel: "Members", extra: "+9",
+    bg: "#29251d", bgVia: "#4a412c", accent: "#F2EEE5", accentHover: "#FFFFFF", ctaBg: "#E8E2D6", ctaTo: "#8E846E", ctaText: "#17140f", text: "#FFFFFF", muted: "rgba(255,255,255,0.68)", radius: 26,
+    creator: { layoutVariant: "wallpaper", sheetColor: "#312b20", sheetOpacity: 28 },
+  },
+  {
+    id: "editorial-court", label: "Editorial Court", vibe: "Asymmetric sports editorial with cinematic image rails", tags: ["premium", "editorial", "sport"], photo: "tennis",
+    wordmark: "COURT EDITION", tagline: "Performance, culture, perspective.", headline: "OWN THE MOMENT", body: "A confident editorial home for film, stories and access beyond the match.", cta: "ENTER THE EDITION",
+    features: ["FEATURED", "FILM", "JOURNAL", "ACCESS"], icons: ["star", "video", "news", "ticket"], count: "24K+", countLabel: "Readers", extra: "+12",
+    bg: "#101214", bgVia: "#2A2D31", accent: "#E8EAED", accentHover: "#FFFFFF", ctaBg: "#D7DADD", ctaTo: "#8A9097", ctaText: "#101214", text: "#FFFFFF", muted: "rgba(255,255,255,0.62)", radius: 8,
+    creator: { layoutVariant: "top-video-glass", sheetColor: "#15181c", sheetOpacity: 30 },
+  },
+  {
+    id: "gallery-glass", label: "Gallery Glass", vibe: "Immersive photography with quiet floating controls", tags: ["premium", "gallery", "minimal"], photo: "gymnastics",
+    wordmark: "THE GALLERY", tagline: "A visual diary, always in motion.", headline: "BEHIND THE FRAME", body: "A spacious image-first experience for personal stories and private releases.", cta: "OPEN THE GALLERY",
+    features: ["PORTRAITS", "STORIES", "ARCHIVE", "PRIVATE"], icons: ["camera", "sparkle", "clock", "lock"], count: "11K+", countLabel: "Members", extra: "+6",
+    bg: "#131516", bgVia: "#34383A", accent: "#F4F4F2", accentHover: "#FFFFFF", ctaBg: "#F4F4F2", ctaTo: "#AFB4B5", ctaText: "#111314", text: "#FFFFFF", muted: "rgba(255,255,255,0.66)", radius: 22,
+    creator: { layoutVariant: "top-video-glass", sheetColor: "#191c1d", sheetOpacity: 24 },
+  },
+  {
+    id: "match-day", label: "Match Day", vibe: "Live-first scoreboard energy with premium restraint", tags: ["premium", "live", "sport"], photo: "basketball",
+    wordmark: "MATCH DAY", tagline: "The next moment starts here.", headline: "LIVE FROM THE ARENA", body: "Countdowns, live video and instant access to everything around the event.", cta: "JOIN LIVE ACCESS",
+    features: ["COUNTDOWN", "LIVE VIDEO", "RESULTS", "ACCESS"], icons: ["clock", "live", "trophy", "ticket"], count: "32K+", countLabel: "Watching", extra: "+21",
+    bg: "#080A0C", bgVia: "#20262B", accent: "#F5F7F8", accentHover: "#FFFFFF", ctaBg: "#E9EDF0", ctaTo: "#939DA5", ctaText: "#090B0D", text: "#FFFFFF", muted: "rgba(255,255,255,0.64)", radius: 12,
+    creator: { layoutVariant: "wallpaper", sheetColor: "#0d1114", sheetOpacity: 38 },
+  },
+  {
+    id: "quiet-luxury", label: "Quiet Luxury", vibe: "Monochrome editorial with fine silver detail", tags: ["premium", "luxury", "minimal"], photo: "golf",
+    wordmark: "PRIVATE EDITION", tagline: "Considered. Personal. Timeless.", headline: "THE PRIVATE SIDE", body: "An understated home for select stories, thoughtful releases and direct access.", cta: "REQUEST ACCESS",
+    features: ["JOURNAL", "COLLECTION", "EVENTS", "MEMBERS"], icons: ["news", "shop", "calendar", "crown"], count: "8K+", countLabel: "Members", extra: "+4",
+    bg: "#171717", bgVia: "#333230", accent: "#E7E4DE", accentHover: "#FFFFFF", ctaBg: "#E7E4DE", ctaTo: "#9C9993", ctaText: "#171717", text: "#FAFAF8", muted: "rgba(255,255,255,0.6)", radius: 4,
+    creator: { layoutVariant: "top-video-glass", sheetColor: "#1b1a18", sheetOpacity: 26 },
+  },
+];
+
+EXPERIENCE_TEMPLATES.splice(1, 0, ...PREMIUM_TEMPLATE_SPECS.map(fullTemplate));
 
 
 /** Apply a template's look on top of an existing experience config. */
@@ -1339,6 +1380,7 @@ export function applyExperienceTemplate(
 
   return {
     ...config,
+    templateId: template.id,
     /**
      * Templates replace the creator hero outright — nothing from the
      * previously applied template (video, photo, name, copy) may leak
@@ -1352,6 +1394,7 @@ export function applyExperienceTemplate(
       followerCount: template.creator?.followerCount || config.creator.followerCount,
       photo: template.creator?.photo || config.creator.photo || template.photo || "",
       enabled: true,
+      layoutVariant: template.creator?.layoutVariant ?? DEFAULT_CREATOR_PROFILE.layoutVariant,
       videoSrc: template.creator?.videoSrc ?? "",
       videoPoster:
         template.creator?.videoPoster ?? template.photo ?? template.landing?.heroImage ?? "",
@@ -1371,6 +1414,8 @@ export function applyExperienceTemplate(
       proofHeadline: template.landing?.memberProof?.count
         ? `${template.landing.memberProof.count} ${template.landing.memberProof.label || "Fans Already Joined"}`
         : template.creator?.proofHeadline || DEFAULT_CREATOR_PROFILE.proofHeadline,
+      sheetColor: template.creator?.sheetColor ?? DEFAULT_CREATOR_PROFILE.sheetColor,
+      sheetOpacity: template.creator?.sheetOpacity ?? DEFAULT_CREATOR_PROFILE.sheetOpacity,
     },
     brand: { ...config.brand, ...template.brand },
     theme: { ...config.theme, ...template.theme },
