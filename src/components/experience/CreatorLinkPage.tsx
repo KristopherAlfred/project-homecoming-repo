@@ -641,7 +641,7 @@ export function CreatorLinkPage({
                 value={profile.name}
                 placeholder="Your name"
                 onCommit={(v) => patch({ name: v })}
-                className={`creator-name min-w-0 leading-none ${compact ? "text-[30px]" : "text-[56px] sm:text-[64px]"}`}
+                className={`creator-name creator-name-line leading-none ${compact ? "text-[26px]" : "text-[52px] sm:text-[60px]"}`}
               />
               {profile.verified || edit ? (
                 <span
@@ -960,7 +960,14 @@ export function CreatorLinkPage({
     <div
       ref={pageRef}
       className={`creator-glass-page relative h-full w-full overflow-hidden ${isSloane ? "creator-sloane-page" : ""} ${edit ? "is-editing" : ""} ${className}`}
-      style={{ scrollbarWidth: "none", "--creator-accent": accentColor } as CSSProperties}
+      style={
+        {
+          scrollbarWidth: "none",
+          "--creator-accent": accentColor,
+          "--creator-sheet-tint": profile.sheetColor || "#0c1015",
+          "--creator-sheet-alpha": `${profile.sheetOpacity ?? 34}%`,
+        } as CSSProperties
+      }
     >
       {/* ── Fixed full-page media background ─────────────────── */}
       <div className={`creator-media-stage pointer-events-none absolute inset-x-0 top-0 overflow-hidden ${isSloane ? "is-top-video" : "inset-y-0"}`} aria-hidden="true">
@@ -1014,6 +1021,24 @@ export function CreatorLinkPage({
           <button type="button" title="Zoom out" onClick={() => patch({ mediaScale: clamp((profile.mediaScale ?? 100) - 10, 100, 220) })}>
             <ZoomOut size={11} />
           </button>
+          <label title="Panel colour" className="creator-color-swatch" style={{ background: profile.sheetColor || "#0c1015" }}>
+            <input
+              type="color"
+              className="hidden"
+              value={profile.sheetColor || "#0c1015"}
+              onChange={(e) => patch({ sheetColor: e.target.value })}
+            />
+          </label>
+          <input
+            type="range"
+            min={0}
+            max={90}
+            step={2}
+            title="Panel transparency"
+            className="creator-color-range"
+            value={profile.sheetOpacity ?? 34}
+            onChange={(e) => patch({ sheetOpacity: Number(e.target.value) })}
+          />
           <button type="button" title="Reset framing" onClick={() => patch({ mediaX: 50, mediaY: 50, mediaScale: 100 })}>
             <RotateCcw size={11} />
           </button>

@@ -100,6 +100,10 @@ export type CreatorProfile = {
   mediaX: number;
   mediaY: number;
   mediaScale: number;
+  /** Tint colour of the translucent glass panel below the video. */
+  sheetColor: string;
+  /** Opacity percent of that glass panel (0 = fully see-through). */
+  sheetOpacity: number;
   fansLabel: string;
   perksLabel: string;
   linksLabel: string;
@@ -139,6 +143,8 @@ export const DEFAULT_CREATOR_PROFILE: CreatorProfile = {
   mediaX: 50,
   mediaY: 50,
   mediaScale: 100,
+  sheetColor: "#0c1015",
+  sheetOpacity: 34,
   fansLabel: "Joining now",
   perksLabel: "Membership perks",
   linksLabel: "Live links",
@@ -253,6 +259,8 @@ export function normalizeCreatorProfile(raw: unknown): CreatorProfile {
     mediaX: num(c.mediaX, 50, 0, 100),
     mediaY: num(c.mediaY, 50, 0, 100),
     mediaScale: num(c.mediaScale, 100, 100, 220),
+    sheetColor: str(c.sheetColor, DEFAULT_CREATOR_PROFILE.sheetColor) || DEFAULT_CREATOR_PROFILE.sheetColor,
+    sheetOpacity: num(c.sheetOpacity, DEFAULT_CREATOR_PROFILE.sheetOpacity, 0, 90),
     fansLabel: str(c.fansLabel, DEFAULT_CREATOR_PROFILE.fansLabel),
     perksLabel: str(c.perksLabel, DEFAULT_CREATOR_PROFILE.perksLabel),
     linksLabel: str(c.linksLabel, DEFAULT_CREATOR_PROFILE.linksLabel),
