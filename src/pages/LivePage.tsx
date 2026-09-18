@@ -19,9 +19,9 @@ import {
   fetchLiveState,
   scheduleLive,
   startLive,
-  type LiveChatMessage,
   type LiveSession,
 } from "../lib/liveApi";
+import { LiveChat } from "../components/experience/LiveChat";
 import { TypographyControls } from "../components/TypographyControls";
 import { titleTypographyStyle, type TitleFontFamily, type TitleFontSize } from "../lib/typography";
 
