@@ -954,6 +954,7 @@ function PageFreeformPreview({
         </div>
       );
     } else if (role === "cta") {
+      if (pageKey !== "youreIn") return null;
       const ctaGradient =
         page.ctaGradientFrom && page.ctaGradientTo
           ? `linear-gradient(${page.ctaGradientAngle ?? 90}deg, ${page.ctaGradientFrom}, ${page.ctaGradientTo})`
