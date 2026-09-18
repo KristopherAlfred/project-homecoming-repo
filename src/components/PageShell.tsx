@@ -27,7 +27,7 @@ export function StatCard({
   trend?: string;
 }) {
   return (
-    <div className="dt-surface rounded-2xl border border-dt-border bg-dt-card p-5">
+    <div className="dt-surface rounded-lg border border-dt-border bg-dt-card p-4">
       <p className="text-[11px] font-medium uppercase tracking-wide text-dt-muted">
         {label}
       </p>

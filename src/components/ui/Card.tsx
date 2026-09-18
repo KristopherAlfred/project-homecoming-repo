@@ -13,7 +13,7 @@ export function Card({
 }) {
   return (
     <div
-      className={`dt-surface rounded-2xl border border-dt-border bg-dt-card ${className}`}
+      className={`dt-surface rounded-lg border border-dt-border bg-dt-card ${className}`}
     >
       {(title || action) && (
         <div className="dt-surface-header flex items-center justify-between gap-3 border-b border-dt-border px-4 py-3">

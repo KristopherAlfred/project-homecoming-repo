@@ -273,7 +273,7 @@ export function Sidebar({ mobileOpen = false, onClose }: SidebarProps) {
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[min(330px,88vw)] flex-col border-r border-white/10 bg-dt-panel/85 shadow-[18px_0_60px_rgba(0,0,0,0.22)] backdrop-blur-2xl transition-transform duration-200 ease-out lg:static lg:z-auto lg:w-[312px] lg:shrink-0 lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-[min(330px,88vw)] flex-col border-r border-dt-border bg-dt-panel transition-transform duration-200 ease-out lg:static lg:z-auto lg:w-[312px] lg:shrink-0 lg:translate-x-0 ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -308,7 +308,7 @@ function AthleteSportBadge() {
   if (!sport) return null;
 
   return (
-    <div className="mx-4 mt-4 flex items-center gap-2.5 rounded-2xl border border-white/10 bg-white/[0.045] px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-xl">
+    <div className="mx-4 mt-4 flex items-center gap-2.5 rounded-xl border border-dt-border bg-dt-card/70 px-3 py-2.5">
       <span
         className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
         style={{
