@@ -513,6 +513,21 @@ export function ExperiencePage() {
     applySnapshot(snapshot, "Redid the change");
   }
 
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== "z") return;
+      const target = event.target as HTMLElement | null;
+      if (target && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName))) return;
+      event.preventDefault();
+      if (event.shiftKey) redoChange();
+      else undoChange();
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  });
+
+
+
   function patchSelected(patch: Partial<HomeWidget>) {
     if (!selectedId) return;
     updateWidgets((widgets) => widgets.map((w) => (w.id === selectedId ? { ...w, ...patch } : w)));
