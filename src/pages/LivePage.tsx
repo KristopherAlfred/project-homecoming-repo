@@ -19,6 +19,8 @@ import {
   fetchLiveState,
   scheduleLive,
   startLive,
+  setLivePins,
+  type LivePin,
   type LiveSession,
 } from "../lib/liveApi";
 import { LiveChat } from "../components/experience/LiveChat";
@@ -62,6 +64,35 @@ export function LivePage() {
   const [fullscreen, setFullscreen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [confirmGoLive, setConfirmGoLive] = useState(false);
+  const [pinLabel, setPinLabel] = useState("");
+  const [pinUrl, setPinUrl] = useState("");
+  const pins: LivePin[] = session?.pins ?? [];
+
+  async function savePins(next: LivePin[]) {
+    if (!session?.id) return;
+    try {
+      const updated = await setLivePins(session.id, next);
+      setSession(updated);
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : "Could not update pinned links");
+    }
+  }
+
+  function addPin() {
+    const url = pinUrl.trim();
+    if (!url) return;
+    const href = /^https?:\/\//i.test(url) ? url : `https://${url}`;
+    void savePins([
+      ...pins,
+      {
+        id: globalThis.crypto?.randomUUID?.() ?? `pin-${Date.now()}`,
+        label: pinLabel.trim() || href.replace(/^https?:\/\//, "").split("/")[0],
+        url: href,
+      },
+    ]);
+    setPinLabel("");
+    setPinUrl("");
+  }
 
   const isLive = status === "live";
   const { viewerCount, error: hostError } = useLiveHost(isLive, localStream, session?.id ?? null);
@@ -438,6 +469,59 @@ export function LivePage() {
                 Start another live
               </button>
             )}
+          </div>
+        </div>
+
+        <div className="border-t border-dt-border p-5 sm:p-6">
+          <div className="mb-3 flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-white">Pinned tabs &amp; sites</h3>
+            <span className="text-xs text-white/40">{session ? `${pins.length}/8 pinned` : "Schedule or go live first"}</span>
+          </div>
+          <div className="space-y-2">
+            {pins.map((pin) => (
+              <div key={pin.id} className="flex items-center gap-3 rounded-xl border border-dt-border bg-black/30 px-3 py-2">
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium text-white">{pin.label}</p>
+                  <p className="truncate text-xs text-white/40">{pin.url}</p>
+                </div>
+                <button
+                  type="button"
+                  aria-label={`Unpin ${pin.label}`}
+                  onClick={() => void savePins(pins.filter((item) => item.id !== pin.id))}
+                  className="rounded-lg border border-white/10 px-2 py-1 text-xs text-white/60 hover:bg-white/10"
+                >
+                  Unpin
+                </button>
+              </div>
+            ))}
+            {pins.length === 0 && (
+              <p className="rounded-xl border border-dashed border-dt-border px-3 py-4 text-center text-xs text-white/40">
+                Pin a link and everyone watching sees it instantly.
+              </p>
+            )}
+          </div>
+          <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+            <input
+              value={pinLabel}
+              onChange={(event) => setPinLabel(event.target.value)}
+              placeholder="Label (optional)"
+              className="w-full rounded-xl border border-dt-border bg-black/30 px-3 py-2 text-sm text-white outline-none placeholder:text-white/30 sm:w-44"
+            />
+            <input
+              value={pinUrl}
+              onChange={(event) => setPinUrl(event.target.value)}
+              onKeyDown={(event) => { if (event.key === "Enter") addPin(); }}
+              placeholder="https://link-to-pin.com"
+              className="min-w-0 flex-1 rounded-xl border border-dt-border bg-black/30 px-3 py-2 text-sm text-white outline-none placeholder:text-white/30"
+            />
+            <button
+              type="button"
+              disabled={!session?.id || !pinUrl.trim() || pins.length >= 8}
+              onClick={addPin}
+              className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black disabled:opacity-40"
+            >
+              Pin
+            </button>
           </div>
         </div>
 

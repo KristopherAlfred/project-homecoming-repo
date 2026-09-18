@@ -7,6 +7,13 @@ const supabase = rawSupabase as any;
  * "Go Live" button and the fan app are always looking at the same state.
  */
 
+export type LivePin = {
+  id: string;
+  label: string;
+  url: string;
+  note?: string;
+};
+
 export type LiveSession = {
   id: string;
   athleteId: string | null;
@@ -15,6 +22,7 @@ export type LiveSession = {
   scheduledAt: string | null;
   startedAt: string | null;
   endedAt: string | null;
+  pins: LivePin[];
 };
 
 export type LiveChatMessage = {
@@ -42,6 +50,7 @@ type SessionRow = {
   scheduled_at: string | null;
   started_at: string | null;
   ended_at: string | null;
+  pinned_items: LivePin[] | null;
 };
 
 type MessageRow = {
@@ -53,7 +62,7 @@ type MessageRow = {
   created_at: string;
 };
 
-const SESSION_COLUMNS = "id, athlete_id, title, status, scheduled_at, started_at, ended_at";
+const SESSION_COLUMNS = "id, athlete_id, title, status, scheduled_at, started_at, ended_at, pinned_items";
 
 function toSession(row: SessionRow | null): LiveSession | null {
   if (!row) return null;
@@ -65,6 +74,7 @@ function toSession(row: SessionRow | null): LiveSession | null {
     scheduledAt: row.scheduled_at,
     startedAt: row.started_at,
     endedAt: row.ended_at,
+    pins: Array.isArray(row.pinned_items) ? row.pinned_items : [],
   };
 }
 
@@ -167,6 +177,18 @@ export async function endLive(sessionId?: string) {
     .single();
   if (error) throw new Error(error.message);
   return { session: toSession(data as SessionRow) };
+}
+
+/** Replace the pinned tabs/sites shown to everyone watching the live. */
+export async function setLivePins(sessionId: string, pins: LivePin[]) {
+  const { data, error } = await supabase
+    .from("live_sessions")
+    .update({ pinned_items: pins.slice(0, 8) })
+    .eq("id", sessionId)
+    .select(SESSION_COLUMNS)
+    .single();
+  if (error) throw new Error(error.message);
+  return toSession(data as SessionRow)!;
 }
 
 export async function sendLiveMessage(input: {

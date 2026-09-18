@@ -1500,3 +1500,26 @@ select option,
   height: 36px; width: 36px; border-radius: 999px; background: rgba(255,255,255,0.92); color: #0c0e12;
 }
 .live-chat-form button:disabled { opacity: 0.3; }
+
+/* ---------- Host-pinned links inside the live ---------- */
+.fan-live-pins { display: flex; flex-direction: column; gap: 6px; }
+.fan-live-pins-head {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+.fan-live-pin {
+  display: flex; align-items: center; gap: 10px;
+  border-radius: 16px; padding: 9px 12px;
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(18px) saturate(140%);
+  color: #fff; transition: background 0.2s ease, transform 0.2s ease;
+}
+.fan-live-pin:hover { background: rgba(255, 255, 255, 0.13); transform: translateY(-1px); }
+.fan-live-pin-favicon {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 26px; width: 26px; border-radius: 9px; background: rgba(255, 255, 255, 0.1); overflow: hidden; flex: none;
+}
+.fan-live-pin-favicon img { height: 16px; width: 16px; }
+.fan-live-pin strong { display: block; font-size: 13px; font-weight: 600; line-height: 1.25; }
+.fan-live-pin small { display: block; font-size: 11px; color: rgba(255, 255, 255, 0.5); }

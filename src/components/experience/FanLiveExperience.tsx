@@ -1,8 +1,20 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { BellRing, Radio, Volume2, VolumeX } from "lucide-react";
+import { BellRing, ExternalLink, Pin, Radio, Volume2, VolumeX } from "lucide-react";
 import { fetchLiveState, subscribeLiveSessions, type LivePublicState } from "@/lib/liveApi";
 import { useLiveViewer } from "@/hooks/useLiveViewer";
 import { LiveChat } from "./LiveChat";
+
+function domainFor(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url.replace(/^https?:\/\//, "").split("/")[0] ?? url;
+  }
+}
+
+function faviconFor(url: string) {
+  return `https://www.google.com/s2/favicons?sz=64&domain=${encodeURIComponent(domainFor(url))}`;
+}
 
 function countdownLabel(target: string | null, now: number) {
   if (!target) return "Schedule coming soon";
@@ -73,6 +85,7 @@ export function FanLiveExperience({ state, title }: { state: LivePublicState | n
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(timer);
   }, [state?.isLive, state?.scheduledAt]);
+  const pins = state?.session?.pins ?? [];
   const schedule = useMemo(
     () => state?.scheduledAt ? new Date(state.scheduledAt).toLocaleString(undefined, { weekday: "long", hour: "numeric", minute: "2-digit" }) : "To be announced",
     [state?.scheduledAt],
@@ -101,6 +114,25 @@ export function FanLiveExperience({ state, title }: { state: LivePublicState | n
         <h2>{state?.title || title || "Live"}</h2>
         <span>{state?.isLive ? "You’re in the room. Turn on sound when you’re ready." : schedule}</span>
       </div>
+      {pins.length > 0 ? (
+        <div className="fan-live-pins">
+          <p className="fan-live-pins-head">
+            <Pin size={12} /> Pinned by the host
+          </p>
+          {pins.map((pin) => (
+            <a key={pin.id} href={pin.url} target="_blank" rel="noreferrer" className="fan-live-pin">
+              <span className="fan-live-pin-favicon">
+                <img src={faviconFor(pin.url)} alt="" loading="lazy" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <strong>{pin.label || domainFor(pin.url)}</strong>
+                <small>{pin.note || domainFor(pin.url)}</small>
+              </span>
+              <ExternalLink size={13} />
+            </a>
+          ))}
+        </div>
+      ) : null}
       <LiveChat sessionId={state?.session?.id ?? null} isLive={Boolean(state?.isLive)} compact />
     </div>
   );

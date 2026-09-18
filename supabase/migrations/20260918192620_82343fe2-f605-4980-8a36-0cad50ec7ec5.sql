@@ -1,0 +1,1 @@
+ALTER TABLE public.live_sessions ADD COLUMN IF NOT EXISTS pinned_items jsonb NOT NULL DEFAULT '[]'::jsonb;

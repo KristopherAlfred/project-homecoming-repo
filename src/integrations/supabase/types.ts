@@ -277,6 +277,7 @@ export type Database = {
           created_at: string
           ended_at: string | null
           id: string
+          pinned_items: Json
           scheduled_at: string | null
           started_at: string | null
           status: string
@@ -288,6 +289,7 @@ export type Database = {
           created_at?: string
           ended_at?: string | null
           id?: string
+          pinned_items?: Json
           scheduled_at?: string | null
           started_at?: string | null
           status?: string
@@ -299,6 +301,7 @@ export type Database = {
           created_at?: string
           ended_at?: string | null
           id?: string
+          pinned_items?: Json
           scheduled_at?: string | null
           started_at?: string | null
           status?: string
