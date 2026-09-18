@@ -17,6 +17,7 @@ import {
   Ticket,
   Trash2,
   Undo2,
+  Redo2,
   Upload,
   LayoutTemplate,
   Wand2,
