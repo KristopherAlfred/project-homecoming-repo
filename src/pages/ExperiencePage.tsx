@@ -487,7 +487,6 @@ export function ExperiencePage() {
   }
 
   function applySnapshot(snapshot: HomeLayout, message: string) {
-    skippingHistory.current = true;
     setLayout(snapshot);
     setDirty(true);
     setStatus(message);
@@ -497,31 +496,21 @@ export function ExperiencePage() {
   }
 
   function undoChange() {
-    setHistory((prev) => {
-      if (!prev.length) return prev;
-      const nextHistory = [...prev];
-      const snapshot = nextHistory.pop()!;
-      setLayout((current) => {
-        if (current) setFuture((f) => [...f.slice(-29), structuredClone(current)]);
-        return current;
-      });
-      applySnapshot(snapshot, "Reverted last change");
-      return nextHistory;
-    });
+    if (!history.length || !layout) return;
+    const nextHistory = [...history];
+    const snapshot = nextHistory.pop()!;
+    setFuture((f) => [...f.slice(-29), structuredClone(layout)]);
+    setHistory(nextHistory);
+    applySnapshot(snapshot, "Reverted last change");
   }
 
   function redoChange() {
-    setFuture((prev) => {
-      if (!prev.length) return prev;
-      const nextFuture = [...prev];
-      const snapshot = nextFuture.pop()!;
-      setLayout((current) => {
-        if (current) setHistory((h) => [...h.slice(-29), structuredClone(current)]);
-        return current;
-      });
-      applySnapshot(snapshot, "Redid the change");
-      return nextFuture;
-    });
+    if (!future.length || !layout) return;
+    const nextFuture = [...future];
+    const snapshot = nextFuture.pop()!;
+    setHistory((h) => [...h.slice(-29), structuredClone(layout)]);
+    setFuture(nextFuture);
+    applySnapshot(snapshot, "Redid the change");
   }
 
   function patchSelected(patch: Partial<HomeWidget>) {
