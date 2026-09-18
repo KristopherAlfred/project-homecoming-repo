@@ -101,6 +101,25 @@ export function FanLiveExperience({ state, title }: { state: LivePublicState | n
         <h2>{state?.title || title || "Live"}</h2>
         <span>{state?.isLive ? "You’re in the room. Turn on sound when you’re ready." : schedule}</span>
       </div>
+      {pins.length > 0 ? (
+        <div className="fan-live-pins">
+          <p className="fan-live-pins-head">
+            <Pin size={12} /> Pinned by the host
+          </p>
+          {pins.map((pin) => (
+            <a key={pin.id} href={pin.url} target="_blank" rel="noreferrer" className="fan-live-pin">
+              <span className="fan-live-pin-favicon">
+                <img src={faviconFor(pin.url)} alt="" loading="lazy" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <strong>{pin.label || domainFor(pin.url)}</strong>
+                <small>{pin.note || domainFor(pin.url)}</small>
+              </span>
+              <ExternalLink size={13} />
+            </a>
+          ))}
+        </div>
+      ) : null}
       <LiveChat sessionId={state?.session?.id ?? null} isLive={Boolean(state?.isLive)} compact />
     </div>
   );
