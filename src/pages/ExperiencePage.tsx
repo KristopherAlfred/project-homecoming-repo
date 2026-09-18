@@ -17,6 +17,7 @@ import {
   Ticket,
   Trash2,
   Undo2,
+  Redo2,
   Upload,
   LayoutTemplate,
   Wand2,
@@ -347,6 +348,7 @@ export function ExperiencePage() {
   const [dirty, setDirty] = useState(false);
   const [titleFilter, setTitleFilter] = useState<TitleFilter>("as_typed");
   const [history, setHistory] = useState<HomeLayout[]>([]);
+  const [future, setFuture] = useState<HomeLayout[]>([]);
   const skippingHistory = useRef(false);
 
   useEffect(() => {
@@ -381,10 +383,12 @@ export function ExperiencePage() {
 
   const visibleCount = ordered.filter((w) => w.enabled).length;
   const canUndo = history.length > 0;
+  const canRedo = future.length > 0;
 
   function pushHistory(current: HomeLayout) {
     if (!skippingHistory.current) {
       setHistory((prev) => [...prev.slice(-29), structuredClone(current)]);
+      setFuture([]);
     }
     skippingHistory.current = false;
   }
@@ -483,21 +487,47 @@ export function ExperiencePage() {
     }
   }
 
-  function undoChange() {
-    setHistory((prev) => {
-      if (!prev.length) return prev;
-      const nextHistory = [...prev];
-      const snapshot = nextHistory.pop()!;
-      skippingHistory.current = true;
-      setLayout(snapshot);
-      setDirty(true);
-      setStatus("Reverted last change");
-      if (selectedId && !snapshot.widgets.some((w) => w.id === selectedId)) {
-        setSelectedId(snapshot.widgets[0]?.id ?? null);
-      }
-      return nextHistory;
-    });
+  function applySnapshot(snapshot: HomeLayout, message: string) {
+    setLayout(snapshot);
+    setDirty(true);
+    setStatus(message);
+    if (selectedId && !snapshot.widgets.some((w) => w.id === selectedId)) {
+      setSelectedId(snapshot.widgets[0]?.id ?? null);
+    }
   }
+
+  function undoChange() {
+    if (!history.length || !layout) return;
+    const nextHistory = [...history];
+    const snapshot = nextHistory.pop()!;
+    setFuture((f) => [...f.slice(-29), structuredClone(layout)]);
+    setHistory(nextHistory);
+    applySnapshot(snapshot, "Reverted last change");
+  }
+
+  function redoChange() {
+    if (!future.length || !layout) return;
+    const nextFuture = [...future];
+    const snapshot = nextFuture.pop()!;
+    setHistory((h) => [...h.slice(-29), structuredClone(layout)]);
+    setFuture(nextFuture);
+    applySnapshot(snapshot, "Redid the change");
+  }
+
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== "z") return;
+      const target = event.target as HTMLElement | null;
+      if (target && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName))) return;
+      event.preventDefault();
+      if (event.shiftKey) redoChange();
+      else undoChange();
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  });
+
+
 
   function patchSelected(patch: Partial<HomeWidget>) {
     if (!selectedId) return;
@@ -684,6 +714,27 @@ export function ExperiencePage() {
                 <p className={`mt-1 text-lg font-bold ${dirty ? "text-dt-orange" : "text-dt-green"}`}>
                   {dirty ? "Unsaved" : "Synced"}
                 </p>
+              </div>
+              <div className="inline-flex min-h-[52px] items-center gap-1 rounded-xl border border-white/15 bg-black/40 px-2">
+                <button
+                  type="button"
+                  onClick={undoChange}
+                  disabled={!canUndo}
+                  title={canUndo ? "Undo last change (⌘Z)" : "Nothing to undo"}
+                  className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-35"
+                >
+                  <Undo2 size={15} /> Undo
+                </button>
+                <span className="h-5 w-px bg-white/10" />
+                <button
+                  type="button"
+                  onClick={redoChange}
+                  disabled={!canRedo}
+                  title={canRedo ? "Redo (⇧⌘Z)" : "Nothing to redo"}
+                  className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-35"
+                >
+                  <Redo2 size={15} /> Redo
+                </button>
               </div>
               <button
                 type="button"
