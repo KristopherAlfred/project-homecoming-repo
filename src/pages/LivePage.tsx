@@ -41,7 +41,8 @@ function toLocalInputValue(date: Date) {
 }
 
 export function LivePage() {
-  const { fanAppName, firstName } = useAthlete();
+  const { fanAppName, firstName, athlete } = useAthlete();
+  const athleteId = athlete?.id ?? null;
   const videoRef = useRef<HTMLVideoElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -58,7 +59,6 @@ export function LivePage() {
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [elapsed, setElapsed] = useState(0);
-  const [messages, setMessages] = useState<LiveChatMessage[]>([]);
   const [fullscreen, setFullscreen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [confirmGoLive, setConfirmGoLive] = useState(false);
