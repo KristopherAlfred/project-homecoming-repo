@@ -382,10 +382,12 @@ export function ExperiencePage() {
 
   const visibleCount = ordered.filter((w) => w.enabled).length;
   const canUndo = history.length > 0;
+  const canRedo = future.length > 0;
 
   function pushHistory(current: HomeLayout) {
     if (!skippingHistory.current) {
       setHistory((prev) => [...prev.slice(-29), structuredClone(current)]);
+      setFuture([]);
     }
     skippingHistory.current = false;
   }
