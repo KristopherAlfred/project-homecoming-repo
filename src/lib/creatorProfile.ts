@@ -100,6 +100,10 @@ export type CreatorProfile = {
   mediaX: number;
   mediaY: number;
   mediaScale: number;
+  /** Tint colour of the translucent glass panel below the video. */
+  sheetColor: string;
+  /** Opacity percent of that glass panel (0 = fully see-through). */
+  sheetOpacity: number;
   fansLabel: string;
   perksLabel: string;
   linksLabel: string;
