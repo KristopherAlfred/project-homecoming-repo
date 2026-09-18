@@ -7,4 +7,4 @@
 - [x] Expose Sloane translucent surface color/opacity editing without name hardcoding
 - [x] Add varied Sloane page imagery and coordinated page content
 - [x] Add five editable premium templates, preserving existing templates
-- [ ] Verify mobile editor, public fan app, every tab, live states, and build health
+- [x] Verify mobile editor, public fan app, every tab, live states, and build health
