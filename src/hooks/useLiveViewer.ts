@@ -1,6 +1,6 @@
-import { createClient, type RealtimeChannel, type SupabaseClient } from "@supabase/supabase-js";
+import { type RealtimeChannel, type SupabaseClient } from "@supabase/supabase-js";
 import { useEffect, useRef, useState } from "react";
-import { fetchDameBioSupabaseConfig } from "../lib/liveApi";
+import { getLiveSignalClient } from "../lib/liveApi";
 
 const ICE_SERVERS: RTCIceServer[] = [{ urls: "stun:stun.l.google.com:19302" }];
 
@@ -11,16 +11,8 @@ type SignalPayload =
   | { type: "ice"; viewerId: string; sessionId: string; role: "host" | "viewer"; candidate: RTCIceCandidateInit }
   | { type: "host-ready"; sessionId: string };
 
-let sharedClient: SupabaseClient | null = null;
-
-async function getLiveClient() {
-  if (sharedClient) return sharedClient;
-  const config = await fetchDameBioSupabaseConfig();
-  if (!config) return null;
-  sharedClient = createClient(config.supabaseUrl, config.supabaseAnonKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
-  return sharedClient;
+async function getLiveClient(): Promise<SupabaseClient | null> {
+  return getLiveSignalClient() as SupabaseClient;
 }
 
 /** Receives the dashboard camera stream for one isolated live session. */

@@ -11,16 +11,8 @@ type SignalPayload =
   | { type: "ice"; viewerId: string; sessionId: string; role: "host" | "viewer"; candidate: RTCIceCandidateInit }
   | { type: "host-ready"; sessionId: string };
 
-let sharedClient: SupabaseClient | null = null;
-
-async function getDashboardSupabase() {
-  if (sharedClient) return sharedClient;
-  const config = await fetchDameBioSupabaseConfig();
-  if (!config) return null;
-  sharedClient = createClient(config.supabaseUrl, config.supabaseAnonKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
-  return sharedClient;
+async function getDashboardSupabase(): Promise<SupabaseClient | null> {
+  return getLiveSignalClient() as SupabaseClient;
 }
 
 /** Broadcast the athlete's camera to fan app viewers via WebRTC. */
