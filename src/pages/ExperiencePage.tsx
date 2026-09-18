@@ -347,6 +347,7 @@ export function ExperiencePage() {
   const [dirty, setDirty] = useState(false);
   const [titleFilter, setTitleFilter] = useState<TitleFilter>("as_typed");
   const [history, setHistory] = useState<HomeLayout[]>([]);
+  const [future, setFuture] = useState<HomeLayout[]>([]);
   const skippingHistory = useRef(false);
 
   useEffect(() => {
