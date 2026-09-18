@@ -528,6 +528,7 @@ export function CreatorLinkPage({
   const poster = resolveExperiencePreviewUrl(profile.videoPoster);
   const photo = resolveExperiencePreviewUrl(profile.photo);
   const cta = joinLabel || profile.ctaLabel || "Join My Circle";
+  const isSloane = profile.name.trim().toLowerCase() === "sloane stephens";
   const unit = compact ? 1 : 1.6;
   const edit = editable && Boolean(onChange);
   const patch = (p: Partial<CreatorProfile>) => onChange?.(p);
@@ -958,11 +959,11 @@ export function CreatorLinkPage({
   return (
     <div
       ref={pageRef}
-      className={`creator-glass-page relative h-full w-full overflow-hidden ${edit ? "is-editing" : ""} ${className}`}
+      className={`creator-glass-page relative h-full w-full overflow-hidden ${isSloane ? "creator-sloane-page" : ""} ${edit ? "is-editing" : ""} ${className}`}
       style={{ scrollbarWidth: "none", "--creator-accent": accentColor } as CSSProperties}
     >
       {/* ── Fixed full-page media background ─────────────────── */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      <div className={`creator-media-stage pointer-events-none absolute inset-x-0 top-0 overflow-hidden ${isSloane ? "is-top-video" : "inset-y-0"}`} aria-hidden="true">
         {video ? (
           <video
             key={video}
@@ -1033,12 +1034,20 @@ export function CreatorLinkPage({
         {/* hero breathing room over the video */}
         <div
           className="w-full"
-          style={compact ? { height: 200 } : { height: "calc(76vh - 320px)", minHeight: 280 }}
+          style={
+            isSloane
+              ? compact
+                ? { height: 330 }
+                : { height: "52vh", minHeight: 400 }
+              : compact
+                ? { height: 200 }
+                : { height: "calc(76vh - 320px)", minHeight: 280 }
+          }
         />
 
         <div
           ref={blocksRef}
-          className={`creator-sheet relative z-20 mx-auto flex w-full max-w-[520px] flex-col text-left ${
+          className={`creator-sheet relative z-20 mx-auto flex w-full max-w-[520px] flex-col text-left ${isSloane ? "is-translucent" : ""} ${
             compact ? "px-6 pb-14" : "px-8 pb-24"
           }`}
         >
