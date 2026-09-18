@@ -641,7 +641,7 @@ export function CreatorLinkPage({
                 value={profile.name}
                 placeholder="Your name"
                 onCommit={(v) => patch({ name: v })}
-                className={`creator-name min-w-0 leading-none ${compact ? "text-[30px]" : "text-[56px] sm:text-[64px]"}`}
+                className={`creator-name creator-name-line leading-none ${compact ? "text-[26px]" : "text-[52px] sm:text-[60px]"}`}
               />
               {profile.verified || edit ? (
                 <span
