@@ -444,6 +444,7 @@ function PageView({
         </div>
       );
     } else if (role === "cta") {
+      if (pageKey !== "youreIn") return null;
       const grad =
         page.ctaGradientFrom && page.ctaGradientTo
           ? `linear-gradient(${page.ctaGradientAngle ?? 90}deg, ${page.ctaGradientFrom}, ${page.ctaGradientTo})`
