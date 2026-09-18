@@ -1,6 +1,6 @@
-import { createClient, type RealtimeChannel, type SupabaseClient } from "@supabase/supabase-js";
+import { type RealtimeChannel, type SupabaseClient } from "@supabase/supabase-js";
 import { useEffect, useRef, useState } from "react";
-import { fetchDameBioSupabaseConfig } from "../lib/liveApi";
+import { getLiveSignalClient } from "../lib/liveApi";
 
 const ICE_SERVERS: RTCIceServer[] = [{ urls: "stun:stun.l.google.com:19302" }];
 
