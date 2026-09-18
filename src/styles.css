@@ -807,6 +807,21 @@ body {
     animation-delay: calc(0.18s + var(--joined-delay, 0ms));
   }
 
+  /* One calm, spacious joined composition for new and already-saved templates. */
+  .joined-stage-wordmark { top: 10% !important; }
+  .joined-stage-joinedBadge { top: 20% !important; }
+  .joined-stage-subhead { top: 43% !important; }
+  .joined-stage-headline { top: 48% !important; }
+  .joined-stage-body { top: 58% !important; left: 12% !important; width: 76% !important; }
+  .joined-stage-featureRow,
+  .joined-stage-cardGrid { top: 68% !important; left: 5% !important; width: 90% !important; }
+  .joined-stage-cta { top: 81% !important; left: 8% !important; width: 84% !important; }
+  .joined-stage-memberProof { top: 91% !important; left: 8% !important; width: 84% !important; }
+
+  .joined-stage-featureRow > div {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
   .joined-stage-hero {
     animation: joined-hero-reveal 1.8s ease-out both;
   }
