@@ -978,6 +978,26 @@ select option,
     transform: translateX(-50%);
   }
 
+  .creator-name-line {
+    white-space: nowrap;
+    flex: 0 1 auto;
+  }
+
+  .creator-color-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    border: 1px solid rgb(255 255 255 / 0.5);
+    cursor: pointer;
+    flex: none;
+  }
+
+  .creator-color-range {
+    width: 54px;
+    accent-color: #fff;
+    cursor: pointer;
+  }
+
   .creator-edit-tray {
     margin-top: 20px;
     flex-wrap: wrap;
