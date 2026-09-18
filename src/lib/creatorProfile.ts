@@ -143,6 +143,8 @@ export const DEFAULT_CREATOR_PROFILE: CreatorProfile = {
   mediaX: 50,
   mediaY: 50,
   mediaScale: 100,
+  sheetColor: "#0c1015",
+  sheetOpacity: 34,
   fansLabel: "Joining now",
   perksLabel: "Membership perks",
   linksLabel: "Live links",
