@@ -170,17 +170,17 @@ function youreInStage(accent: string, text: string, glow: boolean, cards: boolea
   return [
     { id: "hero", x: 0, y: 0, w: 100, h: 100, z: 5, ...g },
     { id: "logo", x: 44, y: 5, w: 13, z: 22, ...g },
-    { id: "wordmark", x: 20, y: 13, w: 60, z: 21, align: "center" as const, ...g, glowColor: text },
+    { id: "wordmark", x: 20, y: 10, w: 60, z: 21, align: "center" as const, ...g, glowColor: text },
     { id: "tagline", x: 20, y: 17, w: 60, z: 20, hidden: true, ...g },
     { id: "titleArt", x: 15, y: 22, w: 70, z: 12, hidden: true, ...g },
-    { id: "joinedBadge", x: 5, y: 24, w: 90, z: 19, glow, glowColor: accent, glowIntensity: glow ? 30 : 0 },
-    { id: "subhead", x: 8, y: 45, w: 84, z: 14, align: "center" as const, ...g, glowIntensity: glow ? 18 : 0 },
-    { id: "headline", x: 6, y: 49, w: 88, z: 15, scale: 118, align: "center" as const, ...g, glowColor: text },
-    { id: "body", x: 10, y: 60, w: 80, z: 13, align: "center" as const, ...g, glowColor: text },
+    { id: "joinedBadge", x: 5, y: 20, w: 90, z: 19, glow, glowColor: accent, glowIntensity: glow ? 30 : 0 },
+    { id: "subhead", x: 8, y: 43, w: 84, z: 14, align: "center" as const, ...g, glowIntensity: glow ? 18 : 0 },
+    { id: "headline", x: 6, y: 48, w: 88, z: 15, scale: 118, align: "center" as const, ...g, glowColor: text },
+    { id: "body", x: 12, y: 58, w: 76, z: 13, align: "center" as const, ...g, glowColor: text },
     { id: "cardGrid", x: 5, y: 68, w: 90, z: 16, hidden: !cards, ...g },
-    { id: "featureRow", x: 4, y: 68, w: 92, z: 16, hidden: cards, ...g },
-    { id: "cta", x: 6, y: 79, w: 88, z: 18, glow, glowColor: accent, glowIntensity: glow ? 34 : 0 },
-    { id: "memberProof", x: 6, y: 88, w: 88, z: 17, ...g },
+    { id: "featureRow", x: 5, y: 68, w: 90, z: 16, hidden: cards, ...g },
+    { id: "cta", x: 8, y: 81, w: 84, z: 18, glow, glowColor: accent, glowIntensity: glow ? 34 : 0 },
+    { id: "memberProof", x: 8, y: 91, w: 84, z: 17, ...g },
   ];
 }
 
@@ -260,6 +260,7 @@ export function buildTemplatePages(
       featureIconColor: accent,
       featureTextColor: text,
       featureRadius: Math.min(20, Math.max(8, radius)),
+      featureColumns: key === "youreIn" ? 4 : 2,
       features: spec.features.map((label, i) => ({
         id: `f${i + 1}`,
         icon: spec.icons[i],
