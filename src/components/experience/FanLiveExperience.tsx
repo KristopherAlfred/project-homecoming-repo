@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BellRing, Radio, Volume2, VolumeX } from "lucide-react";
-import { fetchLiveState, type LivePublicState } from "@/lib/liveApi";
+import { fetchLiveState, subscribeLiveSessions, type LivePublicState } from "@/lib/liveApi";
 import { useLiveViewer } from "@/hooks/useLiveViewer";
+import { LiveChat } from "./LiveChat";
 
 function countdownLabel(target: string | null, now: number) {
   if (!target) return "Schedule coming soon";
@@ -16,18 +17,23 @@ function countdownLabel(target: string | null, now: number) {
     : `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
-export function useFanLiveState() {
+export function useFanLiveState(athleteId?: string | null) {
   const [state, setState] = useState<LivePublicState | null>(null);
   useEffect(() => {
     let active = true;
-    const refresh = () => void fetchLiveState(false).then((next) => active && setState(next)).catch(() => undefined);
+    const refresh = () =>
+      void fetchLiveState(athleteId ?? null)
+        .then((next) => active && setState(next))
+        .catch(() => undefined);
     refresh();
-    const timer = window.setInterval(refresh, state?.isLive ? 2500 : 10000);
+    const unsubscribe = subscribeLiveSessions(refresh);
+    const timer = window.setInterval(refresh, 15000);
     return () => {
       active = false;
+      unsubscribe();
       window.clearInterval(timer);
     };
-  }, [state?.isLive]);
+  }, [athleteId]);
   return state;
 }
 
@@ -43,7 +49,7 @@ export function FanLiveAlert({ state, onOpen }: { state: LivePublicState | null;
     <button type="button" className={`fan-live-alert ${state.isLive ? "is-live" : ""}`} onClick={onOpen}>
       <span className="fan-live-alert-icon">{state.isLive ? <Radio size={14} /> : <BellRing size={14} />}</span>
       <span className="min-w-0 flex-1 text-left">
-        <strong>{state.isLive ? "Sloane is live now" : state.title || "Live with Sloane"}</strong>
+        <strong>{state.isLive ? "Live now" : state.title || "Live session"}</strong>
         <small>{state.isLive ? "Tap to watch" : `Starts in ${countdownLabel(state.scheduledAt, now)}`}</small>
       </span>
       <span aria-hidden="true">›</span>
@@ -79,7 +85,7 @@ export function FanLiveExperience({ state, title }: { state: LivePublicState | n
         {!stream ? (
           <div className="fan-live-placeholder">
             <span className={`fan-live-orbit ${state?.isLive ? "is-live" : ""}`}><Radio size={24} /></span>
-            <p>{state?.isLive ? (status === "unavailable" ? "Stream reconnecting" : "Connecting to Sloane") : "Next live session"}</p>
+            <p>{state?.isLive ? (status === "unavailable" ? "Stream reconnecting" : "Connecting to the stream") : "Next live session"}</p>
             {!state?.isLive ? <strong>{countdownLabel(state?.scheduledAt ?? null, now)}</strong> : null}
           </div>
         ) : null}
@@ -92,9 +98,10 @@ export function FanLiveExperience({ state, title }: { state: LivePublicState | n
       </div>
       <div className="fan-live-copy">
         <p>{state?.isLive ? "Happening now" : "Upcoming"}</p>
-        <h2>{state?.title || title || "Live with Sloane"}</h2>
+        <h2>{state?.title || title || "Live"}</h2>
         <span>{state?.isLive ? "You’re in the room. Turn on sound when you’re ready." : schedule}</span>
       </div>
+      <LiveChat sessionId={state?.session?.id ?? null} isLive={Boolean(state?.isLive)} compact />
     </div>
   );
 }

@@ -95,15 +95,17 @@ function PageView({
   pageKey,
   onNavigate,
   onCta,
+  athleteId,
 }: {
   experience: ExperienceConfig;
   pageKey: ExperiencePageKeyName;
   onNavigate: (key: ExperiencePageKeyName) => void;
   onCta: () => void;
+  athleteId?: string | null;
 }) {
   const page: ExperiencePageConfig | undefined =
     experience.pages[pageKey] ?? experience.pages.landing ?? Object.values(experience.pages)[0];
-  const liveState = useFanLiveState();
+  const liveState = useFanLiveState(athleteId ?? null);
   if (!page) return null;
   if (pageKey === "landing") {
     return <CreatorLinkPage profile={creatorProfileFor(experience)} accentColor={experience.theme.accent} compact onJoin={onCta} />;

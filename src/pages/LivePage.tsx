@@ -19,9 +19,9 @@ import {
   fetchLiveState,
   scheduleLive,
   startLive,
-  type LiveChatMessage,
   type LiveSession,
 } from "../lib/liveApi";
+import { LiveChat } from "../components/experience/LiveChat";
 import { TypographyControls } from "../components/TypographyControls";
 import { titleTypographyStyle, type TitleFontFamily, type TitleFontSize } from "../lib/typography";
 
@@ -41,7 +41,8 @@ function toLocalInputValue(date: Date) {
 }
 
 export function LivePage() {
-  const { fanAppName, firstName } = useAthlete();
+  const { fanAppName, firstName, athlete } = useAthlete();
+  const athleteId = athlete?.id ?? null;
   const videoRef = useRef<HTMLVideoElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -58,7 +59,6 @@ export function LivePage() {
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [elapsed, setElapsed] = useState(0);
-  const [messages, setMessages] = useState<LiveChatMessage[]>([]);
   const [fullscreen, setFullscreen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [confirmGoLive, setConfirmGoLive] = useState(false);
@@ -67,7 +67,7 @@ export function LivePage() {
   const { viewerCount, error: hostError } = useLiveHost(isLive, localStream, session?.id ?? null);
 
   useEffect(() => {
-    void fetchLiveState(true)
+    void fetchLiveState(athleteId)
       .then((state) => {
         if (state.session) {
           setSession(state.session);
@@ -77,7 +77,6 @@ export function LivePage() {
           }
           if (state.isLive) setStatus("live");
         }
-        if (state.messages) setMessages(state.messages);
       })
       .catch(() => undefined);
 
@@ -85,19 +84,7 @@ export function LivePage() {
       streamRef.current?.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
     };
-  }, []);
-
-  useEffect(() => {
-    if (!isLive || !session?.id) return;
-    const id = window.setInterval(() => {
-      void fetchLiveState(true)
-        .then((state) => {
-          if (state.messages) setMessages(state.messages);
-        })
-        .catch(() => undefined);
-    }, 1500);
-    return () => window.clearInterval(id);
-  }, [isLive, session?.id]);
+  }, [athleteId]);
 
   useEffect(() => {
     if (!isLive) return;
@@ -175,6 +162,7 @@ export function LivePage() {
     setActionError(null);
     try {
       const result = await scheduleLive({
+        athleteId,
         title: title.trim() || `${fanAppName} Live`,
         scheduledAt: new Date(scheduleAt).toISOString(),
       });
@@ -192,6 +180,7 @@ export function LivePage() {
     try {
       await ensurePreview();
       const result = await startLive({
+        athleteId,
         title: title.trim() || `${fanAppName} Live`,
         sessionId: session?.status === "scheduled" ? session.id : undefined,
       });
@@ -457,18 +446,12 @@ export function LivePage() {
             <h3 className="text-sm font-semibold text-white">Live chat from {fanAppName}</h3>
             <span className="text-xs text-white/40">{isLive ? "Updating live" : `Appears when ${firstName} is live`}</span>
           </div>
-          <div className="max-h-56 space-y-2 overflow-y-auto rounded-xl border border-dt-border bg-black/40 p-3">
-            {messages.length === 0 ? (
-              <p className="py-6 text-center text-sm text-white/40">No messages yet.</p>
-            ) : (
-              messages.map((msg) => (
-                <p key={msg.id} className="text-sm text-white">
-                  <span className="font-semibold text-dt-red">{msg.username}</span>
-                  <span className="text-white/80">: {msg.text}</span>
-                </p>
-              ))
-            )}
-          </div>
+          <LiveChat
+            sessionId={session?.id ?? null}
+            isLive={isLive}
+            displayName={firstName}
+            className="live-chat-dashboard"
+          />
         </div>
       </div>
 
