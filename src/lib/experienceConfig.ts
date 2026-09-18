@@ -625,14 +625,14 @@ export const DEFAULT_LANDING_STAGE: ExperienceStageItem[] = [
 export const DEFAULT_YOUREIN_STAGE: ExperienceStageItem[] = [
   { id: "hero", x: 0, y: 0, w: 100, h: 100, z: 5, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
   { id: "logo", x: 44, y: 5, w: 13, z: 22, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
-  { id: "wordmark", x: 20, y: 13, w: 60, z: 21, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
-  { id: "joinedBadge", x: 5, y: 24, w: 90, z: 19, glow: false, glowColor: "#FFFFFF", glowIntensity: 30 },
-  { id: "subhead", x: 8, y: 45, w: 84, z: 14, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 18 },
-  { id: "headline", x: 6, y: 49, w: 88, z: 15, scale: 118, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
-  { id: "body", x: 10, y: 60, w: 80, z: 13, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
-  { id: "featureRow", x: 4, y: 68, w: 92, z: 16, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
-  { id: "cta", x: 6, y: 79, w: 88, z: 18, glow: false, glowColor: "#FFFFFF", glowIntensity: 34 },
-  { id: "memberProof", x: 6, y: 88, w: 88, z: 17, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "wordmark", x: 20, y: 10, w: 60, z: 21, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "joinedBadge", x: 5, y: 20, w: 90, z: 19, glow: false, glowColor: "#FFFFFF", glowIntensity: 30 },
+  { id: "subhead", x: 8, y: 43, w: 84, z: 14, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 18 },
+  { id: "headline", x: 6, y: 48, w: 88, z: 15, scale: 118, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "body", x: 12, y: 58, w: 76, z: 13, align: "center", glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "featureRow", x: 5, y: 68, w: 90, z: 16, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
+  { id: "cta", x: 8, y: 81, w: 84, z: 18, glow: false, glowColor: "#FFFFFF", glowIntensity: 34 },
+  { id: "memberProof", x: 8, y: 91, w: 84, z: 17, glow: false, glowColor: "#FFFFFF", glowIntensity: 0 },
 ];
 
 

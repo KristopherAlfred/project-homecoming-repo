@@ -60,7 +60,7 @@ import type { CreatorProfile } from "../../lib/creatorProfile";
 import { resolveTitleFontFamily } from "../../lib/typography";
 import { TintedBrandLogo } from "./TintedBrandLogo";
 import { StyledTextRuns, WordStyleEditor, runsForPageField } from "./StyledText";
-import { JoinAuthSheet, JoinedBadge } from "./JoinFlow";
+import { JoinAuthSheet, JoinConfetti, JoinedBadge } from "./JoinFlow";
 
 export type PhonePreviewMode =
   | "brand"
@@ -1030,7 +1030,12 @@ function PageFreeformPreview({
         onResize={onPatchPage ? (w, scale) => patchItem(id, { w, scale }) : undefined}
         onDelete={onPatchPage ? () => deleteItem(id) : undefined}
       >
-        {body}
+        <div
+          className={pageKey === "youreIn" ? `joined-stage-item joined-stage-${role}` : undefined}
+          style={pageKey === "youreIn" ? ({ "--joined-delay": `${Math.max(0, stageIds.indexOf(id)) * 55}ms` } as CSSProperties) : undefined}
+        >
+          {body}
+        </div>
       </DraggableStageItem>
     );
   };
@@ -1069,10 +1074,11 @@ function PageFreeformPreview({
       hint="Drag to move · corner handle to resize · × to delete"
       screen={
       <div
-        className="relative h-[560px] w-full"
+        className={`relative h-[560px] w-full ${pageKey === "youreIn" ? "joined-celebration-page" : ""}`}
         style={{ background: pageBackgroundCss(page) || themeBackgroundCss(experience.theme) }}
         onClick={() => setSelectedId(null)}
       >
+        {pageKey === "youreIn" ? <JoinConfetti accent={page.accentColor || experience.theme.accent} /> : null}
         {(page.heroOverlayOpacity ?? 0) > 0 && page.backgroundImage ? (
           <div
             className="pointer-events-none absolute inset-0 z-[1]"

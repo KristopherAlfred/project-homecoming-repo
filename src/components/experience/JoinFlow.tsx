@@ -195,3 +195,37 @@ export function JoinedBadge({
     </div>
   );
 }
+
+const CELEBRATION_PIECES = Array.from({ length: 34 }, (_, index) => ({
+  id: index,
+  left: 7 + ((index * 29) % 88),
+  delay: (index % 9) * 0.045,
+  duration: 1.8 + (index % 5) * 0.16,
+  drift: ((index * 17) % 70) - 35,
+  rotation: 160 + ((index * 47) % 320),
+}));
+
+/** A lightweight, template-colored celebration that fires when the joined page opens. */
+export function JoinConfetti({ accent }: { accent: string }) {
+  return (
+    <div className="join-confetti" aria-hidden="true">
+      <span className="join-celebration-ring" style={{ borderColor: accent }} />
+      {CELEBRATION_PIECES.map((piece) => (
+        <i
+          key={piece.id}
+          className={`join-confetti-piece join-confetti-piece-${piece.id % 4}`}
+          style={
+            {
+              left: `${piece.left}%`,
+              background: piece.id % 3 === 0 ? accent : undefined,
+              animationDelay: `${piece.delay}s`,
+              animationDuration: `${piece.duration}s`,
+              "--confetti-drift": `${piece.drift}px`,
+              "--confetti-rotation": `${piece.rotation}deg`,
+            } as CSSProperties
+          }
+        />
+      ))}
+    </div>
+  );
+}

@@ -788,6 +788,156 @@ body {
     }
   }
 
+  .joined-celebration-page {
+    isolation: isolate;
+  }
+
+  .joined-celebration-page::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 7;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 35%, rgb(255 255 255 / 0.09), transparent 44%);
+    animation: joined-ambient-pulse 3.6s ease-in-out infinite;
+  }
+
+  .joined-stage-item {
+    animation: joined-content-rise 0.75s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation-delay: calc(0.18s + var(--joined-delay, 0ms));
+  }
+
+  /* One calm, spacious joined composition for new and already-saved templates. */
+  .joined-stage-wordmark { top: 10% !important; }
+  .joined-stage-joinedBadge { top: 20% !important; }
+  .joined-stage-subhead { top: 43% !important; }
+  .joined-stage-headline { top: 48% !important; }
+  .joined-stage-body { top: 58% !important; left: 12% !important; width: 76% !important; }
+  .joined-stage-featureRow,
+  .joined-stage-cardGrid { top: 68% !important; left: 5% !important; width: 90% !important; }
+  .joined-stage-cta { top: 81% !important; left: 8% !important; width: 84% !important; }
+  .joined-stage-memberProof { top: 91% !important; left: 8% !important; width: 84% !important; }
+
+  .joined-stage-featureRow > div {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  .joined-stage-hero {
+    animation: joined-hero-reveal 1.8s ease-out both;
+  }
+
+  .joined-stage-joinedBadge {
+    animation-name: joined-badge-arrive;
+    animation-duration: 0.95s;
+  }
+
+  .joined-stage-headline {
+    animation-name: joined-title-arrive;
+  }
+
+  .joined-stage-featureRow > div,
+  .joined-stage-cardGrid > div {
+    backdrop-filter: blur(18px) saturate(130%);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+  }
+
+  .joined-stage-cta button {
+    transition: transform 0.25s ease, filter 0.25s ease;
+    animation: joined-button-float 3s ease-in-out 1.2s infinite;
+  }
+
+  .join-confetti {
+    position: absolute;
+    inset: 0;
+    z-index: 120;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .join-confetti-piece {
+    --confetti-drift: 0px;
+    --confetti-rotation: 220deg;
+    position: absolute;
+    top: 34%;
+    width: 4px;
+    height: 11px;
+    border-radius: 2px;
+    background: rgb(255 255 255 / 0.92);
+    box-shadow: 0 0 7px rgb(255 255 255 / 0.28);
+    opacity: 0;
+    animation-name: join-confetti-burst;
+    animation-timing-function: cubic-bezier(0.16, 0.7, 0.25, 1);
+    animation-fill-mode: both;
+  }
+
+  .join-confetti-piece-1 { width: 7px; height: 7px; border-radius: 50%; background: rgb(255 255 255 / 0.65); }
+  .join-confetti-piece-2 { width: 3px; height: 14px; background: rgb(255 255 255 / 0.42); }
+  .join-confetti-piece-3 { width: 8px; height: 5px; background: rgb(255 255 255 / 0.78); }
+
+  .join-celebration-ring {
+    position: absolute;
+    left: 50%;
+    top: 29%;
+    width: 48px;
+    height: 48px;
+    border: 1px solid;
+    border-radius: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    animation: join-ring-burst 1.15s ease-out 0.12s both;
+  }
+
+  @keyframes join-confetti-burst {
+    0% { opacity: 0; transform: translate3d(0, -8px, 0) rotate(0deg) scale(0.5); }
+    10%, 45% { opacity: 1; }
+    100% { opacity: 0; transform: translate3d(var(--confetti-drift), 340px, 0) rotate(var(--confetti-rotation)) scale(0.9); }
+  }
+
+  @keyframes join-ring-burst {
+    0% { opacity: 0.9; transform: translate(-50%, -50%) scale(0.45); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(4.8); }
+  }
+
+  @keyframes joined-content-rise {
+    from { opacity: 0; transform: translateY(14px); filter: blur(5px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  @keyframes joined-title-arrive {
+    from { opacity: 0; transform: translateY(18px) scale(0.96); filter: blur(8px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
+
+  @keyframes joined-badge-arrive {
+    0% { opacity: 0; transform: scale(0.62) rotate(-8deg); }
+    65% { opacity: 1; transform: scale(1.06) rotate(1deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0); }
+  }
+
+  @keyframes joined-hero-reveal {
+    from { opacity: 0.55; transform: scale(1.06); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes joined-button-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+
+  @keyframes joined-ambient-pulse {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.7; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .joined-stage-item,
+    .joined-stage-cta button,
+    .joined-celebration-page::after,
+    .join-confetti-piece,
+    .join-celebration-ring { animation: none; opacity: 1; }
+    .join-confetti { display: none; }
+  }
+
   .dt-main-canvas {
     position: relative;
     background: var(--gradient-main);
