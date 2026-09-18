@@ -67,7 +67,7 @@ export function LivePage() {
   const { viewerCount, error: hostError } = useLiveHost(isLive, localStream, session?.id ?? null);
 
   useEffect(() => {
-    void fetchLiveState(true)
+    void fetchLiveState(athleteId)
       .then((state) => {
         if (state.session) {
           setSession(state.session);
@@ -77,7 +77,6 @@ export function LivePage() {
           }
           if (state.isLive) setStatus("live");
         }
-        if (state.messages) setMessages(state.messages);
       })
       .catch(() => undefined);
 
@@ -85,19 +84,7 @@ export function LivePage() {
       streamRef.current?.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
     };
-  }, []);
-
-  useEffect(() => {
-    if (!isLive || !session?.id) return;
-    const id = window.setInterval(() => {
-      void fetchLiveState(true)
-        .then((state) => {
-          if (state.messages) setMessages(state.messages);
-        })
-        .catch(() => undefined);
-    }, 1500);
-    return () => window.clearInterval(id);
-  }, [isLive, session?.id]);
+  }, [athleteId]);
 
   useEffect(() => {
     if (!isLive) return;
