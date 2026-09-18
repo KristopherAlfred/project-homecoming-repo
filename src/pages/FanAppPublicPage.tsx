@@ -18,6 +18,7 @@ export function FanAppPublicPage() {
   const [state, setState] = useState<"loading" | "ready" | "missing">("loading");
   const [experience, setExperience] = useState<ExperienceConfig | null>(null);
   const [appName, setAppName] = useState("");
+  const [athleteId, setAthleteId] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -29,6 +30,7 @@ export function FanAppPublicPage() {
         return;
       }
       setExperience(record.config);
+      setAthleteId(record.athlete_id);
       setAppName(record.app_name || record.config.brand.wordmark || "Fan app");
       setState("ready");
       void registerFanAppView(slug);
@@ -64,15 +66,15 @@ export function FanAppPublicPage() {
     );
   }
 
-  return <FanAppRuntime experience={experience} />;
+  return <FanAppRuntime experience={experience} athleteId={athleteId} />;
 }
 
-function FanAppRuntime({ experience }: { experience: ExperienceConfig }) {
+function FanAppRuntime({ experience, athleteId }: { experience: ExperienceConfig; athleteId: string | null }) {
   const [pageKey, setPageKey] = useState<ExperiencePageKeyName>("landing");
   const [unlock, setUnlock] = useState(false);
   const page = experience.pages[pageKey];
   const backdrop = useMemo(() => themeBackgroundCss(experience.theme), [experience.theme]);
-  const liveState = useFanLiveState();
+  const liveState = useFanLiveState(athleteId);
   const swipeStart = useRef<number | null>(null);
   const visibleTabs = useMemo(() => (experience.nav?.tabs ?? []).filter((tab) => !tab.hidden), [experience.nav?.tabs]);
 
@@ -107,7 +109,7 @@ function FanAppRuntime({ experience }: { experience: ExperienceConfig }) {
         if (Math.abs(distance) > 64 && pageKey !== "landing" && pageKey !== "youreIn") navigateBySwipe(distance < 0 ? 1 : -1);
       }}
     >
-      <FanAppPageView experience={experience} pageKey={pageKey} onNavigate={setPageKey} onCta={onCta} />
+      <FanAppPageView experience={experience} pageKey={pageKey} onNavigate={setPageKey} onCta={onCta} athleteId={athleteId} />
       {pageKey !== "landing" && pageKey !== "live" ? <FanLiveAlert state={liveState} onOpen={() => setPageKey("live")} /> : null}
       {unlock && pageKey === "landing" ? (
         <JoinAuthSheet
