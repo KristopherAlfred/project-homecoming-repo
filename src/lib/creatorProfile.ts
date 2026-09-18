@@ -259,6 +259,8 @@ export function normalizeCreatorProfile(raw: unknown): CreatorProfile {
     mediaX: num(c.mediaX, 50, 0, 100),
     mediaY: num(c.mediaY, 50, 0, 100),
     mediaScale: num(c.mediaScale, 100, 100, 220),
+    sheetColor: str(c.sheetColor, DEFAULT_CREATOR_PROFILE.sheetColor) || DEFAULT_CREATOR_PROFILE.sheetColor,
+    sheetOpacity: num(c.sheetOpacity, DEFAULT_CREATOR_PROFILE.sheetOpacity, 0, 90),
     fansLabel: str(c.fansLabel, DEFAULT_CREATOR_PROFILE.fansLabel),
     perksLabel: str(c.perksLabel, DEFAULT_CREATOR_PROFILE.perksLabel),
     linksLabel: str(c.linksLabel, DEFAULT_CREATOR_PROFILE.linksLabel),
