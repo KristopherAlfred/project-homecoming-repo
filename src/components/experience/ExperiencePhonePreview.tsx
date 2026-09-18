@@ -178,7 +178,7 @@ function PhoneFrame({
       </div>
 
       {hint ? (
-        <p className="text-center text-[10px] leading-relaxed text-white/35">{hint}</p>
+        <p className="mx-auto max-w-[300px] text-balance text-center text-[10px] leading-relaxed text-white/35">{hint}</p>
       ) : null}
 
       {children ? (
@@ -1041,7 +1041,7 @@ function PageFreeformPreview({
         label={label}
         hint={
           onPatchCreator
-            ? "Click anything to edit · drag to move · grip to reorder · corner to resize · click the video to reframe it"
+            ? "Click to edit · drag to move · click the video to reframe it"
             : "Link-in-bio landing"
         }
         screen={
