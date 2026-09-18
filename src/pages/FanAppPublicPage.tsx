@@ -110,7 +110,7 @@ function FanAppRuntime({ experience, athleteId }: { experience: ExperienceConfig
       }}
     >
       <FanAppPageView experience={experience} pageKey={pageKey} onNavigate={setPageKey} onCta={onCta} athleteId={athleteId} />
-      {pageKey !== "landing" && pageKey !== "live" ? <FanLiveAlert state={liveState} onOpen={() => setPageKey("live")} /> : null}
+      {pageKey !== "live" && pageKey !== "youreIn" ? <FanLiveAlert state={liveState} onOpen={() => setPageKey("live")} /> : null}
       {unlock && pageKey === "landing" ? (
         <JoinAuthSheet
           page={page}
