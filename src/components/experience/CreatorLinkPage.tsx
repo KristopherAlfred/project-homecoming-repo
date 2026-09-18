@@ -634,7 +634,7 @@ export function CreatorLinkPage({
       case "identity":
         return (
           <div className="text-white">
-            <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2">
+            <div className="flex min-w-0 max-w-full flex-nowrap items-center gap-2">
               <EditableText
                 as="h1"
                 editable={edit}
