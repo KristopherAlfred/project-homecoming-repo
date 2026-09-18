@@ -52,7 +52,7 @@ import {
 import { heroBlendMaskStyle, heroBlendOverlayStyle } from "@/lib/heroBlend";
 import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewUrl";
 import { TintedBrandLogo } from "./TintedBrandLogo";
-import { JoinAuthSheet, JoinedBadge } from "./JoinFlow";
+import { JoinAuthSheet, JoinConfetti, JoinedBadge } from "./JoinFlow";
 import { CreatorLinkPage, creatorProfileFor } from "./CreatorLinkPage";
 import { FanLiveExperience, useFanLiveState } from "./FanLiveExperience";
 
@@ -506,7 +506,16 @@ function PageView({
 
     if (!body) return null;
     return (
-      <div key={id} style={stageItemCss(item) as CSSProperties}>
+      <div
+        key={id}
+        className={pageKey === "youreIn" ? `joined-stage-item joined-stage-${role}` : undefined}
+        style={
+          {
+            ...(stageItemCss(item) as CSSProperties),
+            ...(pageKey === "youreIn" ? { "--joined-delay": `${Math.max(0, ids.indexOf(id)) * 55}ms` } : null),
+          } as CSSProperties
+        }
+      >
         {body}
       </div>
     );
@@ -535,10 +544,11 @@ function PageView({
 
   return (
     <div
-      className={`relative h-full w-full overflow-hidden ${premiumGlass ? "fan-premium-page" : ""}`}
+      className={`relative h-full w-full overflow-hidden ${premiumGlass ? "fan-premium-page" : ""} ${pageKey === "youreIn" ? "joined-celebration-page" : ""}`}
       style={{ background: pageBackgroundCss(page) || themeBackgroundCss(experience.theme) }}
     >
       {premiumGlass ? <div className="fan-premium-wash absolute inset-0 z-[6]" /> : null}
+      {pageKey === "youreIn" ? <JoinConfetti accent={page.accentColor || experience.theme.accent} /> : null}
       {ids.map(render)}
       {page.showMenuButton ? (
         <div
