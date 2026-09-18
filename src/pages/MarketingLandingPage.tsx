@@ -84,20 +84,20 @@ const steps = [
 function PageBackground() {
   return (
     <>
-      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-black via-[#120202] to-black" />
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(226,35,26,0.24),transparent_52%)]" />
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_85%_18%,rgba(226,35,26,0.1),transparent_45%)]" />
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(0,0,0,0.95),transparent_55%)]" />
+      <div className="pointer-events-none fixed inset-0 bg-[#f5f6f8]" />
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_15%_0%,rgba(226,35,26,0.16),transparent_42%)]" />
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_90%_12%,rgba(105,125,170,0.2),transparent_40%)]" />
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_50%_100%,rgba(255,255,255,0.9),transparent_55%)]" />
     </>
   );
 }
 
 export function MarketingLandingPage() {
   return (
-    <div className="marketing-theme relative min-h-[100dvh] overflow-x-hidden bg-black text-white">
+    <div className="marketing-theme relative min-h-[100dvh] overflow-x-hidden bg-[#f5f6f8] text-[#111318]">
       <PageBackground />
 
-      <header className="relative z-10 border-b border-white/10 bg-black/40 backdrop-blur-md">
+      <header className="relative z-10 border-b border-black/[0.07] bg-white/55 shadow-[0_10px_40px_rgba(30,40,60,0.06)] backdrop-blur-2xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
           <Link to="/welcome" className="shrink-0">
             <img
@@ -109,13 +109,13 @@ export function MarketingLandingPage() {
           <div className="flex items-center gap-2 sm:gap-3">
             <Link
               to="/login?mode=signup"
-              className="hidden items-center gap-2 rounded-lg border border-dt-red/40 bg-dt-red/10 px-4 py-2 text-sm font-semibold text-white transition hover:border-dt-red/60 hover:bg-dt-red/20 sm:inline-flex"
+              className="hidden items-center gap-2 rounded-full border border-dt-red/25 bg-white/60 px-4 py-2 text-sm font-semibold text-[#17191f] shadow-[0_4px_16px_rgba(40,40,50,0.06)] transition hover:border-dt-red/50 hover:bg-white sm:inline-flex"
             >
               Create my platform
             </Link>
             <Link
               to="/login"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/30 hover:bg-white/10"
+              className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/65 px-4 py-2 text-sm font-semibold text-[#17191f] shadow-[0_4px_16px_rgba(40,40,50,0.05)] transition hover:border-black/20 hover:bg-white"
             >
               <LogIn size={16} />
               Sign In
@@ -127,7 +127,7 @@ export function MarketingLandingPage() {
       <main className="relative z-10">
         <section className="mx-auto max-w-6xl px-4 pb-16 pt-14 sm:px-6 sm:pt-20 lg:pb-24 lg:pt-24">
           <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-dt-red/40 bg-dt-red/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-dt-red/20 bg-white/65 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[#4b4f59] shadow-[0_8px_24px_rgba(40,40,50,0.06)] backdrop-blur-xl">
               <Sparkles size={14} />
               One platform · Every sport
             </div>
@@ -136,11 +136,11 @@ export function MarketingLandingPage() {
               alt="Players OS"
               className="mx-auto mb-8 h-28 w-auto max-w-[520px] object-contain sm:h-36 lg:h-44"
             />
-            <h1 className="font-display text-4xl font-bold leading-tight tracking-wide text-white sm:text-5xl lg:text-6xl">
+            <h1 className="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-[#17191f] sm:text-5xl lg:text-7xl">
               Every athlete deserves{" "}
               <span className="text-dt-red">their own platform.</span>
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[#5f6470] sm:text-lg">
               Players OS gives pros in any sport a branded fan app, unified analytics across every
               social platform, an AI strategist that reads their own numbers, and one link that turns
               followers into a fanbase they own.
@@ -155,7 +155,7 @@ export function MarketingLandingPage() {
               </Link>
               <Link
                 to="/login"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/20 bg-black/40 px-8 py-3.5 text-sm font-semibold text-white transition hover:border-white/35 hover:bg-white/5 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-black/10 bg-white/65 px-8 py-3.5 text-sm font-semibold text-[#17191f] shadow-[0_10px_26px_rgba(40,40,50,0.08)] backdrop-blur-xl transition hover:border-black/20 hover:bg-white sm:w-auto"
               >
                 Sign in to my dashboard
               </Link>
@@ -164,7 +164,7 @@ export function MarketingLandingPage() {
               {sports.map((sport) => (
                 <li
                   key={sport}
-                  className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-white/60"
+                  className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-[#737985]"
                 >
                   {sport}
                 </li>
@@ -177,7 +177,7 @@ export function MarketingLandingPage() {
               <span className="h-2.5 w-2.5 rounded-full bg-dt-red/80" />
               <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
               <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
-              <span className="ml-2 text-[10px] font-medium uppercase tracking-widest text-white/40">
+              <span className="ml-2 text-[10px] font-medium uppercase tracking-widest text-[#8a909b]">
                 Your dashboard
               </span>
             </div>
@@ -186,8 +186,8 @@ export function MarketingLandingPage() {
                 <p className="text-[10px] font-bold uppercase tracking-wide text-dt-red">
                   Follower growth
                 </p>
-                <p className="mt-1 font-display text-2xl font-bold text-white">All platforms</p>
-                <p className="mt-1 text-xs text-white/50">
+                <p className="mt-1 font-display text-2xl font-bold text-[#17191f]">All platforms</p>
+                <p className="mt-1 text-xs text-[#8a909b]">
                   Daily snapshots you keep, even when a platform changes its API
                 </p>
                 <div className="mt-4 flex h-16 items-end gap-1">
@@ -202,15 +202,15 @@ export function MarketingLandingPage() {
               </div>
               <div className="space-y-3">
                 <div className="rounded-lg border border-white/10 bg-black/60 p-4">
-                  <p className="text-[10px] font-bold uppercase tracking-wide text-white/50">
+                  <p className="text-[10px] font-bold uppercase tracking-wide text-[#8a909b]">
                     AI insight
                   </p>
-                  <p className="mt-1 text-sm font-semibold text-white">
+                  <p className="mt-1 text-sm font-semibold text-[#17191f]">
                     Reels outperform photos 3:1 — post two this week.
                   </p>
                 </div>
                 <div className="rounded-lg border border-white/10 bg-black/60 p-4">
-                  <p className="text-[10px] font-bold uppercase tracking-wide text-white/50">
+                  <p className="text-[10px] font-bold uppercase tracking-wide text-[#8a909b]">
                     Bio link taps
                   </p>
                   <p className="mt-1 text-xl font-bold text-dt-red">Trending up</p>
@@ -220,7 +220,7 @@ export function MarketingLandingPage() {
           </div>
         </section>
 
-        <section className="border-y border-white/10 bg-black/50 py-16 sm:py-20">
+        <section className="border-y border-black/[0.07] bg-white/45 py-16 sm:py-20">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="mx-auto mb-12 max-w-2xl text-center">
               <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-dt-red">
@@ -229,7 +229,7 @@ export function MarketingLandingPage() {
               <h2 className="mt-2 font-display text-3xl font-bold tracking-wide text-white sm:text-4xl">
                 Built for the business of being a pro
               </h2>
-              <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-base">
+              <p className="mt-4 text-sm leading-relaxed text-[#626875] sm:text-base">
                 Six tools that used to take six vendors — now in one place, tuned to your sport and
                 your brand.
               </p>
@@ -243,8 +243,8 @@ export function MarketingLandingPage() {
                   <div className="mb-4 inline-flex rounded-lg border border-dt-red/30 bg-dt-red/10 p-2.5 text-dt-red">
                     <Icon size={22} strokeWidth={1.75} />
                   </div>
-                  <h3 className="text-lg font-semibold text-white">{title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/65">{body}</p>
+                  <h3 className="text-lg font-semibold text-[#17191f]">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[#737985]">{body}</p>
                 </div>
               ))}
             </div>
@@ -267,8 +267,8 @@ export function MarketingLandingPage() {
                 className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-black/60 p-6"
               >
                 <p className="font-display text-3xl font-bold text-dt-red/70">{step}</p>
-                <h3 className="mt-3 text-lg font-semibold text-white">{title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/65">{body}</p>
+                <h3 className="mt-3 text-lg font-semibold text-[#17191f]">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[#737985]">{body}</p>
               </div>
             ))}
           </div>
@@ -284,12 +284,12 @@ export function MarketingLandingPage() {
                 <h2 className="mt-2 font-display text-3xl font-bold tracking-wide text-white sm:text-4xl">
                   You own the audience, not the algorithm
                 </h2>
-                <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-base">
+                <p className="mt-4 text-sm leading-relaxed text-[#626875] sm:text-base">
                   Platforms rent you attention. Players OS turns that attention into a fanbase with
                   your name on it — profiles, subscribers, and history that stay yours across every
                   season and every team change.
                 </p>
-                <ul className="mt-6 space-y-3 text-sm text-white/80">
+                <ul className="mt-6 space-y-3 text-sm text-[#5f6470]">
                   <li className="flex items-start gap-2">
                     <Layers size={16} className="mt-0.5 shrink-0 text-dt-red" />
                     Your own themeable fan app, published from a template gallery
@@ -308,10 +308,10 @@ export function MarketingLandingPage() {
                 <p className="text-xs font-bold uppercase tracking-[0.14em] text-dt-red">
                   Athletes &amp; representation
                 </p>
-                <p className="mt-2 text-lg font-semibold text-white">
+                <p className="mt-2 text-lg font-semibold text-[#17191f]">
                   Join as an athlete, or request access for the athlete you represent.
                 </p>
-                <p className="mt-2 text-sm text-white/60">
+                <p className="mt-2 text-sm text-[#737985]">
                   Agents and team staff get the same dashboard, scoped to their roster and verified
                   before entry.
                 </p>
@@ -327,12 +327,12 @@ export function MarketingLandingPage() {
           </div>
         </section>
 
-        <section className="border-t border-white/10 bg-black/70 px-4 py-14 sm:px-6 sm:py-16">
+        <section className="border-t border-black/[0.07] bg-white/55 px-4 py-14 sm:px-6 sm:py-16">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="font-display text-3xl font-bold tracking-wide text-white sm:text-4xl">
               Ready to run your own platform?
             </h2>
-            <p className="mt-4 text-sm text-white/70 sm:text-base">
+            <p className="mt-4 text-sm text-[#626875] sm:text-base">
               Set up your profile, connect your platforms, and publish your fan app today.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
@@ -345,20 +345,20 @@ export function MarketingLandingPage() {
               </Link>
               <Link
                 to="/login"
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 px-8 py-3.5 text-sm font-semibold text-white/90 transition hover:border-white/30 hover:text-white"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 px-8 py-3.5 text-sm font-semibold text-white/90 transition hover:border-white/30 hover:text-[#17191f]"
               >
                 <LogIn size={16} />
                 Sign In
               </Link>
             </div>
-            <p className="mt-8 text-sm font-semibold text-white/80">
+            <p className="mt-8 text-sm font-semibold text-[#5f6470]">
               Verified athletes and their teams only.
             </p>
           </div>
         </section>
       </main>
 
-      <footer className="relative z-10 border-t border-white/10 px-4 py-6 text-center text-[11px] font-bold uppercase tracking-widest text-white/50 sm:px-6">
+      <footer className="relative z-10 border-t border-black/[0.07] px-4 py-6 text-center text-[11px] font-bold uppercase tracking-widest text-[#8a909b] sm:px-6">
         <p>Secure · Private · Compliant · Owned by athletes</p>
       </footer>
     </div>

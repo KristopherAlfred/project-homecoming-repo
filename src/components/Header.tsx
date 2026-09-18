@@ -69,7 +69,7 @@ export function Header({
   }, []);
 
   return (
-    <header className="shrink-0 border-b border-dt-border bg-dt-panel px-3 py-3 sm:px-4 sm:py-4 lg:px-6">
+    <header className="relative z-10 shrink-0 border-b border-white/10 bg-dt-panel/80 px-3 py-3 shadow-[0_12px_35px_rgba(0,0,0,0.16)] backdrop-blur-2xl sm:px-4 sm:py-4 lg:px-6">
       <div className="flex min-w-0 items-start justify-between gap-2 sm:items-center sm:gap-3">
         <div className="flex min-w-0 flex-1 items-start gap-2.5 sm:items-center sm:gap-3">
           <button

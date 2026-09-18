@@ -60,7 +60,7 @@ export function AppLayout() {
                 subtitle={meta.subtitle}
                 onMenuClick={() => setMobileNavOpen(true)}
               />
-              <main className="dt-main-canvas flex-1 overflow-x-hidden overflow-y-auto px-3 py-3 sm:px-4 sm:py-4 lg:px-5">
+              <main className="dt-main-canvas relative flex-1 overflow-x-hidden overflow-y-auto px-3 py-4 sm:px-5 sm:py-5 lg:px-7 lg:py-6">
                 <div className="relative z-[1] mx-auto w-full min-w-0 max-w-[1600px]">
                   <SourceBanner />
                   <Outlet />
