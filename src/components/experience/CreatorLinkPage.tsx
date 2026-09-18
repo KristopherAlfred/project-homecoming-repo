@@ -596,6 +596,7 @@ export function CreatorLinkPage({
     if (!edit) return;
     const target = e.target as HTMLElement;
     if (target.closest("[data-edit-key], .creator-edit-toolbar, .creator-bg-toolbar, .creator-edit-tray, .creator-editable")) return;
+    if (!target.closest("[data-bg-hit]")) return;
     setSelected("bg");
     const width = pageRef.current?.clientWidth || 1;
     const height = pageRef.current?.clientHeight || 1;
@@ -1054,10 +1055,11 @@ export function CreatorLinkPage({
       <div
         className={`creator-scroll-content relative z-10 h-full w-full overflow-y-auto ${edit && selected === "bg" ? "is-bg-selected" : ""}`}
         onPointerDown={onBackgroundPointerDown}
-        onClick={edit ? () => setSelected("bg") : undefined}
+        onClick={edit ? (e) => setSelected((e.target as HTMLElement).closest("[data-bg-hit]") ? "bg" : null) : undefined}
       >
-        {/* hero breathing room over the video */}
+        {/* hero breathing room over the video — click here to edit the background */}
         <div
+          data-bg-hit
           className="w-full"
           style={
             isSloane
