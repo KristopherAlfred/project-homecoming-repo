@@ -486,19 +486,41 @@ export function ExperiencePage() {
     }
   }
 
+  function applySnapshot(snapshot: HomeLayout, message: string) {
+    skippingHistory.current = true;
+    setLayout(snapshot);
+    setDirty(true);
+    setStatus(message);
+    if (selectedId && !snapshot.widgets.some((w) => w.id === selectedId)) {
+      setSelectedId(snapshot.widgets[0]?.id ?? null);
+    }
+  }
+
   function undoChange() {
     setHistory((prev) => {
       if (!prev.length) return prev;
       const nextHistory = [...prev];
       const snapshot = nextHistory.pop()!;
-      skippingHistory.current = true;
-      setLayout(snapshot);
-      setDirty(true);
-      setStatus("Reverted last change");
-      if (selectedId && !snapshot.widgets.some((w) => w.id === selectedId)) {
-        setSelectedId(snapshot.widgets[0]?.id ?? null);
-      }
+      setLayout((current) => {
+        if (current) setFuture((f) => [...f.slice(-29), structuredClone(current)]);
+        return current;
+      });
+      applySnapshot(snapshot, "Reverted last change");
       return nextHistory;
+    });
+  }
+
+  function redoChange() {
+    setFuture((prev) => {
+      if (!prev.length) return prev;
+      const nextFuture = [...prev];
+      const snapshot = nextFuture.pop()!;
+      setLayout((current) => {
+        if (current) setHistory((h) => [...h.slice(-29), structuredClone(current)]);
+        return current;
+      });
+      applySnapshot(snapshot, "Redid the change");
+      return nextFuture;
     });
   }
 
