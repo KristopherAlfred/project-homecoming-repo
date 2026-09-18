@@ -714,6 +714,27 @@ export function ExperiencePage() {
                   {dirty ? "Unsaved" : "Synced"}
                 </p>
               </div>
+              <div className="inline-flex min-h-[52px] items-center gap-1 rounded-xl border border-white/15 bg-black/40 px-2">
+                <button
+                  type="button"
+                  onClick={undoChange}
+                  disabled={!canUndo}
+                  title={canUndo ? "Undo last change (⌘Z)" : "Nothing to undo"}
+                  className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-35"
+                >
+                  <Undo2 size={15} /> Undo
+                </button>
+                <span className="h-5 w-px bg-white/10" />
+                <button
+                  type="button"
+                  onClick={redoChange}
+                  disabled={!canRedo}
+                  title={canRedo ? "Redo (⇧⌘Z)" : "Nothing to redo"}
+                  className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-35"
+                >
+                  <Redo2 size={15} /> Redo
+                </button>
+              </div>
               <button
                 type="button"
                 onClick={() => setAppPreviewOpen(true)}
