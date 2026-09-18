@@ -162,6 +162,7 @@ export function LivePage() {
     setActionError(null);
     try {
       const result = await scheduleLive({
+        athleteId,
         title: title.trim() || `${fanAppName} Live`,
         scheduledAt: new Date(scheduleAt).toISOString(),
       });
@@ -179,6 +180,7 @@ export function LivePage() {
     try {
       await ensurePreview();
       const result = await startLive({
+        athleteId,
         title: title.trim() || `${fanAppName} Live`,
         sessionId: session?.status === "scheduled" ? session.id : undefined,
       });
@@ -444,18 +446,12 @@ export function LivePage() {
             <h3 className="text-sm font-semibold text-white">Live chat from {fanAppName}</h3>
             <span className="text-xs text-white/40">{isLive ? "Updating live" : `Appears when ${firstName} is live`}</span>
           </div>
-          <div className="max-h-56 space-y-2 overflow-y-auto rounded-xl border border-dt-border bg-black/40 p-3">
-            {messages.length === 0 ? (
-              <p className="py-6 text-center text-sm text-white/40">No messages yet.</p>
-            ) : (
-              messages.map((msg) => (
-                <p key={msg.id} className="text-sm text-white">
-                  <span className="font-semibold text-dt-red">{msg.username}</span>
-                  <span className="text-white/80">: {msg.text}</span>
-                </p>
-              ))
-            )}
-          </div>
+          <LiveChat
+            sessionId={session?.id ?? null}
+            isLive={isLive}
+            displayName={firstName}
+            className="live-chat-dashboard"
+          />
         </div>
       </div>
 
