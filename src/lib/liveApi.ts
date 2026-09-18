@@ -1,6 +1,15 @@
-import { requireFanAppApiBase } from "./fanAppApiBase";
+import { supabase as rawSupabase } from "../integrations/supabase/client";
+
+const supabase = rawSupabase as any;
+
+/**
+ * Live sessions + live chat, stored in our own backend so the dashboard
+ * "Go Live" button and the fan app are always looking at the same state.
+ */
+
 export type LiveSession = {
   id: string;
+  athleteId: string | null;
   title: string;
   status: "scheduled" | "live" | "ended";
   scheduledAt: string | null;
@@ -13,11 +22,11 @@ export type LiveChatMessage = {
   sessionId: string;
   username: string;
   text: string;
+  kind: "chat" | "reaction";
   createdAt: string;
 };
 
 export type LivePublicState = {
-  ok?: boolean;
   session: LiveSession | null;
   isLive: boolean;
   scheduledAt: string | null;
@@ -25,77 +34,190 @@ export type LivePublicState = {
   messages?: LiveChatMessage[];
 };
 
-function getApiBase() {
-  return (requireFanAppApiBase()).replace(/\/$/, "");
+type SessionRow = {
+  id: string;
+  athlete_id: string | null;
+  title: string;
+  status: LiveSession["status"];
+  scheduled_at: string | null;
+  started_at: string | null;
+  ended_at: string | null;
+};
+
+type MessageRow = {
+  id: string;
+  session_id: string;
+  username: string;
+  body: string;
+  kind: LiveChatMessage["kind"];
+  created_at: string;
+};
+
+const SESSION_COLUMNS = "id, athlete_id, title, status, scheduled_at, started_at, ended_at";
+
+function toSession(row: SessionRow | null): LiveSession | null {
+  if (!row) return null;
+  return {
+    id: row.id,
+    athleteId: row.athlete_id,
+    title: row.title,
+    status: row.status,
+    scheduledAt: row.scheduled_at,
+    startedAt: row.started_at,
+    endedAt: row.ended_at,
+  };
 }
 
-function getAdminSecret() {
-  return import.meta.env.VITE_ADMIN_EXPORT_SECRET?.trim() ?? "";
+function toMessage(row: MessageRow): LiveChatMessage {
+  return {
+    id: row.id,
+    sessionId: row.session_id,
+    username: row.username,
+    text: row.body,
+    kind: row.kind,
+    createdAt: row.created_at,
+  };
 }
 
-async function liveRequest(pathQuery: string, init?: RequestInit) {
-  const response = await fetch(`${getApiBase()}/api/admin/analytics?${pathQuery}`, init);
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    throw new Error((data as { error?: string }).error || `Live request failed (${response.status})`);
+/** Newest scheduled/live session, optionally scoped to one athlete. */
+export async function fetchLiveSession(athleteId?: string | null): Promise<LiveSession | null> {
+  let query = supabase
+    .from("live_sessions")
+    .select(SESSION_COLUMNS)
+    .in("status", ["scheduled", "live"])
+    .order("status", { ascending: true })
+    .order("created_at", { ascending: false })
+    .limit(1);
+  if (athleteId) query = query.eq("athlete_id", athleteId);
+  const { data, error } = await query.maybeSingle();
+  if (error) return null;
+  return toSession(data as SessionRow | null);
+}
+
+export async function fetchLiveChat(sessionId: string, limit = 80): Promise<LiveChatMessage[]> {
+  const { data, error } = await supabase
+    .from("live_chat_messages")
+    .select("id, session_id, username, body, kind, created_at")
+    .eq("session_id", sessionId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error || !data) return [];
+  return (data as MessageRow[]).map(toMessage).reverse();
+}
+
+export async function fetchLiveState(athleteId?: string | null, withChat = false): Promise<LivePublicState> {
+  const session = await fetchLiveSession(athleteId);
+  const messages = withChat && session ? await fetchLiveChat(session.id) : undefined;
+  return {
+    session,
+    isLive: session?.status === "live",
+    scheduledAt: session?.scheduledAt ?? null,
+    title: session?.title ?? "",
+    messages,
+  };
+}
+
+export async function scheduleLive(input: { athleteId?: string | null; title: string; scheduledAt: string }) {
+  const { data, error } = await supabase
+    .from("live_sessions")
+    .insert({
+      athlete_id: input.athleteId ?? null,
+      title: input.title,
+      status: "scheduled",
+      scheduled_at: input.scheduledAt,
+    })
+    .select(SESSION_COLUMNS)
+    .single();
+  if (error) throw new Error(error.message);
+  return { session: toSession(data as SessionRow)! };
+}
+
+export async function startLive(input: { athleteId?: string | null; title?: string; sessionId?: string }) {
+  if (input.sessionId) {
+    const { data, error } = await supabase
+      .from("live_sessions")
+      .update({ status: "live", started_at: new Date().toISOString(), ...(input.title ? { title: input.title } : {}) })
+      .eq("id", input.sessionId)
+      .select(SESSION_COLUMNS)
+      .single();
+    if (error) throw new Error(error.message);
+    return { session: toSession(data as SessionRow)! };
   }
-  return data;
-}
-
-export async function fetchLiveState(withChat = false): Promise<LivePublicState> {
-  return liveRequest(`view=live${withChat ? "&chat=1" : ""}`) as Promise<LivePublicState>;
-}
-
-export async function scheduleLive(input: { title: string; scheduledAt: string }) {
-  const secret = getAdminSecret();
-  if (!secret) throw new Error("Set VITE_ADMIN_EXPORT_SECRET to schedule lives");
-  return liveRequest("view=live", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-admin-secret": secret,
-    },
-    body: JSON.stringify({ action: "schedule", ...input }),
-  }) as Promise<{ ok: true; session: LiveSession }>;
-}
-
-export async function startLive(input?: { title?: string; sessionId?: string }) {
-  const secret = getAdminSecret();
-  if (!secret) throw new Error("Set VITE_ADMIN_EXPORT_SECRET to go live");
-  return liveRequest("view=live", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-admin-secret": secret,
-    },
-    body: JSON.stringify({ action: "start", ...input }),
-  }) as Promise<{ ok: true; session: LiveSession }>;
+  const { data, error } = await supabase
+    .from("live_sessions")
+    .insert({
+      athlete_id: input.athleteId ?? null,
+      title: input.title || "Live",
+      status: "live",
+      started_at: new Date().toISOString(),
+    })
+    .select(SESSION_COLUMNS)
+    .single();
+  if (error) throw new Error(error.message);
+  return { session: toSession(data as SessionRow)! };
 }
 
 export async function endLive(sessionId?: string) {
-  const secret = getAdminSecret();
-  if (!secret) throw new Error("Set VITE_ADMIN_EXPORT_SECRET to end live");
-  return liveRequest("view=live", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-admin-secret": secret,
-    },
-    body: JSON.stringify({ action: "end", sessionId }),
-  }) as Promise<{ ok: true; session: LiveSession | null }>;
+  if (!sessionId) return { session: null };
+  const { data, error } = await supabase
+    .from("live_sessions")
+    .update({ status: "ended", ended_at: new Date().toISOString() })
+    .eq("id", sessionId)
+    .select(SESSION_COLUMNS)
+    .single();
+  if (error) throw new Error(error.message);
+  return { session: toSession(data as SessionRow) };
 }
 
-export async function fetchDameBioSupabaseConfig(): Promise<{
-  supabaseUrl: string;
-  supabaseAnonKey: string;
-} | null> {
-  try {
-    const response = await fetch(`${getApiBase()}/api/config`);
-    if (!response.ok) return null;
-    const data = (await response.json()) as { supabaseUrl?: string; supabaseAnonKey?: string };
-    if (!data.supabaseUrl || !data.supabaseAnonKey) return null;
-    return { supabaseUrl: data.supabaseUrl, supabaseAnonKey: data.supabaseAnonKey };
-  } catch {
-    return null;
-  }
+export async function sendLiveMessage(input: {
+  sessionId: string;
+  username: string;
+  text: string;
+  kind?: LiveChatMessage["kind"];
+}) {
+  const body = input.text.trim().slice(0, 300);
+  if (!body) return null;
+  const { data, error } = await supabase
+    .from("live_chat_messages")
+    .insert({
+      session_id: input.sessionId,
+      username: input.username.trim().slice(0, 40) || "Fan",
+      body,
+      kind: input.kind ?? "chat",
+    })
+    .select("id, session_id, username, body, kind, created_at")
+    .single();
+  if (error) throw new Error(error.message);
+  return toMessage(data as MessageRow);
+}
+
+/** Realtime chat feed for one session. Returns an unsubscribe function. */
+export function subscribeLiveChat(sessionId: string, onMessage: (message: LiveChatMessage) => void) {
+  const channel = supabase
+    .channel(`live-chat:${sessionId}`)
+    .on(
+      "postgres_changes",
+      { event: "INSERT", schema: "public", table: "live_chat_messages", filter: `session_id=eq.${sessionId}` },
+      (payload: { new: MessageRow }) => onMessage(toMessage(payload.new)),
+    )
+    .subscribe();
+  return () => {
+    void supabase.removeChannel(channel);
+  };
+}
+
+/** Realtime session status (goes live / ends / gets scheduled). */
+export function subscribeLiveSessions(onChange: () => void) {
+  const channel = supabase
+    .channel("live-sessions")
+    .on("postgres_changes", { event: "*", schema: "public", table: "live_sessions" }, () => onChange())
+    .subscribe();
+  return () => {
+    void supabase.removeChannel(channel);
+  };
+}
+
+/** Signaling client for the WebRTC camera relay — the same backend as everything else. */
+export function getLiveSignalClient() {
+  return supabase;
 }
