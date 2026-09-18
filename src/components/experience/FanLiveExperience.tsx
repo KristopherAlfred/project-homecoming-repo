@@ -1,8 +1,20 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { BellRing, Radio, Volume2, VolumeX } from "lucide-react";
+import { BellRing, ExternalLink, Pin, Radio, Volume2, VolumeX } from "lucide-react";
 import { fetchLiveState, subscribeLiveSessions, type LivePublicState } from "@/lib/liveApi";
 import { useLiveViewer } from "@/hooks/useLiveViewer";
 import { LiveChat } from "./LiveChat";
+
+function domainFor(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url.replace(/^https?:\/\//, "").split("/")[0] ?? url;
+  }
+}
+
+function faviconFor(url: string) {
+  return `https://www.google.com/s2/favicons?sz=64&domain=${encodeURIComponent(domainFor(url))}`;
+}
 
 function countdownLabel(target: string | null, now: number) {
   if (!target) return "Schedule coming soon";
@@ -73,6 +85,7 @@ export function FanLiveExperience({ state, title }: { state: LivePublicState | n
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(timer);
   }, [state?.isLive, state?.scheduledAt]);
+  const pins = state?.session?.pins ?? [];
   const schedule = useMemo(
     () => state?.scheduledAt ? new Date(state.scheduledAt).toLocaleString(undefined, { weekday: "long", hour: "numeric", minute: "2-digit" }) : "To be announced",
     [state?.scheduledAt],
