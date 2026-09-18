@@ -563,6 +563,7 @@ const RAW_TEMPLATE_PAGE_COPY: Record<string, PageCopyMap> = {
   "built-to-lead": cp3,
   "trust-the-vision": kyrie,
   "serve-return-repeat": sloane,
+  "sloane-stephens": sloane,
   "join-the-circle": circle,
 };
 
@@ -582,6 +583,7 @@ const TEMPLATE_PAGE_LABELS: Record<
   "built-to-lead": { videos: "Film", events: "Access", foundation: "Academy" },
   "trust-the-vision": { videos: "The Vault", news: "Culture", foundation: "Vision" },
   "serve-return-repeat": { videos: "Match Film", news: "On Tour", events: "Access", docAndGlo: "Doc & Glo", profile: "The Circle" },
+  "sloane-stephens": { videos: "Match Film", news: "On Tour", events: "Access", live: "Live", docAndGlo: "Doc & Glo", foundation: "Foundation", profile: "Circle" },
   "join-the-circle": { profile: "The Circle" },
 };
 
@@ -653,6 +655,13 @@ export const TEMPLATE_NAV_TABS: Record<string, ExperienceNavTab[]> = {
     tab("home", "Home", "home", "home"),
     tab("videos", "Film", "video", "videos"),
     tab("news", "Tour", "news", "news"),
+    tab("shop", "Doc & Glo", "shop", "docAndGlo"),
+    tab("profile", "Circle", "user", "profile"),
+  ],
+  "sloane-stephens": [
+    tab("home", "Home", "home", "home"),
+    tab("videos", "Film", "video", "videos"),
+    tab("live", "Live", "live", "live"),
     tab("shop", "Doc & Glo", "shop", "docAndGlo"),
     tab("profile", "Circle", "user", "profile"),
   ],

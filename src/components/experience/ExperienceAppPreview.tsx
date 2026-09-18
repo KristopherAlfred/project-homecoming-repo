@@ -54,6 +54,7 @@ import { resolveExperiencePreviewUrl } from "../../lib/resolveExperiencePreviewU
 import { TintedBrandLogo } from "./TintedBrandLogo";
 import { JoinAuthSheet, JoinedBadge } from "./JoinFlow";
 import { CreatorLinkPage, creatorProfileFor } from "./CreatorLinkPage";
+import { FanLiveExperience, useFanLiveState } from "./FanLiveExperience";
 
 const ICONS: Record<string, LucideIcon> = {
   star: Star,
@@ -102,6 +103,7 @@ function PageView({
 }) {
   const page: ExperiencePageConfig | undefined =
     experience.pages[pageKey] ?? experience.pages.landing ?? Object.values(experience.pages)[0];
+  const liveState = useFanLiveState();
   if (!page) return null;
   if (pageKey === "landing") {
     return <CreatorLinkPage profile={creatorProfileFor(experience)} accentColor={experience.theme.accent} compact onJoin={onCta} />;
@@ -511,12 +513,31 @@ function PageView({
 
   const tabs = (experience.nav?.tabs ?? []).filter((t) => !t.hidden);
   const showTabs = !experience.nav?.hidden && pageKey !== "landing" && pageKey !== "youreIn" && tabs.length > 0;
+  const premiumGlass = experience.creator.layoutVariant === "top-video-glass" || experience.creator.layoutVariant === "wallpaper";
+
+  if (pageKey === "live") {
+    return (
+      <div className="fan-premium-page relative h-full w-full overflow-hidden" style={{ background: pageBackgroundCss(page) || themeBackgroundCss(experience.theme) }}>
+        {page.heroImage ? <img src={resolveExperiencePreviewUrl(page.heroImage)} alt="" className="absolute inset-0 h-full w-full object-cover" /> : null}
+        <div className="fan-premium-wash absolute inset-0" />
+        <div className="relative z-10 h-full overflow-y-auto px-5 pb-28 pt-16">
+          <FanLiveExperience state={liveState} title={page.headline} />
+          <div className="fan-glass-note mt-4 mb-8">
+            <span className="fan-live-dot" />
+            <div><strong>Circle access</strong><p>Live sessions and scheduled drops appear here automatically.</p></div>
+          </div>
+        </div>
+        {showTabs ? <FanTabBar experience={experience} tabs={tabs} pageKey={pageKey} onNavigate={onNavigate} /> : null}
+      </div>
+    );
+  }
 
   return (
     <div
-      className="relative h-full w-full overflow-hidden"
+      className={`relative h-full w-full overflow-hidden ${premiumGlass ? "fan-premium-page" : ""}`}
       style={{ background: pageBackgroundCss(page) || themeBackgroundCss(experience.theme) }}
     >
+      {premiumGlass ? <div className="fan-premium-wash absolute inset-0 z-[6]" /> : null}
       {ids.map(render)}
       {page.showMenuButton ? (
         <div
@@ -530,38 +551,31 @@ function PageView({
           <Menu size={14} strokeWidth={2} />
         </div>
       ) : null}
-      {showTabs ? (
-        <div
-          className="absolute inset-x-0 bottom-0 z-[140] flex items-stretch justify-around border-t px-1 py-2"
-          style={{
-            background: experience.nav.bg,
-            borderColor: experience.nav.borderColor,
-            borderTopLeftRadius: experience.nav.radius,
-            borderTopRightRadius: experience.nav.radius,
-          }}
-        >
-          {tabs.map((tab) => {
-            const active = tab.pageKey === pageKey;
-            const color = active ? experience.nav.activeColor : experience.nav.inactiveColor;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => onNavigate(tab.pageKey)}
-                className="flex flex-1 flex-col items-center gap-0.5 transition active:scale-95"
-              >
-                <Glyph name={tab.icon} color={color} size={17} />
-                {experience.nav.showLabels ? (
-                  <span className="text-[7px] font-semibold uppercase tracking-[0.12em]" style={{ color }}>
-                    {tab.label}
-                  </span>
-                ) : null}
-              </button>
-            );
-          })}
-        </div>
-      ) : null}
+      {showTabs ? <FanTabBar experience={experience} tabs={tabs} pageKey={pageKey} onNavigate={onNavigate} /> : null}
     </div>
+  );
+}
+
+function FanTabBar({ experience, tabs, pageKey, onNavigate }: {
+  experience: ExperienceConfig;
+  tabs: ExperienceConfig["nav"]["tabs"];
+  pageKey: ExperiencePageKeyName;
+  onNavigate: (key: ExperiencePageKeyName) => void;
+}) {
+  return (
+    <nav className="fan-instagram-tabs" aria-label="Fan app tabs">
+      {tabs.map((tab) => {
+        const active = tab.pageKey === pageKey;
+        const color = active ? experience.nav.activeColor : experience.nav.inactiveColor;
+        return (
+          <button key={tab.id} type="button" aria-current={active ? "page" : undefined} onClick={() => onNavigate(tab.pageKey)}>
+            <span className="fan-tab-icon"><Glyph name={tab.icon} color={color} size={19} /></span>
+            {experience.nav.showLabels ? <span style={{ color }}>{tab.label}</span> : null}
+            {active ? <i style={{ background: experience.nav.activeColor }} /> : null}
+          </button>
+        );
+      })}
+    </nav>
   );
 }
 

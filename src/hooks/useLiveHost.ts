@@ -2,14 +2,13 @@ import { createClient, type RealtimeChannel, type SupabaseClient } from "@supaba
 import { useEffect, useRef, useState } from "react";
 import { fetchDameBioSupabaseConfig } from "../lib/liveApi";
 
-const CHANNEL = "dame-live-signal";
 const ICE_SERVERS: RTCIceServer[] = [{ urls: "stun:stun.l.google.com:19302" }];
 
 type SignalPayload =
-  | { type: "viewer-join"; viewerId: string }
-  | { type: "offer"; viewerId: string; sdp: RTCSessionDescriptionInit }
-  | { type: "answer"; viewerId: string; sdp: RTCSessionDescriptionInit }
-  | { type: "ice"; viewerId: string; role: "host" | "viewer"; candidate: RTCIceCandidateInit }
+  | { type: "viewer-join"; viewerId: string; sessionId: string }
+  | { type: "offer"; viewerId: string; sessionId: string; sdp: RTCSessionDescriptionInit }
+  | { type: "answer"; viewerId: string; sessionId: string; sdp: RTCSessionDescriptionInit }
+  | { type: "ice"; viewerId: string; sessionId: string; role: "host" | "viewer"; candidate: RTCIceCandidateInit }
   | { type: "host-ready"; sessionId: string };
 
 let sharedClient: SupabaseClient | null = null;
@@ -53,7 +52,7 @@ export function useLiveHost(
         return;
       }
 
-      channel = supabase.channel(CHANNEL, { config: { broadcast: { self: false } } });
+      channel = supabase.channel(`dame-live-signal:${activeSessionId}`, { config: { broadcast: { self: false } } });
 
       async function connectViewer(viewerId: string) {
         if (peersRef.current.has(viewerId) || !localStream || !channel) return;
@@ -72,6 +71,7 @@ export function useLiveHost(
             payload: {
               type: "ice",
               viewerId,
+               sessionId: activeSessionId,
               role: "host",
               candidate: event.candidate.toJSON(),
             } satisfies SignalPayload,
@@ -90,13 +90,13 @@ export function useLiveHost(
         await channel.send({
           type: "broadcast",
           event: "signal",
-          payload: { type: "offer", viewerId, sdp: offer } satisfies SignalPayload,
+          payload: { type: "offer", viewerId, sessionId: activeSessionId, sdp: offer } satisfies SignalPayload,
         });
       }
 
       channel.on("broadcast", { event: "signal" }, ({ payload }) => {
         const data = payload as SignalPayload;
-        if (!data || cancelled) return;
+        if (!data || cancelled || data.sessionId !== activeSessionId) return;
 
         void (async () => {
           try {

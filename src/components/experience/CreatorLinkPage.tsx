@@ -528,7 +528,8 @@ export function CreatorLinkPage({
   const poster = resolveExperiencePreviewUrl(profile.videoPoster);
   const photo = resolveExperiencePreviewUrl(profile.photo);
   const cta = joinLabel || profile.ctaLabel || "Join My Circle";
-  const isSloane = profile.name.trim().toLowerCase() === "sloane stephens";
+  const topVideo = profile.layoutVariant === "top-video-glass";
+  const wallpaper = profile.layoutVariant === "wallpaper";
   const unit = compact ? 1 : 1.6;
   const edit = editable && Boolean(onChange);
   const patch = (p: Partial<CreatorProfile>) => onChange?.(p);
@@ -960,7 +961,7 @@ export function CreatorLinkPage({
   return (
     <div
       ref={pageRef}
-      className={`creator-glass-page relative h-full w-full overflow-hidden ${isSloane ? "creator-sloane-page" : ""} ${edit ? "is-editing" : ""} ${className}`}
+      className={`creator-glass-page relative h-full w-full overflow-hidden ${topVideo ? "creator-sloane-page" : ""} ${wallpaper ? "creator-wallpaper-page" : ""} ${edit ? "is-editing" : ""} ${className}`}
       style={
         {
           scrollbarWidth: "none",
@@ -971,7 +972,7 @@ export function CreatorLinkPage({
       }
     >
       {/* ── Fixed full-page media background ─────────────────── */}
-      <div className={`creator-media-stage pointer-events-none absolute inset-x-0 top-0 overflow-hidden ${isSloane ? "is-top-video" : "inset-y-0"}`} aria-hidden="true">
+      <div className={`creator-media-stage pointer-events-none absolute inset-x-0 top-0 overflow-hidden ${topVideo ? "is-top-video" : "inset-y-0"}`} aria-hidden="true">
         {video ? (
           <video
             key={video}
@@ -1022,7 +1023,8 @@ export function CreatorLinkPage({
           <button type="button" title="Zoom out" onClick={() => patch({ mediaScale: clamp((profile.mediaScale ?? 100) - 10, 100, 220) })}>
             <ZoomOut size={11} />
           </button>
-          <label title="Panel colour" className="creator-color-swatch" style={{ background: profile.sheetColor || "#0c1015" }}>
+          <span className="creator-edit-label">Glass</span>
+          <label title="Change transparent background colour" className="creator-color-swatch" style={{ background: profile.sheetColor || "#0c1015" }}>
             <input
               type="color"
               className="hidden"
@@ -1035,7 +1037,7 @@ export function CreatorLinkPage({
             min={0}
             max={90}
             step={2}
-            title="Panel transparency"
+            title="Transparent background opacity"
             className="creator-color-range"
             value={profile.sheetOpacity ?? 34}
             onChange={(e) => patch({ sheetOpacity: Number(e.target.value) })}
@@ -1062,7 +1064,7 @@ export function CreatorLinkPage({
           data-bg-hit
           className="w-full"
           style={
-            isSloane
+            topVideo
               ? compact
                 ? { height: 330 }
                 : { height: "52vh", minHeight: 400 }
@@ -1074,7 +1076,7 @@ export function CreatorLinkPage({
 
         <div
           ref={blocksRef}
-          className={`creator-sheet relative z-20 mx-auto flex w-full max-w-[520px] flex-col text-left ${isSloane ? "is-translucent" : ""} ${
+          className={`creator-sheet relative z-20 mx-auto flex w-full max-w-[520px] flex-col text-left ${topVideo || wallpaper ? "is-translucent" : ""} ${
             compact ? "px-6 pb-14" : "px-8 pb-24"
           }`}
         >

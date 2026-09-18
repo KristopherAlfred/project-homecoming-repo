@@ -475,6 +475,8 @@ export type WidgetVisualStyle = {
 };
 
 export type ExperienceConfig = {
+  /** Optional source template id, retained so saved apps can inherit packaged artwork. */
+  templateId?: string;
   brand: ExperienceBrand;
   theme: ExperienceTheme;
   effects: ExperienceEffects;
@@ -1532,6 +1534,7 @@ export function normalizeExperienceNav(raw: unknown): ExperienceNav {
 export function normalizeExperienceConfig(raw: unknown): ExperienceConfig {
   const c = (raw ?? {}) as Partial<ExperienceConfig>;
   return {
+    templateId: typeof c.templateId === "string" ? c.templateId : undefined,
     brand: normalizeExperienceBrand(c.brand),
     theme: normalizeExperienceTheme(c.theme),
     effects: normalizeExperienceEffects(c.effects),
