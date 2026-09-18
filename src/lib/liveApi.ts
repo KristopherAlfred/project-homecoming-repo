@@ -194,7 +194,7 @@ export async function sendLiveMessage(input: {
 /** Realtime chat feed for one session. Returns an unsubscribe function. */
 export function subscribeLiveChat(sessionId: string, onMessage: (message: LiveChatMessage) => void) {
   const channel = supabase
-    .channel(`live-chat:${sessionId}`)
+    .channel(`live-chat:${sessionId}:${Math.random().toString(16).slice(2)}`)
     .on(
       "postgres_changes",
       { event: "INSERT", schema: "public", table: "live_chat_messages", filter: `session_id=eq.${sessionId}` },
@@ -209,7 +209,7 @@ export function subscribeLiveChat(sessionId: string, onMessage: (message: LiveCh
 /** Realtime session status (goes live / ends / gets scheduled). */
 export function subscribeLiveSessions(onChange: () => void) {
   const channel = supabase
-    .channel("live-sessions")
+    .channel(`live-sessions:${Math.random().toString(16).slice(2)}`)
     .on("postgres_changes", { event: "*", schema: "public", table: "live_sessions" }, () => onChange())
     .subscribe();
   return () => {
